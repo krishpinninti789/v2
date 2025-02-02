@@ -1,36 +1,41 @@
 "use client";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
+import bcrypt from "bcryptjs";
 import { useRouter } from "next/navigation";
 
-export default function SignIn() {
+export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+    try {
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-    console.log("result", result);
+      // Send user data to the backend
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password: hashedPassword }),
+      });
 
-    if (result.error) {
-      setError(result.error);
-    } else {
-      // Redirect to the home page or a protected page
-      router.push("/dashboard");
+      const data = await response.json();
+      setMessage(data.message);
+      if (data.success) {
+        router.push("/");
+      }
+    } catch (error) {
+      setMessage("An error occurred during sign-up.");
     }
   };
 
   return (
     <div>
-      <h1>Sign In</h1>
+      <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Email:
@@ -52,12 +57,9 @@ export default function SignIn() {
           />
         </label>
         <br />
-        <button type="submit">Sign In</button>
+        <button type="submit">Sign Up</button>
       </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <p>
-        Dont have an account? <a href="/signup">Sign up</a>
-      </p>
+      {message && <p>{message}</p>}
     </div>
   );
 }
