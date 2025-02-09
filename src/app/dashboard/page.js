@@ -1,13 +1,10 @@
-import Link from "next/link";
-import React from "react";
+import FileUpload from "../components/FileUpload";
 
-const DashboardPage = () => {
+export default function Home() {
   return (
     <div>
-      DashboardPage
-      <Link href={"/signout"}>Signout</Link>
+      <h1>Upload an Excel File</h1>
+      <FileUpload />
     </div>
   );
-};
-
-export default DashboardPage;
+}
