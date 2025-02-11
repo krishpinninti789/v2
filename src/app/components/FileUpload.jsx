@@ -20,21 +20,25 @@ export default function FileReaderUpload() {
       const jsonData = XLSX.utils.sheet_to_json(sheet);
 
       // Process data
-      const students = jsonData.map((row) => {
+      const dues = jsonData.map((row) => {
         const dueTypes = row.duetype.split(",");
         const amounts = row.amount.split(";");
+        // const status = row.status.split(';');
+        // const amount_paid = row.amount_paid.split(';');
+        // const amount_pending = row.amount_pending.split(';');
         // const dueDates = row.date.split(";");
 
-        const dues = dueTypes.map((type, index) => ({
+        const semdues = dueTypes.map((type, index) => ({
           duetype: type.trim(),
           amount: parseInt(amounts[index]),
+          // status:status[index]
           // due_date: new Date(Number(dueDates[index]) * 24 * 60 * 60 * 1000), // Convert Excel date
         }));
 
         return {
           roll: row.roll,
           sem: parseInt(row.sem),
-          dues,
+          semdues,
         };
       });
 
@@ -44,7 +48,7 @@ export default function FileReaderUpload() {
       const response = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(students),
+        body: JSON.stringify(dues),
       });
 
       const result = await response.json();

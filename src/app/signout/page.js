@@ -2,6 +2,7 @@
 import { signOut } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { getToken } from "next-auth/jwt";
 
 export default function SignOut() {
   const router = useRouter();
@@ -9,6 +10,7 @@ export default function SignOut() {
   useEffect(() => {
     const handleSignOut = async () => {
       await signOut({ redirect: false });
+
       router.push("/"); // Redirect to the sign-in page after signing out
     };
 
@@ -16,7 +18,7 @@ export default function SignOut() {
   }, [router]);
 
   return (
-    <div>
+    <div className="flex justify-center items-center h-screen">
       <h1>Signing out...</h1>
     </div>
   );

@@ -10,7 +10,12 @@ import { NextResponse } from "next/server";
 // const uri = process.env.MONGODB_URI;
 // const client = new MongoClient(uri);
 
+const jwt_secret = process.env.JWT_SECRET;
+
 const authOptions = {
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -29,13 +34,13 @@ const authOptions = {
 
         const { email, password } = credentials;
 
-        console.log("credentials", credentials);
+        // console.log("credentials", credentials);
         // console.log("email", email);
 
         // Find user by email
         const user = await Users.findOne({ email: credentials?.email });
 
-        console.log("user", user);
+        // console.log("user", user);
 
         if (user) {
           // Compare hashed password
@@ -43,7 +48,7 @@ const authOptions = {
             credentials.password,
             user.password
           );
-          console.log("isValid", isValid);
+          // console.log("isValid", isValid);
 
           return NextResponse.json({
             message: "succesfully login",
@@ -67,15 +72,25 @@ const authOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
+        token.accessToken = jwt.sign(
+          { id: user.id, email: user.email },
+          jwt_secret,
+          { expiresIn: "1h" }
+        );
       }
+
+      // console.log(token);
       return token;
     },
     async session(session, token) {
       session.user.id = token.id;
       session.user.email = token.email;
+      // console.log(session);
+
       return session;
     },
   },
+  secret: jwt_secret,
 
   // Enable debug mode in development
   debug: process.env.NODE_ENV === "development",

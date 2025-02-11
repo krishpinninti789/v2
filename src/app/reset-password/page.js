@@ -9,30 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 // import { FcGoogle } from "react-icons/fc";
-const SignIn = () => {
+const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    console.log("result", result);
-
-    if (result.error) {
-      setError(result.error);
-    } else {
-      // Redirect to the home page or a protected page
-      router.push("/admin/dashboard");
-    }
-  };
+  console.log(email);
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-white relative overflow-hidden">
@@ -45,27 +27,12 @@ const SignIn = () => {
       <div className="w-full max-w-[400px] mx-auto p-6 relative z-10">
         <div className="mb-8">
           <h1 className="text-3xl font-semibold text-gray-900 mb-2">
-            Welcome back
+            Reset your password.
           </h1>
-          <p className="text-gray-500">
-            Welcome back! Please enter your details.
-          </p>
+          <p className="text-gray-500">Email id</p>
         </div>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              placeholder="Enter your email"
-              type="email"
-              required
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
+        <form className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <Input
@@ -78,30 +45,31 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Confirm Password</Label>
+            <Input
+              id="password"
+              placeholder="••••••••"
+              type="password"
+              name="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Checkbox id="remember" />
-              <label
-                htmlFor="remember"
-                className="text-sm text-gray-500 cursor-pointer"
-              >
-                Remember for 30 days
-              </label>
-            </div>
             <Link
-              href="/reset-password"
+              href="/forgot-password"
               className="text-sm text-purple-600 hover:text-purple-700"
-            >
-              Forgot password
-            </Link>
+            ></Link>
           </div>
 
           <Button
             className="w-full bg-purple-600 hover:bg-purple-700"
             // formAction={login}
           >
-            Sign in
+            Reset
           </Button>
         </form>
 
@@ -111,4 +79,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ResetPassword;

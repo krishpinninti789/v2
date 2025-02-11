@@ -1,14 +1,14 @@
 import connectToDB from "@/lib/db/mongodb";
-import Students from "@/app/models/students";
+import Dues from "@/app/models/dues";
 import { NextResponse } from "next/server";
 
 export async function POST(req, res) {
   await connectToDB();
 
   try {
-    const students = await req.json();
+    const dues = await req.json();
     // console.log(students);
-    await Students.insertMany(students);
+    await Dues.insertMany(dues);
 
     // console.log("ress", ress);
 

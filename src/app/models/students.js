@@ -1,17 +1,18 @@
 import mongoose from "mongoose";
 
-const DueSchema = new mongoose.Schema({
-  duetype: String,
-  amount: Number,
-});
-
 const StudentSchema = new mongoose.Schema({
+  Name: String,
   roll: String,
   sem: Number,
-  dues: [DueSchema], // Array of due objects
+  branch: String,
+  mobile_no: Number,
+  parent_mobile_no: Number,
+  address: String,
+  email: String,
+  type: String,
 });
 
 const Students =
-  mongoose.models.Students || mongoose.model("Students", StudentSchema);
+  mongoose.model.Students || mongoose.model("Studnets", StudentSchema);
 
 export default Students;
