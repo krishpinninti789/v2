@@ -24,13 +24,13 @@ const SignIn = () => {
       password,
     });
 
-    console.log("result", result);
+    // console.log("result", result);
 
     if (result.error) {
       setError(result.error);
     } else {
       // Redirect to the home page or a protected page
-      router.push("/admin/dashboard");
+      router.push("/admin/add-students");
     }
   };
 
@@ -39,7 +39,6 @@ const SignIn = () => {
       {/* Decorative Circle */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none">
         <div className="absolute inset-0 translate-y-1/2 rounded-full bg-purple-600/20 blur-3xl" />
-        {/* <div className="absolute inset-0 translate-y-1/2 rounded-full bg-purple-600" /> */}
       </div>
 
       <div className="w-full max-w-[400px] mx-auto p-6 relative z-10">

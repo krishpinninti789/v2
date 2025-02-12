@@ -1,14 +1,10 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-// import { MongoClient } from "mongodb";
+
 import Users from "@/app/models/users";
 import connectToDB from "@/lib/db/mongodb";
 import { NextResponse } from "next/server";
-
-// MongoDB connection
-// const uri = process.env.MONGODB_URI;
-// const client = new MongoClient(uri);
 
 const jwt_secret = process.env.JWT_SECRET;
 
@@ -29,26 +25,16 @@ const authOptions = {
       },
       async authorize(credentials) {
         await connectToDB();
-        //   const db = client.db("your_database_name"); // Replace with your database name
-        //   const usersCollection = db.collection("users");
 
         const { email, password } = credentials;
 
-        // console.log("credentials", credentials);
-        // console.log("email", email);
-
-        // Find user by email
         const user = await Users.findOne({ email: credentials?.email });
 
-        // console.log("user", user);
-
         if (user) {
-          // Compare hashed password
           const isValid = await bcrypt.compare(
             credentials.password,
             user.password
           );
-          // console.log("isValid", isValid);
 
           return NextResponse.json({
             message: "succesfully login",
@@ -59,14 +45,12 @@ const authOptions = {
     }),
   ],
 
-  // Customize pages (optional)
   pages: {
     signIn: "/signin",
     signOut: "/signout",
-    error: "/error", // Error code passed in query string as ?error=
+    error: "/error",
   },
 
-  // Callbacks (optional)
   callbacks: {
     async jwt(token, user) {
       if (user) {
@@ -75,17 +59,15 @@ const authOptions = {
         token.accessToken = jwt.sign(
           { id: user.id, email: user.email },
           jwt_secret,
-          { expiresIn: "1h" }
+          { expiresIn: "10m" }
         );
       }
 
-      // console.log(token);
       return token;
     },
     async session(session, token) {
       session.user.id = token.id;
       session.user.email = token.email;
-      // console.log(session);
 
       return session;
     },

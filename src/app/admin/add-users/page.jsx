@@ -1,11 +1,11 @@
 "use client";
-
+import React from "react";
 import { useState } from "react";
 import * as XLSX from "xlsx";
+import bcrypt from "bcryptjs";
 
-export default function FileReaderUpload() {
+const AddUsersPage = () => {
   const [message, setMessage] = useState("");
-
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -19,36 +19,34 @@ export default function FileReaderUpload() {
       const sheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(sheet);
 
+      console.log(jsonData);
+
+      const hashedPasswords = await Promise.all(
+        jsonData.map(async (row) => {
+          return await bcrypt.hash(row.password, 10);
+        })
+      );
+
+      // console.log(hashedPasswords);
+
       // Process data
-      const dues = jsonData.map((row) => {
-        const dueTypes = row.duetype.split(",");
-        const amounts = row.amount.split(";");
-        // const status = row.status.split(';');
-        // const amount_paid = row.amount_paid.split(';');
-        // const amount_pending = row.amount_pending.split(';');
-        // const dueDates = row.date.split(";");
-
-        const semdues = dueTypes.map((type, index) => ({
-          duetype: type.trim(),
-          amount: parseInt(amounts[index]),
-          // status:status[index]
-          // due_date: new Date(Number(dueDates[index]) * 24 * 60 * 60 * 1000), // Convert Excel date
-        }));
-
+      const usersData = jsonData.map((row, i) => {
         return {
-          roll: row.roll,
-          sem: parseInt(row.sem),
-          semdues,
+          email: row.email,
+          password: hashedPasswords[i], //encode the password and send to db
+          first_login: row.first_login,
+          role: row.role,
+          manages: row.manages,
         };
       });
 
-      // console.log("Processed Data:", students); // Debugging
+      console.log("Processed Data:", usersData); // Debugging
 
       // Send data to API
-      const response = await fetch("/api/upload/add-students", {
+      const response = await fetch("/api/upload/add-users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dues),
+        body: JSON.stringify(usersData),
       });
 
       const result = await response.json();
@@ -60,8 +58,11 @@ export default function FileReaderUpload() {
 
   return (
     <div>
+      <h1 className="text-2xl text-violet-600">Add Users Details</h1>
       <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
       {message && <p>{message}</p>}
     </div>
   );
-}
+};
+
+export default AddUsersPage;

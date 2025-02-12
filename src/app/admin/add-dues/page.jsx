@@ -3,7 +3,7 @@
 import { useState } from "react";
 import * as XLSX from "xlsx";
 
-export default function FileReaderUpload() {
+const AddDuesPage = () => {
   const [message, setMessage] = useState("");
 
   const handleFileUpload = async (event) => {
@@ -64,4 +64,6 @@ export default function FileReaderUpload() {
       {message && <p>{message}</p>}
     </div>
   );
-}
+};
+
+export default AddDuesPage;

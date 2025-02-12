@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const StudentSchema = new mongoose.Schema({
-  Name: String,
+  name: String,
   roll: String,
-  sem: Number,
+  year: Number,
   branch: String,
   mobile_no: Number,
   parent_mobile_no: Number,
@@ -13,6 +13,6 @@ const StudentSchema = new mongoose.Schema({
 });
 
 const Students =
-  mongoose.model.Students || mongoose.model("Studnets", StudentSchema);
+  mongoose.model.Students || mongoose.model("Students", StudentSchema);
 
 export default Students;
