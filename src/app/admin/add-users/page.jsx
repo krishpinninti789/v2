@@ -57,7 +57,7 @@ const AddUsersPage = () => {
   };
 
   return (
-    <div>
+    <div className="flex items-center justify-center h-screen">
       <h1 className="text-2xl text-violet-600">Add Users Details</h1>
       <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
       {message && <p>{message}</p>}
