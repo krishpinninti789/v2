@@ -1,4 +1,5 @@
 "use client";
+import { Toaster, toast } from "sonner";
 import React from "react";
 import * as XLSX from "xlsx";
 import { useState, useCallback } from "react";
@@ -22,10 +23,12 @@ const AddStudentsPage = () => {
       uploadedFile.type === "application/vnd.ms-excel"
     ) {
       setFile(uploadedFile);
+
       setError("");
     } else {
       setError("Please upload only Excel files (.xlsx or .xls)");
       setFile(null);
+      console.log(error);
     }
   }, []);
 
@@ -37,6 +40,7 @@ const AddStudentsPage = () => {
       ],
       "application/vnd.ms-excel": [".xls"],
     },
+
     multiple: false,
   });
 
@@ -79,6 +83,13 @@ const AddStudentsPage = () => {
 
       const result = await response.json();
       setMessage(result.message);
+
+      if (result.success) {
+        toast.success("Students data has been inserted");
+        setFile(null);
+      } else {
+        toast.error("Students data insertion problem");
+      }
     };
 
     reader.readAsArrayBuffer(file);
@@ -86,7 +97,8 @@ const AddStudentsPage = () => {
 
   return (
     <div className="flex items-center justify-center h-screen flex-col">
-      <h1 className="text-2xl text-violet-600">Add Users Details</h1>
+      <Toaster position="top-center" richColors />
+      <h1 className="text-2xl text-violet-600">Add Student Details</h1>
       <div className="max-w-xl mx-auto p-6">
         <div
           {...getRootProps()}

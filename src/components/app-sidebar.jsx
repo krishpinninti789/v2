@@ -45,7 +45,7 @@ export function AppSidebar({ ...props }) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <h1 className="text-2xl font-bold px-4 py-2">NMDS</h1>
+        <h1 className="text-2xl font-bold px-4 py-2 text-violet-600">NMDS</h1>
       </SidebarHeader>
       <SidebarContent className="gap-0">
         {navItems.map((item) => (
