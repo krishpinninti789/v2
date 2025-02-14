@@ -11,12 +11,12 @@ export async function GET(req) {
 
   const roll_no = searchParams.get("roll");
 
-  console.log(roll_no);
+  // console.log(roll_no);
   //   console.log(typeof roll_no);
 
   const details = await Students.findOne({ roll: roll_no });
 
-  console.log(details);
+  // console.log(details);
 
   if (details) {
     return NextResponse.json({

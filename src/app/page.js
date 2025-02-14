@@ -8,11 +8,13 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2 } from "lucide-react";
 // import { FcGoogle } from "react-icons/fc";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [user, setUser] = useState(null);
   const router = useRouter();
 
   const handleSubmit = async (event) => {
@@ -25,6 +27,8 @@ const SignIn = () => {
     });
 
     // console.log("result", result);
+
+    setUser(result);
 
     if (result.error) {
       setError(result.error);
@@ -96,12 +100,19 @@ const SignIn = () => {
             </Link>
           </div>
 
-          <Button
-            className="w-full bg-purple-600 hover:bg-purple-700"
-            // formAction={login}
-          >
-            Sign in
-          </Button>
+          {user ? (
+            <Button disabled className="w-full bg-purple-400 ">
+              <Loader2 className="animate-spin" />
+              Signing in
+            </Button>
+          ) : (
+            <Button
+              className="w-full bg-purple-600 hover:bg-purple-700"
+              // formAction={login}
+            >
+              Sign in
+            </Button>
+          )}
         </form>
 
         <div className="mt-8 text-center text-sm text-gray-400">© NDMS</div>
