@@ -10,33 +10,34 @@ const protectedRoutes = ["/admin/*"];
 const authRoutes = ["/"];
 
 export async function middleware(req) {
-  //   const token = req.cookies.get("token")?.value;
-  // const token = await getToken({ req, secret });
-  // // console.log(token);
-  // // Adjust this based on your auth system
-  // const { pathname } = req.nextUrl;
-  // // Redirect authenticated users away from auth pages (e.g., login, signup)
-  // //   if (token && authRoutes.includes(pathname)) {
-  // //     return NextResponse.redirect(new URL("/dashboard", req.url));
-  // //   }
+  // const token = req.cookies.get("token")?.value;
+  const token = await getToken({ req, secret });
+  // console.log(token);
+  // console.log();
+
+  // Adjust this based on your auth system
+  const { pathname } = req.nextUrl;
+  // console.log(pathname);
+
+  // Redirect authenticated users away from auth pages (e.g., login, signup)
+  if (token && authRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL("/admin/add-students", req.url));
+  }
   // if (pathname === "/") {
   //   if (token) {
-  //     return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+  //     return NextResponse.redirect(new URL("/admin/add-student", req.url));
   //   }
   //   return NextResponse.next();
   // }
-  // // Protect dashboard route - redirect unauthenticated users to login
-  // if (
-  //   (!token && pathname.startsWith("/admin/dashboard")) ||
-  //   pathname.startsWith("/dashboard")
-  // ) {
-  //   return NextResponse.redirect(new URL("/", req.url));
-  // }
-  // // Continue processing the request
-  // return NextResponse.next();
+  // Protect dashboard route - redirect unauthenticated users to login
+  if (!token && pathname.startsWith("/admin/add-students")) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+  // Continue processing the request
+  return NextResponse.next();
 }
 
 // Apply middleware to specific routes
-// export const config = {
-//   matcher: ["/", "/admin/dashboard"], // Add other routes as needed
-// };
+export const config = {
+  matcher: ["/", "/admin/add-students"], // Add other routes as needed
+};

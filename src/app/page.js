@@ -14,6 +14,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const router = useRouter();
 
@@ -100,7 +101,7 @@ const SignIn = () => {
             </Link>
           </div>
 
-          {user ? (
+          {loading && user ? (
             <Button disabled className="w-full bg-purple-400 ">
               <Loader2 className="animate-spin" />
               Signing in
@@ -108,7 +109,9 @@ const SignIn = () => {
           ) : (
             <Button
               className="w-full bg-purple-600 hover:bg-purple-700"
-              // formAction={login}
+              onClick={() => {
+                setLoading(true);
+              }}
             >
               Sign in
             </Button>

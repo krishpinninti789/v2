@@ -29,6 +29,7 @@ const authOptions = {
         const { email, password } = credentials;
 
         const user = await Users.findOne({ email: credentials?.email });
+        // console.log(user);
 
         if (user) {
           const isValid = await bcrypt.compare(
@@ -54,10 +55,10 @@ const authOptions = {
   callbacks: {
     async jwt(token, user) {
       if (user) {
-        token.id = user.id;
+        token.id = user._id;
         token.email = user.email;
         token.accessToken = jwt.sign(
-          { id: user.id, email: user.email },
+          { id: user._id, email: user.email },
           jwt_secret,
           { expiresIn: "10m" }
         );
