@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronRight } from "lucide-react";
+import logo from "../../../../public/images/android-chrome-512x512.png";
 
 import {
   Collapsible,
@@ -19,6 +20,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import Image from "next/image";
 
 // Updated navigation data
 const navItems = [
@@ -56,13 +58,17 @@ export function AdminSidebar({ ...props }) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <h1 className="text-2xl font-bold px-4 py-2 text-violet-600">NMDS</h1>
+        <div className="flex">
+          <Image src={logo} alt="image" width={50} height={40} />
+
+          <h1 className="text-2xl font-bold px-4 py-2 text-violet-600">NDMS</h1>
+        </div>
       </SidebarHeader>
       <SidebarContent className="gap-0">
         {navItems.map((item) => (
           <Collapsible
             key={item.title}
-            defaultOpen
+            // defaultOpen
             className="group/collapsible"
           >
             <SidebarGroup>
