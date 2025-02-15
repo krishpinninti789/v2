@@ -19,12 +19,9 @@ const ViewStudents = () => {
     const res = await response.json();
     console.log(res);
     if (res?.data) {
-      setUser(res.data);
+      setUser([res.data]);
     }
   };
-  useEffect(() => {
-    getStudentInfo();
-  }, [roll]);
 
   return (
     <div className="flex flex-col gap-3">

@@ -1,14 +1,13 @@
 import React from "react";
 
 const StudentDetails = (user) => {
-  const data = user.user;
-  console.log(data.name);
-  const studentData = [data];
-  console.log(studentData);
+  const studentData = user.user;
+  // console.log(studentData[0].name);
+  // console.log(studentData);
 
   return (
     <div>
-      {studentData.length == 0 ? (
+      {studentData.length != 0 ? (
         studentData.map((Item, index) => (
           <div className="text-md font-bold" key={index}>
             <h1>Name: {Item.name}</h1>

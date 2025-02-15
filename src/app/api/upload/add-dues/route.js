@@ -12,9 +12,15 @@ export async function POST(req, res) {
 
     // console.log("ress", ress);
 
-    return NextResponse.json({ message: "Data uploaded successfully!" });
+    return NextResponse.json({
+      message: "Data uploaded successfully!",
+      success: true,
+    });
   } catch (error) {
     console.error("Error uploading data:", error);
-    return NextResponse.json({ error: "Internal Server Error" });
+    return NextResponse.json({
+      message: "Internal Server Error",
+      success: false,
+    });
   }
 }

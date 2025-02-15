@@ -3,9 +3,15 @@ import mongoose from "mongoose";
 const DueSubSchema = new mongoose.Schema({
   duetype: String,
   amount: Number,
-  paid: Number,
-  pending: Number,
-  status: Enumerator("pending", "paid"),
+  amount_paid: Number,
+  amount_pending: Number,
+  status: {
+    type: String,
+    enum: ["paid", "pending"],
+  },
+  // status: String,
+  // due_date: String,
+  due_date: Date,
 });
 
 const DuesSchema = new mongoose.Schema({
