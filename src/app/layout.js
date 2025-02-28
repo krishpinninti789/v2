@@ -1,5 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
+import Spinner from "@/components/Spinner";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -23,7 +25,7 @@ export default function RootLayout({ children }) {
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         className="antialiased"
       >
-        {children}
+        <Suspense fallback={<Spinner />}>{children}</Suspense>
       </body>
     </html>
   );
