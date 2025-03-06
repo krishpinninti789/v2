@@ -1,127 +1,115 @@
 "use client";
-import { signIn } from "next-auth/react";
+import React from "react";
+import Login from "@/components/LoginPage";
+import { SessionProvider } from "next-auth/react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Badge, Cloud } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Loader2 } from "lucide-react";
-// import { FcGoogle } from "react-icons/fc";
-const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const router = useRouter();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    // console.log("result", result);
-
-    setUser(result);
-
-    if (result.error) {
-      setError(result.error);
-    } else {
-      // Redirect to the home page or a protected page
-      router.push("/admin/add-students");
-    }
-  };
-
+const Home = () => {
+  const [getStarted, setGetStarted] = useState(false);
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-white relative overflow-hidden">
-      {/* Decorative Circle */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none">
-        <div className="absolute inset-0 translate-y-1/2 rounded-full bg-purple-600/20 blur-3xl" />
-      </div>
-
-      <div className="w-full max-w-[400px] mx-auto p-6 relative z-10">
-        <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-gray-900 mb-2">
-            Welcome back
-          </h1>
-          <p className="text-gray-500">
-            Welcome back! Please enter your details.
-          </p>
-        </div>
-
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              placeholder="Enter your email"
-              type="email"
-              required
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              placeholder="••••••••"
-              type="password"
-              name="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Checkbox id="remember" />
-              <label
-                htmlFor="remember"
-                className="text-sm text-gray-500 cursor-pointer"
+    <>
+      {!getStarted ? (
+        <div className="min-h-screen  bg-white">
+          <header className="container mx-auto px-4 py-4">
+            <nav className="flex items-center justify-between">
+              <Link
+                href="/"
+                className="flex items-center gap-2 text-2xl font-semibold text-purple-600"
               >
-                Remember for 30 days
-              </label>
-            </div>
-            <Link
-              href="/reset-password"
-              className="text-sm text-purple-600 hover:text-purple-700"
-            >
-              Forgot password
+                <Cloud className="h-8 w-8" />
+                NDMS
+              </Link>
+
+              {/* <div className="hidden md:flex items-center gap-8">
+            <Link href="#" className="text-gray-600 hover:text-gray-900">
+              Products
             </Link>
-          </div>
+            <Link href="#" className="text-gray-600 hover:text-gray-900">
+              Solutions
+            </Link>
+            <Link href="#" className="text-gray-600 hover:text-gray-900">
+              Developer
+            </Link>
+            <Link href="#" className="text-gray-600 hover:text-gray-900">
+              Partner
+            </Link>
+            <Link href="#" className="text-gray-600 hover:text-gray-900">
+              Pricing
+            </Link>
+          </div> */}
 
-          {loading && user ? (
-            <Button disabled className="w-full bg-purple-400 ">
-              <Loader2 className="animate-spin" />
-              Signing in
-            </Button>
-          ) : (
-            <Button
-              className="w-full bg-purple-600 hover:bg-purple-700"
-              onClick={() => {
-                setLoading(true);
-              }}
-            >
-              Sign in
-            </Button>
-          )}
-        </form>
+              {/* <Button className="bg-purple-600 hover:bg-purple-700">
+            <Link href={"./login"}>Login</Link>
+          </Button> */}
+            </nav>
+          </header>
 
-        <div className="mt-8 text-center text-sm text-gray-400">© NDMS</div>
-      </div>
-    </div>
+          <main className="container mx-auto px-4 py-20 relative">
+            <div className="relative max-w-4xl mx-auto text-center">
+              {/* Decorative elements */}
+              <div className="absolute left-0 top-1/2 w-48 h-px bg-gray-200 -translate-x-full">
+                <div className="absolute -right-1 -top-1 w-2 h-2 rounded-full border border-gray-200" />
+                <div className="absolute -right-3 -bottom-1 w-2 h-2 rounded-full border border-gray-200" />
+              </div>
+              <div className="absolute right-0 top-1/2 w-48 h-px bg-gray-200 translate-x-full">
+                <div className="absolute -left-1 -top-1 w-2 h-2 rounded-full border border-gray-200" />
+                <div className="absolute -left-3 -bottom-1 w-2 h-2 rounded-full border border-gray-200" />
+              </div>
+
+              <Badge
+                variant="secondary"
+                className="mb-8 text-purple-600 bg-purple-50 hover:bg-purple-50"
+              >
+                Introduce Cloud Platforms
+              </Badge>
+
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+                No <span className="text-purple-600">Due </span>
+                <br />
+                Management System
+              </h1>
+
+              <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
+                It is a platform where you can manage your dues and payments
+                easily.
+                <br />
+                From anywhere and with any device.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center relative">
+                <Button
+                  onClick={() => {
+                    setGetStarted(true);
+                  }}
+                  size="lg"
+                  className="bg-purple-600 hover:bg-purple-700"
+                >
+                  Get Started
+                </Button>
+                <Button size="lg" variant="outline">
+                  Learn More
+                </Button>
+              </div>
+            </div>
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none">
+              <div className="absolute inset-0 translate-y-1/2 rounded-full bg-purple-600/30 blur-3xl" />
+              {/* <div className="absolute inset-0 translate-y-1/2 rounded-full bg-purple-600" /> */}
+            </div>
+          </main>
+        </div>
+      ) : (
+        <div>
+          <SessionProvider>
+            <Login />
+          </SessionProvider>
+        </div>
+      )}
+    </>
   );
 };
 
-export default SignIn;
+export default Home;

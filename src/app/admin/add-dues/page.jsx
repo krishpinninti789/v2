@@ -14,20 +14,24 @@ const AddDuesPage = () => {
 
   const onDrop = useCallback((acceptedFiles) => {
     const uploadedFile = acceptedFiles[0];
-
-    // Check if file is Excel
-    if (
-      uploadedFile.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-      uploadedFile.type === "application/vnd.ms-excel"
-    ) {
-      setFile(uploadedFile);
-
-      setError("");
+    if (uploadedFile == undefined) {
+      console.log("Error invalid file");
+      toast.error("Error invalid file");
     } else {
-      setError("Please upload only Excel files (.xlsx or .xls)");
-      setFile(null);
-      console.log(error);
+      // Check if file is Excel
+      if (
+        uploadedFile.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        uploadedFile.type === "application/vnd.ms-excel"
+      ) {
+        setFile(uploadedFile);
+
+        setError("");
+      } else {
+        setError("Please upload only Excel files (.xlsx or .xls)");
+        setFile(null);
+        console.log(error);
+      }
     }
   }, []);
 
@@ -107,6 +111,7 @@ const AddDuesPage = () => {
   return (
     <div className="flex items-center justify-center h-screen flex-col">
       <Toaster position="top-center" richColors />
+
       <h1 className="text-2xl text-violet-600">Add Dues Details</h1>
       <div className="max-w-xl mx-auto p-6">
         <div

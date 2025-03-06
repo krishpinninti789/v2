@@ -29,47 +29,55 @@ const authOptions = {
         const { email, password } = credentials;
 
         const user = await Users.findOne({ email: credentials?.email });
-        // console.log(user);
+        console.log(user);
 
-        if (user) {
-          const isValid = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
-
-          return NextResponse.json({
-            message: "succesfully login",
-            success: true,
-          });
+        if (
+          user &&
+          (await bcrypt.compare(credentials.password, user.password))
+        ) {
+          return {
+            id: user._id.toString(), // Ensure `id` is a string
+            email: user.email,
+            role: user.role,
+          };
         }
+
+        // return NextResponse.json({
+        //   message: "succesfully login",
+        //   success: true,
+        // });
       },
     }),
   ],
 
-  pages: {
-    signIn: "/signin",
-    signOut: "/signout",
-    error: "/error",
-  },
+  // pages: {
+  //   signIn: "/signin",
+  //   signOut: "/signout",
+  //   error: "/error",
+  // },
 
   callbacks: {
     async jwt(token, user) {
       if (user) {
-        token.id = user._id;
+        token.id = user.id;
         token.email = user.email;
+        token.role = user.role;
         token.accessToken = jwt.sign(
           { id: user._id, email: user.email },
           jwt_secret,
           { expiresIn: "10m" }
         );
       }
-
+      // console.log("token", token);
       return token;
     },
     async session(session, token) {
-      session.user.id = token.id;
-      session.user.email = token.email;
-
+      if (token?.id) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.role = token.role;
+      }
+      // console.log("session", session);
       return session;
     },
   },

@@ -18,9 +18,11 @@ const ViewStudents = () => {
 
     const res = await response.json();
     console.log(res);
-    if (res?.data) {
-      setUser([res.data]);
-    }
+    setTimeout(() => {
+      if (res?.data) {
+        setUser([res.data]);
+      }
+    }, 2000);
   };
 
   return (

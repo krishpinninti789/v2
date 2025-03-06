@@ -15,19 +15,22 @@ const AddUsersPage = () => {
 
   const onDrop = useCallback((acceptedFiles) => {
     const uploadedFile = acceptedFiles[0];
-
-    // Check if file is Excel
-    if (
-      uploadedFile.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-      uploadedFile.type === "application/vnd.ms-excel"
-    ) {
-      setFile(uploadedFile);
-
-      setError("");
+    if (uploadedFile == undefined) {
+      console.log("Error invalid file");
     } else {
-      setError("Please upload only Excel files (.xlsx or .xls)");
-      setFile(null);
+      // Check if file is Excel
+      if (
+        uploadedFile.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        uploadedFile.type === "application/vnd.ms-excel"
+      ) {
+        setFile(uploadedFile);
+
+        setError("");
+      } else {
+        setError("Please upload only Excel files (.xlsx or .xls)");
+        setFile(null);
+      }
     }
   }, []);
 

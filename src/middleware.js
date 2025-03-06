@@ -6,31 +6,24 @@ import { redirect } from "next/navigation";
 const secret = process.env.JWT_SECRET;
 
 // Define protected and public routes
-const protectedRoutes = ["/admin/*"];
+const protectedRoutes = ["/admin/*", "/student/*"];
 const authRoutes = ["/"];
 
 export async function middleware(req) {
-  // const token = req.cookies.get("token")?.value;
   const token = await getToken({ req, secret });
-  // console.log(token);
-  // console.log();
 
   // Adjust this based on your auth system
   const { pathname } = req.nextUrl;
-  // console.log(pathname);
 
   // Redirect authenticated users away from auth pages (e.g., login, signup)
   if (token && authRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL("/admin/add-students", req.url));
   }
-  // if (pathname === "/") {
-  //   if (token) {
-  //     return NextResponse.redirect(new URL("/admin/add-student", req.url));
-  //   }
-  //   return NextResponse.next();
-  // }
-  // Protect dashboard route - redirect unauthenticated users to login
-  if (!token && pathname.startsWith("/admin/add-students")) {
+
+  if (
+    (!token && pathname.startsWith("/admin/add-students")) ||
+    pathname.startsWith("/student/view-dues")
+  ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
   // Continue processing the request
