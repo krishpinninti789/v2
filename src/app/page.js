@@ -4,9 +4,10 @@ import Login from "@/components/LoginPage";
 import { SessionProvider } from "next-auth/react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge, Cloud } from "lucide-react";
+import { Badge, Cloud, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import landingImage from "../../public/images/landing.jpg";
 
 const Home = () => {
   const [getStarted, setGetStarted] = useState(false);
@@ -23,6 +24,26 @@ const Home = () => {
                 <Cloud className="h-8 w-8" />
                 NDMS
               </Link>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => {
+                    setGetStarted(true);
+                  }}
+                  size="lg"
+                  className="text-white bg-vprimary hover:bg-vprimary"
+                >
+                  Get Started
+                </Button>
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    setGetStarted(true);
+                  }}
+                  variant="outline"
+                >
+                  Login
+                </Button>
+              </div>
 
               {/* <div className="hidden md:flex items-center gap-8">
                 <Link href="#" className="text-gray-600 hover:text-gray-900">
@@ -48,8 +69,8 @@ const Home = () => {
             </nav>
           </header>
 
-          <main className="container mx-auto px-4 py-20 h-[70vh] relative">
-            <div className="relative max-w-4xl mx-auto text-center">
+          <main className="container flex w-full  mx-auto px-4 py-20 min-h-[60vh] relative">
+            <div className="relative max-w-4xl  mx-auto text-start">
               {/* Decorative elements */}
               <div className="absolute left-0 top-1/2 w-48 h-px bg-gray-200 -translate-x-full">
                 <div className="absolute -right-1 -top-1 w-2 h-2 rounded-full border border-gray-200" />
@@ -67,8 +88,10 @@ const Home = () => {
                 Introduce Cloud Platforms
               </Badge> */}
 
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4">
-                No <span className="text-vprimary">Due </span>
+              <h1 className="text-5xl mt-32 md:text-6xl font-bold tracking-normal mb-4">
+                No
+                {/* No <br /> */}
+                <span className="text-vprimary">Due </span>
                 <br />
                 Management System
               </h1>
@@ -80,7 +103,7 @@ const Home = () => {
                 From anywhere and with any device.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center relative">
+              <div className="flex flex-col sm:flex-row gap-4  self-start  relative">
                 <Button
                   onClick={() => {
                     setGetStarted(true);
@@ -98,19 +121,30 @@ const Home = () => {
                 <div className="absolute inset-0 translate-y-1/2 rounded-full text-vprimary/30 blur-3xl" />
               </div> */}
             </div>
+            <div>
+              <Image src={landingImage} alt="" width={800} height={900} />
+            </div>
           </main>
           <div className="flex justify-center items-center min-h-[100vh] w-full">
-            <div className="flex flex-col w-1/2">
+            <div className="flex flex-col gap-3 w-1/2">
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4">
-                🔍 Advanced <span className="text-vprimary">Search</span>{" "}
-                Functionality
+                Easy <br />
+                <span className="text-vprimary">Search</span> Functionality
               </h1>
-              <p className="text-3xl text-gray-500">
+              <p className="text-xl text-gray-500">
                 Find what you need instantly with our powerful search system.
-                <br />✔ Search the data effectively.
-                <br /> ✔ Get the data fastly.
-                <br /> ✔ Implented to easy access.
+                <br />. Search the data effectively.
+                <br /> . Get the data fastly.
+                <br /> . Implented to easy access.
               </p>
+              <div className="flex items-center gap-2 w-[25rem] border-gray-300 border rounded-full p-2">
+                <Search className="text-vprimary" />
+                <input
+                  type="text"
+                  className="rounded-full p-2 search-input w-[25rem] outline-none "
+                  placeholder="Enter details......."
+                />
+              </div>
             </div>
             <div>
               <Image
@@ -122,11 +156,11 @@ const Home = () => {
             </div>
           </div>
           <div className="flex justify-center items-center min-h-[100vh]">
-            <div>Search Content</div>
+            <div>update Content</div>
             <div>Image</div>
           </div>
           <div className="flex justify-center items-center min-h-[100vh]">
-            <div>Automation Content</div>
+            <div>Student Management content</div>
             <div>Image</div>
           </div>
           <footer className="flex justify-center items-center">
