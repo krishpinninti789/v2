@@ -36,11 +36,11 @@ const ViewDuesPage = () => {
   return (
     <div>
       <div className="flex flex-col gap-3">
-        <h1 className="text-2xl text-violet-600">view Dues page</h1>
+        <h1 className="text-2xl text-vprimary">view Dues page</h1>
 
         <div className="lg:flex-row flex flex-col gap-2 items-center lg:w-1/2">
           <div className="flex items-center gap-2 border-gray-300 border rounded-md p-2">
-            <Search className="text-violet-600" />
+            <Search className="text-vprimary" />
             <input
               type="text"
               onChange={(e) => setRoll(e.target.value)}
@@ -51,7 +51,7 @@ const ViewDuesPage = () => {
 
           <button
             onClick={() => getDuesInfo(roll)}
-            className="rounded-md p-3 text-white bg-violet-600"
+            className="rounded-md p-3 text-white bg-vprimary"
           >
             search
           </button>

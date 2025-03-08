@@ -41,11 +41,11 @@ const ViewUsers = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-2xl text-violet-600">view users page</h1>
+      <h1 className="text-2xl text-vprimary">view users page</h1>
 
       <div className="flex gap-3 justify-between items-center w-1/2 p-2 border-gray-300 border rounded-md">
         <div className="flex items-center gap-2">
-          <Search className="text-violet-600" />
+          <Search className="vprimary" />
           <input
             type="text"
             onChange={(e) => setEmail(e.target.value)}
@@ -56,7 +56,7 @@ const ViewUsers = () => {
 
         <button
           onClick={() => getUserInfo(email)}
-          className="rounded-md p-2 text-white bg-violet-600"
+          className="rounded-md p-2 text-white bg-vprimary"
         >
           search
         </button>
@@ -64,7 +64,7 @@ const ViewUsers = () => {
       {user && <UserDetails user={user} />}
 
       <div>
-        <h1 className="text-2xl text-violet-600">All Users</h1>
+        <h1 className="text-2xl text-vprimary">All Users</h1>
         {users.length != 0 && (
           <table
             border="1"
@@ -93,7 +93,7 @@ const ViewUsers = () => {
                     <div
                       className={`rounded-lg text-xl  items-center w-fit flex gap-3 px-4   ${
                         item.role === "student"
-                          ? "bg-violet-100 text-violet-500 rounded-xl border border-violet-300"
+                          ? "bg-blue-100 text-vprimary rounded-xl border border-blue-300"
                           : "bg-orange-100 text-orange-500 rounded-xl border border-orange-300"
                       }`}
                     >
@@ -101,7 +101,7 @@ const ViewUsers = () => {
                     </div>
                   </td>
                   <td>
-                    <Button>Edit</Button>
+                    <Button className="bg-vprimary text-white ">Edit</Button>
                   </td>
                 </tr>
               ))}

@@ -102,7 +102,7 @@ const AddStudentsPage = () => {
   return (
     <div className="flex items-center justify-center h-screen flex-col">
       <Toaster position="top-center" richColors />
-      <h1 className="text-2xl text-violet-600">Add Student Details</h1>
+      <h1 className="text-2xl text-vprimary">Add Student Details</h1>
       <div className="max-w-xl mx-auto p-6">
         <div
           {...getRootProps()}
@@ -112,13 +112,13 @@ const AddStudentsPage = () => {
               ? "border-primary bg-primary/5"
               : "border-muted-foreground/25 "
           }
-          hover:border-primary hover:bg-primary/5 hover:border-violet-600`}
+          hover:border-primary hover:bg-primary/5 hover:border-vprimary`}
         >
           <input {...getInputProps()} />
 
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex justify-center">
-              <FileSpreadsheet className="w-16 h-16 text-violet-500" />
+              <FileSpreadsheet className="w-16 h-16 text-vprimary" />
             </div>
 
             <div className="space-y-2">
@@ -149,7 +149,7 @@ const AddStudentsPage = () => {
         <Button
           onClick={handleFileUpload}
           disabled={!file}
-          className="w-full mt-4 py-6 text-lg bg-violet-600 hover:bg-violet-600/90 "
+          className="w-full mt-4 py-6 text-lg bg-vprimary hover:bg-vprimary/90 "
         >
           <Upload className="w-4 h-4 mr-2" />
           Upload

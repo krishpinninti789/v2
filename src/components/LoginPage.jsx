@@ -6,7 +6,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import Link from "next/link";
+import LoginImage from "../../public/images/login.jpg";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -63,14 +65,17 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-white relative overflow-hidden">
+      <div>
+        <Image src={LoginImage} alt="" width={700} height={700} />
+      </div>
       {/* Decorative Circle */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none">
-        <div className="absolute inset-0 translate-y-1/2 rounded-full bg-purple-600/20 blur-3xl" />
+        <div className="absolute inset-0 translate-y-1/2 rounded-full vprimary/20 blur-3xl" />
       </div>
 
       <div className="w-full max-w-[400px] mx-auto p-6 relative z-10">
         <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-gray-900 mb-2">
+          <h1 className="text-3xl font-semibold text-vprimary mb-2">
             Welcome back
           </h1>
           <p className="text-gray-500">
@@ -117,20 +122,20 @@ const LoginPage = () => {
             </div>
             <Link
               href="/reset-password"
-              className="text-sm text-purple-600 hover:text-purple-700"
+              className="text-sm vprimary hover:text-vprimary"
             >
               Forgot password
             </Link>
           </div>
 
           {loading && user ? (
-            <Button disabled className="w-full bg-purple-400 ">
+            <Button disabled className="w-full bg-vsecondary ">
               <Loader2 className="animate-spin" />
               Signing in
             </Button>
           ) : (
             <Button
-              className="w-full bg-purple-600 hover:bg-purple-700"
+              className="w-full bg-vsecondary hover:bg-vprimary"
               onClick={() => {
                 setLoading(true);
               }}

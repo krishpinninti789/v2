@@ -65,6 +65,7 @@ const DueDetails = (dues) => {
                       <td>{new Date(due.due_date).toLocaleDateString()}</td>
                       <td>
                         <Button
+                          className="bg-vprimary text-white hover:bg-vsecondary"
                           onClick={() => {
                             router.push(
                               `/admin/edit-due?roll=${item.roll}&id=${due._id}`

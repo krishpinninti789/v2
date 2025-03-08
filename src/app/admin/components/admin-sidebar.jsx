@@ -61,7 +61,7 @@ export function AdminSidebar({ ...props }) {
         <div className="flex">
           <Image src={logo} alt="image" width={50} height={40} />
 
-          <h1 className="text-2xl font-bold px-4 py-2 text-violet-600">NDMS</h1>
+          <h1 className="text-2xl font-bold px-4 py-2 vprimary">NDMS</h1>
         </div>
       </SidebarHeader>
       <SidebarContent className="gap-0">

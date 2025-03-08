@@ -14,8 +14,8 @@ export default function AdminDashboardLayout({ children }) {
       <SidebarInset>
         <header className="flex sticky top-0 bg-background h-16 shrink-0 justify-between items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
-          <h1 className="text-xl text-violet-700 font-semibold">Dashboard</h1>
-          <Button className="bg-violet-600 hover:bg-violet-900 text-white">
+          <h1 className="text-xl text-vprimary font-semibold">Dashboard</h1>
+          <Button className="bg-vprimary hover:bg-vprimary text-white">
             <Link href="/signout">Signout</Link>
           </Button>
         </header>

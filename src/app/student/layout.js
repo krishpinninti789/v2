@@ -12,7 +12,7 @@ const layout = ({ children }) => {
             <Link href="/student/pay-dues">Pay Dues</Link>
           </div>
         </nav>
-        <Button className="bg-violet-600 hover:bg-violet-900 text-white">
+        <Button className="bg-vprimary hover:bg-violet-900 text-white">
           <Link href="/signout">Signout</Link>
         </Button>
       </header>

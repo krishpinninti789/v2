@@ -69,11 +69,17 @@ export default function EditDue() {
 
       <label>New Payment:</label>
       <input
+        className="rounded-md p-3"
         type="number"
         value={newPayment}
         onChange={(e) => setNewPayment(Number(e.target.value))}
       />
-      <button onClick={handlePayment}>Submit Payment</button>
+      <button
+        onClick={handlePayment}
+        className="bg-vprimary rounded-md text-white p-2"
+      >
+        Submit Payment
+      </button>
     </div>
   );
 }

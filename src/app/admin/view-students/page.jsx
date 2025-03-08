@@ -27,11 +27,11 @@ const ViewStudents = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-2xl text-violet-600">view students page</h1>
+      <h1 className="text-2xl text-vprimary">view students page</h1>
 
       <div className="flex gap-3 justify-between items-center w-1/2 p-2 border-gray-300 border rounded-md">
         <div className="flex items-center gap-2">
-          <Search className="text-violet-600" />
+          <Search className="vprimary" />
           <input
             type="text"
             onChange={(e) => setRoll(e.target.value)}
@@ -42,7 +42,7 @@ const ViewStudents = () => {
 
         <button
           onClick={() => getStudentInfo(roll)}
-          className="rounded-md p-2 text-white bg-violet-600"
+          className="rounded-md p-2 text-white bg-vprimary"
         >
           search
         </button>
