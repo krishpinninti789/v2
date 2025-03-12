@@ -43,20 +43,20 @@ const ViewUsers = () => {
     <div className="flex flex-col gap-3">
       <h1 className="text-2xl text-vprimary">view users page</h1>
 
-      <div className="flex gap-3 justify-between items-center w-1/2 p-2 border-gray-300 border rounded-md">
+      <div className="flex gap-3 justify-between items-center w-1/2 p-2 border-gray-300 border rounded-xl">
         <div className="flex items-center gap-2">
-          <Search className="vprimary" />
+          <Search className="text-vprimary" />
           <input
             type="text"
             onChange={(e) => setEmail(e.target.value)}
-            className="rounded-md p-2 search-input w-[25rem] outline-none "
+            className="rounded-xl p-2 search-input w-[25rem] outline-none "
             placeholder="Enter email address..."
           />
         </div>
 
         <button
           onClick={() => getUserInfo(email)}
-          className="rounded-md p-2 text-white bg-vprimary"
+          className="rounded-xl p-2 text-white button-grad"
         >
           search
         </button>
@@ -101,7 +101,9 @@ const ViewUsers = () => {
                     </div>
                   </td>
                   <td>
-                    <Button className="bg-vprimary text-white ">Edit</Button>
+                    <Button className="button-grad text-white ">
+                      View Details
+                    </Button>
                   </td>
                 </tr>
               ))}

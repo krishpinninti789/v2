@@ -10,6 +10,7 @@ export default {
       colors: {
         vprimary: "#007DFE",
         vsecondary: "#7CB1FF",
+        vstrong: "#1e40af",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

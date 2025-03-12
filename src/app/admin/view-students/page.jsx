@@ -29,20 +29,20 @@ const ViewStudents = () => {
     <div className="flex flex-col gap-3">
       <h1 className="text-2xl text-vprimary">view students page</h1>
 
-      <div className="flex gap-3 justify-between items-center w-1/2 p-2 border-gray-300 border rounded-md">
+      <div className="flex gap-3 justify-between items-center w-1/2 p-2 border-gray-300 border rounded-xl">
         <div className="flex items-center gap-2">
-          <Search className="vprimary" />
+          <Search className="text-vprimary" />
           <input
             type="text"
             onChange={(e) => setRoll(e.target.value)}
-            className="rounded-md p-2 search-input w-[25rem] outline-none "
+            className="rounded-xl p-2 search-input w-[25rem] outline-none "
             placeholder="Enter roll number"
           />
         </div>
 
         <button
           onClick={() => getStudentInfo(roll)}
-          className="rounded-md p-2 text-white bg-vprimary"
+          className="rounded-xl p-2 text-white button-grad"
         >
           search
         </button>

@@ -25,36 +25,21 @@ import Image from "next/image";
 // Updated navigation data
 const navItems = [
   {
-    title: "Student",
-    items: [
-      { title: "Add Students", url: "/admin/add-students" },
-      { title: "View Students", url: "/admin/view-students" },
-    ],
+    title: "My Dues",
+
+    url: "/student/view-dues",
   },
   {
     title: "Users",
-    items: [
-      { title: "Add Users", url: "/admin/add-users" },
-      { title: "View Users", url: "/admin/view-users" },
-    ],
+    url: "/student/view-payments",
   },
   {
-    title: "Admin",
-    items: [
-      { title: "Add Admins", url: "/admin/add-admins" },
-      { title: "View Admins", url: "/admin/view-admins" },
-    ],
-  },
-  {
-    title: "Dues",
-    items: [
-      { title: "Add Dues", url: "/admin/add-dues" },
-      { title: "View Dues", url: "/admin/view-dues" },
-    ],
+    title: "My profile",
+    url: "/student/profile",
   },
 ];
 
-export function AdminSidebar({ ...props }) {
+export function StudentSidebar({ ...props }) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -69,9 +54,16 @@ export function AdminSidebar({ ...props }) {
           <Collapsible
             key={item.title}
             // defaultOpen
-            className="group/collapsible"
+            className="group/collapsible px-3 py-2 w-full "
           >
-            <SidebarGroup>
+            <Link
+              href={item.url}
+              className="rounded-xl fit-content p-2 hover:bg-button-grad"
+            >
+              {item.title}
+            </Link>
+
+            {/* <SidebarGroup>
               <SidebarGroupLabel
                 asChild
                 className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -94,7 +86,7 @@ export function AdminSidebar({ ...props }) {
                   </SidebarMenu>
                 </SidebarGroupContent>
               </CollapsibleContent>
-            </SidebarGroup>
+            </SidebarGroup> */}
           </Collapsible>
         ))}
       </SidebarContent>

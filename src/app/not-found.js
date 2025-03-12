@@ -9,8 +9,8 @@ const page = () => {
         <div className="absolute inset-0 translate-y-1/2 rounded-full vprimary/20 blur-3xl" />
         {/* <div className="absolute inset-0 translate-y-1/2 rounded-full vprimary" /> */}
       </div>
-      <div className="w-[30rem]  h-[30rem] rounded-md ">
-        <Image alt="not found" src={pagenotfound} className="rounded-md" />
+      <div className="">
+        <Image alt="not found" src={pagenotfound} width={500} height={600} />
       </div>
     </div>
   );

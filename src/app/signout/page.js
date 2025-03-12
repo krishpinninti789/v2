@@ -28,8 +28,8 @@ export default function SignOut() {
       <h1 className="text-vprimary text-3xl font-extrabold sel-center">
         Signing Out
       </h1>
-      <div className="w-[30rem]  h-[30rem] rounded-md ">
-        <Image alt="not found" src={singoutImage} className="rounded-md" />
+      <div className="w-[30rem]  h-[30rem] rounded-xl ">
+        <Image alt="not found" src={singoutImage} className="rounded-xl" />
       </div>
     </div>
   );

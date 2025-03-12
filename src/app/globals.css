@@ -81,3 +81,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.button-grad {
+  @apply text-white bg-gradient-to-r from-vstrong to-vprimary;
+}
+
+.text-grad {
+  @apply bg-gradient-to-r from-vstrong to-vprimary bg-clip-text text-transparent;
+}

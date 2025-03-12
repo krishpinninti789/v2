@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const DueDetails = (dues) => {
-  const studentDues = dues.dues;
+  const studentDues = dues?.dues;
   // const [studentDues, setStudentDues] = useState(dues.dues);
   const router = useRouter();
 

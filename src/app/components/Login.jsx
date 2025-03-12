@@ -11,7 +11,7 @@ const Login = () => {
       >
         <input type="text" placeholder="Enter email" />
         <input type="password" placeholder="Enter password" />
-        <button className="bg-black text-white rounded-md p-2">Login</button>
+        <button className="bg-black text-white rounded-xl p-2">Login</button>
       </form>
     </div>
   );

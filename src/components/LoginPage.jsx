@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect } from "react";
-
 import { signIn } from "next-auth/react";
+import { EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { Eye } from "lucide-react";
 import Link from "next/link";
 import LoginImage from "../../public/images/login.jpg";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,12 +15,14 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [toogleEye, setToogleEye] = useState(true);
   const router = useRouter();
 
   const { data: session, status } = useSession();
@@ -56,7 +59,8 @@ const LoginPage = () => {
       if (user_role === "super_admin") {
         router.push("/admin/add-students");
       } else if (user_role === "student") {
-        router.push(`/student/view-dues?id=${roll}`);
+        // router.push(`/student/view-dues?id=${roll}`);
+        router.push(`/student/view-dues?`);
       } else {
         router.push("/demo");
       }
@@ -69,23 +73,23 @@ const LoginPage = () => {
         <Image src={LoginImage} alt="" width={700} height={700} />
       </div>
       {/* Decorative Circle */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none">
+      {/* <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none">
         <div className="absolute inset-0 translate-y-1/2 rounded-full vprimary/20 blur-3xl" />
-      </div>
+      </div> */}
 
-      <div className="w-full max-w-[400px] mx-auto p-6 relative z-10">
+      <div className="w-full max-w-[400px] mx-auto flex flex-col gap-4 p-6 relative z-10">
         <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-vprimary mb-2">
-            Welcome back
+          <h1 className="text-3xl font-semibold text-grad mb-2">
+            Get Started Now
           </h1>
           <p className="text-gray-500">
-            Welcome back! Please enter your details.
+            Enter your credentials to access your account
           </p>
         </div>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-8" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Email address</Label>
             <Input
               id="email"
               placeholder="Enter your email"
@@ -99,15 +103,31 @@ const LoginPage = () => {
 
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              placeholder="••••••••"
-              type="password"
-              name="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="flex justify-end items-center  focus:ring-blue-500 border-input ring-blue-500 focus-visible:ring-2 focus-visible:outline-none  focus:ring-2  space-x-4  border border-1 rounded-xl">
+              <Input
+                id="password"
+                placeholder="••••••••••••••••"
+                type={!toogleEye ? "text" : "password"}
+                name="password"
+                required
+                value={password}
+                className="border-none focus:ring-transparent"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {!toogleEye ? (
+                <Eye
+                  className="px-2 text-gray-400"
+                  size={35}
+                  onClick={() => setToogleEye(true)}
+                />
+              ) : (
+                <EyeClosed
+                  className="px-2 text-gray-400"
+                  size={35}
+                  onClick={() => setToogleEye(false)}
+                />
+              )}
+            </div>
           </div>
 
           <div className="flex items-center justify-between">
@@ -117,25 +137,22 @@ const LoginPage = () => {
                 htmlFor="remember"
                 className="text-sm text-gray-500 cursor-pointer"
               >
-                Remember for 30 days
+                I agree to the Terms & Privacy
               </label>
             </div>
-            <Link
-              href="/reset-password"
-              className="text-sm vprimary hover:text-vprimary"
-            >
-              Forgot password
+            <Link href="/reset-password" className="text-sm text-grad">
+              Forgot password?
             </Link>
           </div>
 
           {loading && user ? (
-            <Button disabled className="w-full bg-vsecondary ">
+            <Button disabled className="w-full button-grad  ">
               <Loader2 className="animate-spin" />
               Signing in
             </Button>
           ) : (
             <Button
-              className="w-full bg-vsecondary hover:bg-vprimary"
+              className="w-full  button-grad"
               onClick={() => {
                 setLoading(true);
               }}

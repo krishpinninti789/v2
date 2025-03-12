@@ -1,24 +1,34 @@
+"use client";
+import Spinner from "@/components/Spinner";
+import { StudentSidebar } from "./components/StudentSidebar";
 import { Button } from "@/components/ui/button";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import Link from "next/link";
-import React from "react";
+import { Suspense } from "react";
+import { SessionProvider } from "next-auth/react";
 
-const layout = ({ children }) => {
+export default function StudentDashboardLayout({ children }) {
   return (
-    <div>
-      <header>
-        <nav className="flex justify-between items-center py-4 px-8 bg-gray-800 text-white">
-          <div>
-            <Link href="/student/view-dues">View Dues</Link>
-            <Link href="/student/pay-dues">Pay Dues</Link>
-          </div>
-        </nav>
-        <Button className="bg-vprimary hover:bg-violet-900 text-white">
-          <Link href="/signout">Signout</Link>
-        </Button>
-      </header>
-      {children}
-    </div>
+    <SidebarProvider>
+      <StudentSidebar />
+      <SidebarInset>
+        <header className="flex sticky top-0 bg-background h-16 shrink-0 justify-between items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <h1 className="text-xl text-grad font-semibold">Dashboard</h1>
+          <Button className="button-grad">
+            <Link href="/signout">Signout</Link>
+          </Button>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4">
+          <Suspense fallback={<Spinner />}>
+            <SessionProvider>{children}</SessionProvider>
+          </Suspense>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
-};
-
-export default layout;
+}

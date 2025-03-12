@@ -34,3 +34,43 @@ export async function middleware(req) {
 export const config = {
   matcher: ["/", "/admin/add-students"], // Add other routes as needed
 };
+
+// import { withAuth } from "next-auth/middleware";
+// import { NextResponse } from "next/server";
+
+// export default withAuth(
+//   function middleware(req) {
+//     const { nextUrl } = req;
+//     const session = req.nextauth.token; // Get session from token
+
+//     // If no session, redirect to home page
+//     if (!session) {
+//       return NextResponse.redirect(new URL("/", req.url));
+//     }
+
+//     // Check user role for protected routes
+//     // const userRole = session.role; // Role should be set in the session
+//     const userRole = session?.token?.token?.user?.role;
+
+//     if (
+//       nextUrl.pathname.startsWith("/student/view") &&
+//       userRole !== "student"
+//     ) {
+//       return NextResponse.redirect(new URL("/", req.url));
+//     }
+
+//     if (
+//       nextUrl.pathname.startsWith("/admin/viewdues") &&
+//       userRole !== "admin"
+//     ) {
+//       return NextResponse.redirect(new URL("/", req.url));
+//     }
+
+//     return NextResponse.next();
+//   },
+//   {
+//     callbacks: {
+//       authorized: ({ token }) => !!token, // Allow access only if token exists
+//     },
+//   }
+// );

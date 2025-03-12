@@ -39,19 +39,19 @@ const ViewDuesPage = () => {
         <h1 className="text-2xl text-vprimary">view Dues page</h1>
 
         <div className="lg:flex-row flex flex-col gap-2 items-center lg:w-1/2">
-          <div className="flex items-center gap-2 border-gray-300 border rounded-md p-2">
+          <div className="flex items-center gap-2 border-gray-300 border rounded-xl p-2">
             <Search className="text-vprimary" />
             <input
               type="text"
               onChange={(e) => setRoll(e.target.value)}
-              className="rounded-md p-2 search-input w-[25rem] outline-none "
+              className="rounded-xl p-2 search-input w-[25rem] outline-none "
               placeholder="Enter roll number"
             />
           </div>
 
           <button
             onClick={() => getDuesInfo(roll)}
-            className="rounded-md p-3 text-white bg-vprimary"
+            className="rounded-xl p-3 text-white button-grad"
           >
             search
           </button>

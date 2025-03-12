@@ -11,6 +11,7 @@ const jwt_secret = process.env.JWT_SECRET;
 const authOptions = {
   session: {
     strategy: "jwt",
+    maxAge: 10 * 60,
   },
   providers: [
     CredentialsProvider({

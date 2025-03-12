@@ -30,7 +30,7 @@ const Home = () => {
                     setGetStarted(true);
                   }}
                   size="lg"
-                  className="text-white bg-vprimary hover:bg-vprimary"
+                  className="button-grad"
                 >
                   Get Started
                 </Button>
@@ -91,7 +91,7 @@ const Home = () => {
               <h1 className="text-5xl mt-32 md:text-6xl font-bold tracking-normal mb-4">
                 No
                 {/* No <br /> */}
-                <span className="text-vprimary">Due </span>
+                <span className="text-grad">Due </span>
                 <br />
                 Management System
               </h1>
@@ -109,7 +109,7 @@ const Home = () => {
                     setGetStarted(true);
                   }}
                   size="lg"
-                  className="text-white bg-vprimary hover:bg-vprimary"
+                  className="text-white bg-gradient-to-r from-vstrong to-vprimary rounded-xl "
                 >
                   Get Started
                 </Button>
@@ -125,11 +125,14 @@ const Home = () => {
               <Image src={landingImage} alt="" width={800} height={900} />
             </div>
           </main>
-          <div className="flex justify-center items-center min-h-[100vh] w-full">
+
+          {/* Search Functionality Div */}
+
+          <div className="flex justify-center items-center min-h-[80vh] w-full">
             <div className="flex flex-col gap-3 w-1/2">
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4">
                 Easy <br />
-                <span className="text-vprimary">Search</span> Functionality
+                <span className="text-grad">Search</span> Functionality
               </h1>
               <p className="text-xl text-gray-500">
                 Find what you need instantly with our powerful search system.
@@ -137,7 +140,7 @@ const Home = () => {
                 <br /> . Get the data fastly.
                 <br /> . Implented to easy access.
               </p>
-              <div className="flex items-center gap-2 w-[25rem] border-gray-300 border rounded-full p-2">
+              <div className="flex items-center gap-2 w-[25rem] bg-gray-300 border-gray-300 border rounded-full p-2">
                 <Search className="text-vprimary" />
                 <input
                   type="text"
@@ -149,22 +152,76 @@ const Home = () => {
             <div>
               <Image
                 src={"/images/search.jpg"}
-                width={500}
+                width={600}
                 height={600}
                 alt="search-image"
               />
             </div>
           </div>
-          <div className="flex justify-center items-center min-h-[100vh]">
-            <div>update Content</div>
-            <div>Image</div>
+
+          {/* Payment Functionality Div */}
+
+          <div className="flex justify-center  items-center min-h-[80vh] w-full">
+            <div>
+              <Image
+                src={"/images/payment.jpg"}
+                width={600}
+                height={600}
+                alt="search-image"
+              />
+            </div>
+            <div className="flex flex-col gap-3 w-1/2">
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+                Hastle-Free <br />
+                <span className="text-grad">Payment</span> System
+              </h1>
+              <p className="text-xl text-gray-500">
+                Payment can be done through the system.
+                <br />. Pay using cards.
+                <br /> . Pay through any payment gateway.
+                <br /> . Payments info.
+              </p>
+              <div className="flex items-center gap-2 w-[25rem] bg-gray-300 border-gray-300 border rounded-full p-2">
+                <input
+                  type="text"
+                  className="rounded-full p-2 search-input w-[25rem] outline-none "
+                  placeholder="Enter card details......."
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex justify-center items-center min-h-[100vh]">
-            <div>Student Management content</div>
-            <div>Image</div>
+
+          {/* Student Functionality Div */}
+
+          <div className="flex justify-center items-center min-h-[80vh]">
+            <div className="flex flex-col gap-3 w-1/2">
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+                Manage <br />
+                <span className="text-grad">Dues</span> and Users
+              </h1>
+              <p className="text-xl text-gray-500">
+                Manage mutltiple students data.
+                <br />. Manage multiple users and admins.
+                <br /> . Dues can be view by students on any device.
+                <br /> . Realtime updates through mails.
+              </p>
+              <div className="flex items-center gap-2 w-[25rem] bg-gray-300 border-gray-300 border rounded-full p-2">
+                <input
+                  type="text"
+                  className="rounded-full p-2 search-input w-[25rem] outline-none "
+                  placeholder="Enter student details......."
+                />
+              </div>
+            </div>
+            <Image
+              src={"/images/student.jpg"}
+              width={600}
+              height={600}
+              alt="search-image"
+            />
           </div>
-          <footer className="flex justify-center items-center">
-            <div>Footer content</div>
+          <footer className="flex justify-center button-grad items-center">
+            <div>footeer</div>
           </footer>
         </div>
       ) : (

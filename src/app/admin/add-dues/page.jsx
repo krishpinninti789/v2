@@ -159,7 +159,7 @@ const AddDuesPage = () => {
         <Button
           onClick={handleFileUpload}
           disabled={!file}
-          className="w-full mt-4 py-6 text-lg bg-vprimary hover:bg-vprimary/90 "
+          className="w-full mt-4 py-6 text-lg button-grad hover:bg-vprimary/90 "
         >
           <Upload className="w-4 h-4 mr-2" />
           Upload
