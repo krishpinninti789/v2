@@ -26,15 +26,15 @@ const LoginPage = () => {
   const router = useRouter();
 
   const { data: session, status } = useSession();
-  console.log("session", session);
+  // console.log("session", session);
 
-  const user_email = session?.token?.token?.user?.email;
-  const user_role = session?.token?.token?.user?.role;
-  console.log("user_role", user_role);
+  const user_email = session?.user?.email;
+  const user_role = session?.user?.role;
+  // console.log("user_role", user_role);
   // console.log("user_email", user_email);
 
   const roll = user_email?.split("@")[0];
-  console.log("roll", roll);
+  // console.log("roll", roll);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -55,12 +55,13 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    if (session) {
+    if (session?.user) {
       if (user_role === "super_admin") {
         router.push("/admin/add-students");
       } else if (user_role === "student") {
-        // router.push(`/student/view-dues?id=${roll}`);
-        router.push(`/student/view-dues?`);
+        // router.push(`/student/view-dues?`);
+        window.location.assign("/student/view-dues?");
+        // router.push(`/student/view-dues?`);
       } else {
         router.push("/demo");
       }

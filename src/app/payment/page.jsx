@@ -30,7 +30,7 @@ const PaymentPage = () => {
         description: "Test Transaction",
         order_id: data.orderId,
         handler: function () {
-          console.log("Payment successful", response);
+          // console.log("Payment successful", response);
         },
         prefill: {
           name: "John Doe",
@@ -45,7 +45,7 @@ const PaymentPage = () => {
       const rz1 = new window.Razorpay(options);
       rz1.open();
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     } finally {
       setIsProcessing(false);
     }

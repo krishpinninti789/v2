@@ -9,6 +9,7 @@ export async function GET(req) {
 
   const roll_no = searchParams.get("roll");
   const details = await Dues.findOne({ roll: roll_no });
+  // console.log(details);
 
   if (details) {
     return NextResponse.json({

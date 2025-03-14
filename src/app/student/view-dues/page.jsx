@@ -3,39 +3,45 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import DueDetails from "../components/DueDetails";
 import { useSession } from "next-auth/react";
+import axios from "axios";
+
 const StudentViewDuePage = () => {
   const { data: session, status } = useSession();
-  console.log("session", session);
+  const [data, setData] = useState();
+  const [roll, setRoll] = useState();
 
-  const user_email = session?.token?.token?.token?.user?.email;
-  const user_role = session?.token?.token?.token?.user?.role;
-  console.log("user_role", user_role);
-  // console.log("user_email", user_email);
+  // console.log("session:", session);
 
-  const roll_session = user_email?.split("@")[0];
+  useEffect(() => {
+    if (session?.user) {
+      // console.log("uesrin", session.user);
+      setRoll(session.user.email.split("@")[0]);
+    }
+  }, [session]);
+
+  // useEffect(() => console.log("chenaged roll:", roll), [roll]);
+  // const roll =
   // console.log("roll", roll);
-
-  const searchParams = useSearchParams();
-  // const roll = searchParams.get("id");
-  // const rollid = roll;
-  const [dues, setDues] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`/api/view/view-dues?roll=${roll_session}`);
-      const data = await response.json();
-      setDues([data.data]);
+      // console.log("calling the route");
+      const response = await fetch(`/api/view/view-dues?roll=${roll}`, {
+        method: "GET",
+      });
+      const res = await response.json();
+      // console.log("response:", res);
+      // console.log("check:", res.data.dues);
+      if (res?.data) setData(res.data);
     };
-    fetchData();
-  }, []);
-
-  console.log(dues);
+    if (roll !== undefined) fetchData();
+  }, [roll]);
 
   // console.log(roll);
   return (
     <div>
       Hello
       {/* <button onClick={handleClick}>Click</button> */}
-      {roll_session && <DueDetails dues={dues} />}
+      {data && <DueDetails data={data} />}
     </div>
   );
 };

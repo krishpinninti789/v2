@@ -8,7 +8,7 @@ export async function POST(req) {
 
   try {
     const { roll, due_id, newPayment } = await req.json();
-    console.log(roll, due_id, newPayment);
+    // console.log(roll, due_id, newPayment);
 
     const studentDues = await Dues.findOneAndUpdate(
       { roll: roll, "dues._id": due_id },
@@ -28,7 +28,7 @@ export async function POST(req) {
     if (updatedDue.amount_pending == 0) {
       updatedDue.status = "paid";
     }
-    console.log(updatedDue);
+    // console.log(updatedDue);
 
     await studentDues.save();
 

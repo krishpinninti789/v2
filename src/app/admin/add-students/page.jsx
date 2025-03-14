@@ -16,7 +16,7 @@ const AddStudentsPage = () => {
   const onDrop = useCallback((acceptedFiles) => {
     const uploadedFile = acceptedFiles[0];
     if (uploadedFile == undefined) {
-      console.log("Error invalid file");
+      // console.log("Error invalid file");
       toast.error("Error invalid file");
     } else {
       // Check if file is Excel
@@ -31,7 +31,7 @@ const AddStudentsPage = () => {
       } else {
         setError("Please upload only Excel files (.xlsx or .xls)");
         setFile(null);
-        console.log(error);
+        // console.log(error);
       }
     }
   }, []);
@@ -76,7 +76,7 @@ const AddStudentsPage = () => {
         };
       });
 
-      console.log("Processed Data:", studentsData); // Debugging
+      // console.log("Processed Data:", studentsData); // Debugging
 
       // Send data to API
       const response = await fetch("/api/upload/add-students", {

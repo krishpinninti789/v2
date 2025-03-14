@@ -9,8 +9,8 @@ export default function PaymentsTable() {
     fetch("/api/payments")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setPayments(data.items || []);
+        // console.log(data);
+        setPayments(data.data.items || []);
         setLoading(false);
       })
       .catch((err) => {
@@ -19,7 +19,7 @@ export default function PaymentsTable() {
       });
   }, []);
 
-  console.log(payments);
+  // console.log(payments);
 
   if (loading) return <p>Loading payments...</p>;
 

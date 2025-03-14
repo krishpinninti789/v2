@@ -16,7 +16,7 @@ const AddUsersPage = () => {
   const onDrop = useCallback((acceptedFiles) => {
     const uploadedFile = acceptedFiles[0];
     if (uploadedFile == undefined) {
-      console.log("Error invalid file");
+      // console.log("Error invalid file");
     } else {
       // Check if file is Excel
       if (
@@ -58,7 +58,7 @@ const AddUsersPage = () => {
       const sheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(sheet);
 
-      console.log(jsonData);
+      // console.log(jsonData);
 
       const hashedPasswords = await Promise.all(
         jsonData.map(async (row) => {
@@ -79,7 +79,7 @@ const AddUsersPage = () => {
         };
       });
 
-      console.log("Processed Data:", usersData); // Debugging
+      // console.log("Processed Data:", usersData); // Debugging
 
       // Send data to API
       const response = await fetch("/api/upload/add-users", {

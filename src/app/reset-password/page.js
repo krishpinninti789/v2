@@ -14,7 +14,7 @@ const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  console.log(email);
+  // console.log(email);
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-white relative overflow-hidden">

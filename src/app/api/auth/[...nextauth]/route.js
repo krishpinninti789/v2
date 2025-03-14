@@ -4,14 +4,17 @@ import bcrypt from "bcryptjs";
 
 import Users from "@/app/models/users";
 import connectToDB from "@/lib/db/mongodb";
-import { NextResponse } from "next/server";
 
 const jwt_secret = process.env.JWT_SECRET;
 
 const authOptions = {
   session: {
     strategy: "jwt",
-    maxAge: 10 * 60,
+    maxAge: 10 * 60, // 10 minutes session expiration
+  },
+  pages: {
+    signIn: "/",
+    error: "/auth/error",
   },
   providers: [
     CredentialsProvider({
@@ -25,63 +28,57 @@ const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        await connectToDB();
+        try {
+          await connectToDB();
 
-        const { email, password } = credentials;
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error("Email and password are required");
+          }
 
-        const user = await Users.findOne({ email: credentials?.email });
-        console.log(user);
+          const user = await Users.findOne({ email: credentials.email });
 
-        if (
-          user &&
-          (await bcrypt.compare(credentials.password, user.password))
-        ) {
+          if (
+            !user ||
+            !(await bcrypt.compare(credentials.password, user.password))
+          ) {
+            throw new Error("Invalid email or password");
+          }
+
           return {
-            id: user._id.toString(), // Ensure `id` is a string
+            id: user._id.toString(),
             email: user.email,
             role: user.role,
           };
+        } catch (error) {
+          console.error("Authentication error:", error.message);
+          throw new Error("Authentication failed");
         }
-
-        // return NextResponse.json({
-        //   message: "succesfully login",
-        //   success: true,
-        // });
       },
     }),
   ],
 
-  // pages: {
-  //   signIn: "/signin",
-  //   signOut: "/signout",
-  //   error: "/error",
-  // },
-
   callbacks: {
-    async jwt(token, user) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.role = user.role;
-        token.accessToken = jwt.sign(
-          { id: user._id, email: user.email },
-          jwt_secret,
-          { expiresIn: "10m" }
-        );
       }
-      // console.log("token", token);
       return token;
     },
-    async session(session, token) {
-      if (token?.id) {
-        session.user.id = token.id;
-        session.user.email = token.email;
-        session.user.role = token.role;
+    async session({ session, token }) {
+      if (session.user) {
+        session.user = {
+          ...session.user, // Preserve existing properties if any
+          id: token.id,
+          email: token.email,
+          role: token.role,
+        };
       }
-      // console.log("session", session);
       return session;
     },
   },
+
   secret: jwt_secret,
 
   // Enable debug mode in development

@@ -9,7 +9,7 @@ export async function POST(req) {
 
     const data = await req.json();
 
-    console.log(data);
+    // console.log(data);
 
     const result = await Students.insertMany(data);
 
@@ -25,6 +25,6 @@ export async function POST(req) {
       });
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }

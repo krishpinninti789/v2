@@ -17,7 +17,7 @@ const ViewStudents = () => {
     });
 
     const res = await response.json();
-    console.log(res);
+    // console.log(res);
     setTimeout(() => {
       if (res?.data) {
         setUser([res.data]);

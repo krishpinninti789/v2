@@ -15,7 +15,7 @@ const AddDuesPage = () => {
   const onDrop = useCallback((acceptedFiles) => {
     const uploadedFile = acceptedFiles[0];
     if (uploadedFile == undefined) {
-      console.log("Error invalid file");
+      // console.log("Error invalid file");
       toast.error("Error invalid file");
     } else {
       // Check if file is Excel
@@ -30,7 +30,7 @@ const AddDuesPage = () => {
       } else {
         setError("Please upload only Excel files (.xlsx or .xls)");
         setFile(null);
-        console.log(error);
+        // console.log(error);
       }
     }
   }, []);
@@ -86,7 +86,7 @@ const AddDuesPage = () => {
         };
       });
 
-      console.log("Processed Data:", dues); // Debugging
+      // console.log("Processed Data:", dues); // Debugging
 
       // Send data to API
       const response = await fetch("/api/upload/add-dues", {

@@ -12,8 +12,8 @@ const ViewUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(users);
-  console.log(user);
+  // console.log(users);
+  // console.log(user);
 
   const getUserInfo = async (roll) => {
     // console.log(roll);
@@ -23,7 +23,7 @@ const ViewUsers = () => {
     });
 
     const res = await response.json();
-    console.log(res);
+    // console.log(res);
     if (res?.data) {
       setUser([res.data]);
     }

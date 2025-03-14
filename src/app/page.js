@@ -1,5 +1,10 @@
 "use client";
 import React from "react";
+import { FaFacebook } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
 import Login from "@/components/LoginPage";
 import { SessionProvider } from "next-auth/react";
 import { useState } from "react";
@@ -69,17 +74,17 @@ const Home = () => {
             </nav>
           </header>
 
-          <main className="container flex w-full  mx-auto px-4 py-20 min-h-[60vh] relative">
-            <div className="relative max-w-4xl  mx-auto text-start">
+          <main className="container lg:flex w-full lg:flex-row  mx-auto px-4 py-20 min-h-[60vh] relative">
+            <div className="relative max-w-4xl   mx-auto text-start">
               {/* Decorative elements */}
-              <div className="absolute left-0 top-1/2 w-48 h-px bg-gray-200 -translate-x-full">
+              {/* <div className="absolute left-0 top-1/2 w-48 h-px bg-gray-200 -translate-x-full">
                 <div className="absolute -right-1 -top-1 w-2 h-2 rounded-full border border-gray-200" />
                 <div className="absolute -right-3 -bottom-1 w-2 h-2 rounded-full border border-gray-200" />
               </div>
               <div className="absolute right-0 top-1/2 w-48 h-px bg-gray-200 translate-x-full">
                 <div className="absolute -left-1 -top-1 w-2 h-2 rounded-full border border-gray-200" />
                 <div className="absolute -left-3 -bottom-1 w-2 h-2 rounded-full border border-gray-200" />
-              </div>
+              </div> */}
 
               {/* <Badge
                 variant="secondary"
@@ -103,7 +108,7 @@ const Home = () => {
                 From anywhere and with any device.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4  self-start  relative">
+              <div className="flex flex-col lg:flex-row gap-4  self-start  relative">
                 <Button
                   onClick={() => {
                     setGetStarted(true);
@@ -161,7 +166,7 @@ const Home = () => {
 
           {/* Payment Functionality Div */}
 
-          <div className="flex justify-center  items-center min-h-[80vh] w-full">
+          <div className="flex justify-center gap-64 items-center min-h-[80vh] w-full">
             <div>
               <Image
                 src={"/images/payment.jpg"}
@@ -220,8 +225,64 @@ const Home = () => {
               alt="search-image"
             />
           </div>
-          <footer className="flex justify-center button-grad items-center">
-            <div>footeer</div>
+          <footer className="flex p-6 gap-96  button-grad pb-44 pt-16 ">
+            <div className="flex gap-3 flex-col ">
+              <div>
+                {/* title */}
+                <h1 className="text-3xl font-extrabold">NDMS</h1>
+              </div>
+              {/* logos */}
+
+              <div className="flex gap-3">
+                <FaFacebook size={25} />
+                <FaInstagram size={25} />
+                <FaLinkedin size={25} />
+                <FaTwitter size={25} />
+                <FaYoutube size={25} />
+              </div>
+            </div>
+            {/* company */}
+            <div className="flex  gap-44">
+              <div className="flex gap-4  flex-col">
+                <h1 className="text-2xl font-bold ">Company</h1>
+                <Link href={"#"} className="text-gray-300 hover:text-white">
+                  Business
+                </Link>
+                <Link href={"#"} className="text-gray-300 hover:text-white">
+                  Partnership
+                </Link>
+                <Link href={"#"} className="text-gray-300 hover:text-white">
+                  Network
+                </Link>
+              </div>
+
+              {/* about us */}
+              <div className="flex gap-4 flex-col">
+                <h1 className="text-2xl font-bold ">About us</h1>
+                <Link href={"#"} className="text-gray-300 hover:text-white">
+                  Blogs
+                </Link>
+                <Link href={"#"} className="text-gray-300 hover:text-white">
+                  Channels
+                </Link>
+                <Link href={"#"} className="text-gray-300 hover:text-white">
+                  Sponsers
+                </Link>
+              </div>
+              {/* contact */}
+              <div className="flex gap-4 flex-col">
+                <h1 className="text-2xl font-bold ">Contact</h1>
+                <Link href={"#"} className="text-gray-300 hover:text-white">
+                  Contact us
+                </Link>
+                <Link href={"#"} className="text-gray-300 hover:text-white">
+                  Terms & Conditions
+                </Link>
+                <Link href={"#"} className="text-gray-300 hover:text-white">
+                  Privacy Policy
+                </Link>
+              </div>
+            </div>
           </footer>
         </div>
       ) : (

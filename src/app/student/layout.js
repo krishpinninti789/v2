@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { Suspense } from "react";
-import { SessionProvider } from "next-auth/react";
 
 export default function StudentDashboardLayout({ children }) {
   return (
@@ -24,9 +23,7 @@ export default function StudentDashboardLayout({ children }) {
           </Button>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          <Suspense fallback={<Spinner />}>
-            <SessionProvider>{children}</SessionProvider>
-          </Suspense>
+          <Suspense fallback={<Spinner />}>{children}</Suspense>
         </div>
       </SidebarInset>
     </SidebarProvider>
