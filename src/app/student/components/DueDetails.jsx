@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const DueDetails = (data) => {
+  const router = useRouter();
   // console.log("dues:", data);
   // const studentDues = dues;
   // const [studentDues, setStudentDues] = useState(dues.dues);
@@ -64,12 +65,24 @@ const DueDetails = (data) => {
                       </div>
                     </td>
                     <td>{new Date(due.due_date).toLocaleDateString()}</td>
+                    <td>
+                      <Button
+                        className="p-3 button-grad rounded-xl"
+                        disabled={due.status == "paid"}
+                        onClick={() => {
+                          router.push(
+                            `/student/pay-due?roll=${data.data.roll}&id=${due._id}`
+                          );
+                        }}
+                      >
+                        Pay Now
+                      </Button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          {/* ))} */}
         </div>
       ) : (
         <p>No Dues...</p>

@@ -10,8 +10,6 @@ const StudentViewDuePage = () => {
   const [data, setData] = useState();
   const [roll, setRoll] = useState();
 
-  // console.log("session:", session);
-
   useEffect(() => {
     if (session?.user) {
       // console.log("uesrin", session.user);
@@ -19,9 +17,6 @@ const StudentViewDuePage = () => {
     }
   }, [session]);
 
-  // useEffect(() => console.log("chenaged roll:", roll), [roll]);
-  // const roll =
-  // console.log("roll", roll);
   useEffect(() => {
     const fetchData = async () => {
       // console.log("calling the route");
@@ -29,8 +24,7 @@ const StudentViewDuePage = () => {
         method: "GET",
       });
       const res = await response.json();
-      // console.log("response:", res);
-      // console.log("check:", res.data.dues);
+
       if (res?.data) setData(res.data);
     };
     if (roll !== undefined) fetchData();

@@ -8,8 +8,8 @@ export async function POST(req) {
   await connectToDB();
 
   try {
-    const { roll, due_id, newPayment } = await req.json();
-    // console.log(roll, due_id, newPayment);
+    const { roll, due_id, newPayment, payment_Id } = await req.json();
+    console.log(roll, due_id, newPayment);
 
     const studentDues = await Dues.findOneAndUpdate(
       { roll: roll, "dues._id": due_id },
@@ -33,20 +33,20 @@ export async function POST(req) {
 
     await studentDues.save();
 
-    const generatePaymentId = () => {
-      const characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      let randomString = "";
-      for (let i = 0; i < 14; i++) {
-        randomString += characters.charAt(
-          Math.floor(Math.random() * characters.length)
-        );
-      }
-      return `pay_${randomString}`;
-    };
+    // const generatePaymentId = () => {
+    //   const characters =
+    //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    //   let randomString = "";
+    //   for (let i = 0; i < 14; i++) {
+    //     randomString += characters.charAt(
+    //       Math.floor(Math.random() * characters.length)
+    //     );
+    //   }
+    //   return `pay_${randomString}`;
+    // };
 
-    const paymentId = generatePaymentId();
-    const payment_mode = "cash";
+    const paymentId = payment_Id;
+    const payment_mode = "online";
     const due_name = updatedDue.duetype;
 
     const paymentData = new Payment({

@@ -70,7 +70,7 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-white relative overflow-hidden">
-      <div>
+      <div className="lg:block hidden sm:hidden">
         <Image src={LoginImage} alt="" width={700} height={700} />
       </div>
       {/* Decorative Circle */}

@@ -10,7 +10,7 @@ const jwt_secret = process.env.JWT_SECRET;
 const authOptions = {
   session: {
     strategy: "jwt",
-    maxAge: 10 * 60, // 10 minutes session expiration
+    maxAge: 30 * 60, // 30 minutes session expiration
   },
   pages: {
     signIn: "/",
