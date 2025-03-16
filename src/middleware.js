@@ -14,7 +14,7 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
   if (token && authRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/admin/add-students", req.url));
+    return NextResponse.redirect(new URL("/student/view-dues", req.url));
   }
 
   if (

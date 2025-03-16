@@ -2,9 +2,11 @@
 import { useState } from "react";
 import Script from "next/script";
 import { toast, Toaster } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function PaymentInitPage({ due_id, studentInfo, amount }) {
   const [isProcessing, setIsProcessing] = useState(false);
+  const router = useRouter();
 
   const handlePayment = async () => {
     if (!amount || isNaN(amount) || amount <= 0) {
@@ -24,7 +26,7 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
       });
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (!data.orderId) {
         throw new Error("Order ID is missing from API response");
       }
@@ -49,6 +51,12 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
           }
 
           toast.success(`Payment successful! Payment ID: ${paymentId}`);
+
+          if (paymentId) {
+            setTimeout(() => {
+              router.push("/student/view-dues");
+            }, 2000);
+          }
 
           // Send payment success details to the backend
           await fetch("/api/payment-success", {

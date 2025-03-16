@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import DueDetails from "../components/DueDetails";
 import { useSession } from "next-auth/react";
-import axios from "axios";
 
 const StudentViewDuePage = () => {
   const { data: session, status } = useSession();

@@ -25,16 +25,16 @@ import Image from "next/image";
 // Updated navigation data
 const navItems = [
   {
-    title: "My Dues",
+    title: "Dues",
 
     url: "/student/view-dues",
   },
   {
-    title: "Users",
+    title: "Payments",
     url: "/student/view-payments",
   },
   {
-    title: "My profile",
+    title: "Profile",
     url: "/student/profile",
   },
 ];
