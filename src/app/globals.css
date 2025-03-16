@@ -89,3 +89,8 @@
 .text-grad {
   @apply bg-gradient-to-r from-vstrong to-vprimary bg-clip-text text-transparent;
 }
+
+/* globals.css */
+body {
+  font-family: var(--font-poppins), sans-serif;
+}

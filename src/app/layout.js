@@ -3,11 +3,17 @@ import "./globals.css";
 import { Suspense } from "react";
 import Spinner from "@/components/Spinner";
 import Session from "@/components/Session";
+import { Poppins } from "next/font/google";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
 // });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // Add the required font weights
+  variable: "--font-poppins", // Optional: Define a CSS variable
+});
 
 // const geistMono = Geist_Mono({
 //   variable: "--font-geist-mono",
@@ -28,7 +34,7 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        className="antialiased"
+        className={`${poppins.variable} antialiased `}
       >
         <Suspense fallback={<Spinner />}>
           <Session>{children}</Session>

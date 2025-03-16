@@ -89,14 +89,14 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen flex-col bg-gray-100">
+    <div className="flex justify-center items-center  flex-col ">
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
         strategy="lazyOnload"
       />
 
       <div className="p-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-4">Payment Page</h1>
+        <h1 className="text-2xl font-bold mb-4">Opening Payment Gateway</h1>
         <p className="mb-4">Amount to pay: {amount} INR</p>
         <button
           onClick={handlePayment}

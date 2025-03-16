@@ -10,80 +10,123 @@ const PaymentPage = () => {
   const roll = params.get("roll");
   const due_id = params.get("id");
 
+  const [due, setDue] = useState(null);
   const [dueinfo, setDueInfo] = useState(null);
   const [newPayment, setNewPayment] = useState("");
   const [studentInfo, setStudentInfo] = useState(null);
   const [pay, setPay] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!roll || !due_id) return;
 
-    const getStudent = async () => {
+    const getStudentAndDues = async () => {
       try {
+        setLoading(true);
         const response1 = await fetch(`/api/view/view-students?roll=${roll}`);
         const res1 = await response1.json();
         setStudentInfo(res1.data);
 
-        const response2 = await fetch(`/api/view/view-dues?roll=${roll}`);
-        const res2 = await response2.json();
-        setDueInfo(res2.data.dues);
+        const response = await fetch(`/api/view/view-dues?roll=${roll}`);
+        const res = await response.json();
+        setDueInfo(res.data.dues);
+        // setStudentInfo(res.data.student);
+        const foundDue = res.data.dues.find((d) => d._id === due_id);
+        setDue(foundDue);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error("Error fetching data. Please try again.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    getStudent();
+    getStudentAndDues();
   }, [roll, due_id]);
 
-  const due = dueinfo?.find((due) => due._id === due_id);
-
-  // Fixed: Delay state update to avoid React rendering issues
   const handlePayment = () => {
-    if (newPayment > 0) {
-      setTimeout(() => setPay(true), 0); //  Ensures React updates state after render cycle
-    } else {
+    if (!newPayment || newPayment <= 0 || newPayment > due.amount_pending) {
       toast.error("Enter a valid payment amount.");
+      return;
     }
+    setPay(true);
   };
 
+  const closePaymentModal = () => {
+    setPay(false);
+  };
+
+  if (loading) {
+    return (
+      <p className="text-center text-gray-500">Loading payment details...</p>
+    );
+  }
+
   return (
-    <div>
+    <div className={`relative ${pay ? "overflow-hidden h-screen" : ""}`}>
       <Toaster position="top-center" richColors />
-      {due ? (
-        <div>
-          <h2>Edit Due for {due.duetype}</h2>
-          <p>Total Due: {due.amount}</p>
-          <p>Amount Paid: {due.amount_paid}</p>
-          <p>Pending Due: {due.amount_pending}</p>
+      <div
+        className={`max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg transition-all duration-300 ${
+          pay ? "blur-md" : ""
+        }`}
+      >
+        {due ? (
+          <>
+            <h2 className="text-xl font-semibold mb-2 text-center">
+              Payment for {due.duetype}
+            </h2>
+            <p className="text-gray-600 mb-2">Total Due: ₹{due.amount}</p>
+            <p className="text-gray-600">Amount Paid: ₹{due.amount_paid}</p>
+            <p className="text-red-500 font-bold mb-4">
+              Pending Due: ₹{due.amount_pending}
+            </p>
 
-          <label>New Payment:</label>
-          <input
-            className="rounded-xl p-3"
-            type="number"
-            value={newPayment}
-            onChange={(e) => {
-              const value = e.target.value ? Number(e.target.value) : "";
-              setNewPayment(value);
-            }}
-          />
+            <label className="block text-gray-700 font-medium mb-1">
+              Enter Payment Amount:
+            </label>
+            <input
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              type="number"
+              value={newPayment}
+              onChange={(e) => setNewPayment(Number(e.target.value))}
+              placeholder="Enter amount"
+              min="1"
+              max={due.amount_pending}
+            />
 
-          <button
-            className="bg-vprimary rounded-xl text-white p-2"
-            onClick={handlePayment}
-          >
-            Pay
-          </button>
+            <button
+              className={`w-full mt-4 py-2 rounded-lg text-white font-semibold ${
+                newPayment > 0
+                  ? "button-grad"
+                  : "bg-gray-400 cursor-not-allowed"
+              }`}
+              onClick={handlePayment}
+              disabled={!newPayment || newPayment <= 0}
+            >
+              Pay Now
+            </button>
+          </>
+        ) : (
+          <p className="text-center text-gray-500">No due details found.</p>
+        )}
+      </div>
 
-          {pay && (
+      {/* Payment Modal */}
+      {pay && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-opacity duration-300">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative animate-fadeIn">
+            <button
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+              onClick={closePaymentModal}
+            >
+              ✖
+            </button>
             <PaymentInitPage
               due_id={due_id}
               studentInfo={studentInfo}
               amount={newPayment}
             />
-          )}
+          </div>
         </div>
-      ) : (
-        <p>Loading...</p>
       )}
     </div>
   );
