@@ -38,6 +38,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError(""); // Clear previous errors
 
     const result = await signIn("credentials", {
       redirect: false,
@@ -46,24 +47,25 @@ const LoginPage = () => {
     });
 
     // console.log(result);
+    setLoading(false);
 
-    setUser(result);
-
-    if (result.error) {
-      setError(result.error);
+    if (result?.error) {
+      setError("Invalid email or password");
+    } else {
+      setUser(result);
+      setLoading(true);
     }
   };
 
   useEffect(() => {
     if (session?.user) {
       if (user_role === "super_admin") {
-        router.push("/admin/add-students");
+        router.push("/admin/view-dues");
       } else if (user_role === "student") {
         // router.push(`/student/view-dues?`);
-        window.location.assign("/student/view-dues?");
-        // router.push(`/student/view-dues?`);
+        window.location.assign("/student/view-dues");
       } else {
-        router.push("/demo");
+        router.push("/manager/view-dues");
       }
     }
   }, [session]);
@@ -87,6 +89,8 @@ const LoginPage = () => {
             Enter your credentials to access your account
           </p>
         </div>
+
+        {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <form className="space-y-8" onSubmit={handleSubmit}>
           <div className="space-y-2">

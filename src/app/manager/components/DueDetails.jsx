@@ -2,7 +2,6 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { CldImage } from "next-cloudinary";
 
 const DueDetails = (dues) => {
   const studentDues = dues.dues;
@@ -14,20 +13,8 @@ const DueDetails = (dues) => {
         <div>
           {studentDues.map((item, index) => (
             <div key={index} className="mb-6">
-              <CldImage
-                src={`students/${item.roll}`} // Use this sample image or upload your own via the Media Explorer
-                width="100"
-                alt="prof" // Transform the image: auto-crop to square aspect_ratio
-                height="100"
-                className="rounded-xl"
-                crop={{
-                  type: "auto",
-                  source: true,
-                }}
-              />
               <h3 className="text-lg font-semibold">Roll: {item.roll}</h3>
               <h1 className="text-xl font-bold mb-4">Year: {item.year}</h1>
-
               <table className="w-full border-collapse border border-gray-300">
                 <thead className="bg-blue-600 text-white">
                   <tr>
@@ -70,7 +57,7 @@ const DueDetails = (dues) => {
                           disabled={due.status === "paid"}
                           onClick={() =>
                             router.push(
-                              `/admin/edit-due?roll=${item.roll}&id=${due._id}`
+                              `/manager/edit-due?roll=${item.roll}&id=${due._id}`
                             )
                           }
                         >

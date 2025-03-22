@@ -48,6 +48,7 @@ const authOptions = {
             id: user._id.toString(),
             email: user.email,
             role: user.role,
+            manages: user.manages,
           };
         } catch (error) {
           console.error("Authentication error:", error.message);
@@ -63,6 +64,7 @@ const authOptions = {
         token.id = user.id;
         token.email = user.email;
         token.role = user.role;
+        token.manages = user.manages;
       }
       return token;
     },
@@ -73,8 +75,11 @@ const authOptions = {
           id: token.id,
           email: token.email,
           role: token.role,
+          manages: token.manages,
         };
       }
+      // console.log(session);
+
       return session;
     },
   },

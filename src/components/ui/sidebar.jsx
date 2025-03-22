@@ -165,19 +165,45 @@ const Sidebar = React.forwardRef(
       );
     }
 
+    // if (isMobile) {
+    //   return (
+    //     <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+    //       <SheetContent
+    //         data-sidebar="sidebar"
+    //         data-mobile="true"
+    //         className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
+    //         style={{
+    //           "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+    //         }}
+    //         side={side}
+    //       >
+    //         <div className="flex h-full w-full flex-col">{children}</div>
+    //       </SheetContent>
+    //     </Sheet>
+    //   );
+    // }
+
     if (isMobile) {
       return (
-        <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+        <Sheet open={openMobile} onOpenChange={setOpenMobile}>
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"
-            className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
+            className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden transition-transform duration-300 ease-in-out"
             style={{
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
             }}
-            side={side}
+            side="left" // Ensuring the sidebar opens from the left
           >
-            <div className="flex h-full w-full flex-col">{children}</div>
+            <div className="flex h-full w-full flex-col">
+              {/* Close sidebar on menu click */}
+              {children.map((child, index) =>
+                React.cloneElement(child, {
+                  key: index,
+                  onClick: () => setOpenMobile(false), // Close when clicking any item
+                })
+              )}
+            </div>
           </SheetContent>
         </Sheet>
       );

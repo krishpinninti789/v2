@@ -19,19 +19,19 @@ import { CgProfile } from "react-icons/cg";
 
 const navItems = [
   {
-    title: "Dues",
-    url: "/student/view-dues",
+    title: "View Dues",
+    url: "/manager/view-dues",
     icon: <RiMoneyRupeeCircleLine />,
   },
   {
-    title: "Payments",
-    url: "/student/view-payments",
+    title: "View Payments",
+    url: "/manager/view-payments",
     icon: <MdOutlinePayments />,
   },
-  { title: "Profile", url: "/student/profile", icon: <CgProfile /> },
+  //   { title: "Profile", url: "/student/profile", icon: <CgProfile /> },
 ];
 
-export function StudentSidebar({ ...props }) {
+export function ManagerSidebar({ ...props }) {
   const pathname = usePathname(); // Get current route
 
   return (

@@ -8,6 +8,7 @@ import { FaLinkedin } from "react-icons/fa";
 import Login from "@/components/LoginPage";
 import { SessionProvider } from "next-auth/react";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge, Cloud, Search } from "lucide-react";
 import Image from "next/image";
@@ -49,85 +50,55 @@ const Home = () => {
                   Login
                 </Button>
               </div>
-
-              {/* <div className="hidden md:flex items-center gap-8">
-                <Link href="#" className="text-gray-600 hover:text-gray-900">
-                  Products
-                </Link>
-                <Link href="#" className="text-gray-600 hover:text-gray-900">
-                  Solutions
-                </Link>
-                <Link href="#" className="text-gray-600 hover:text-gray-900">
-                  Developer
-                </Link>
-                <Link href="#" className="text-gray-600 hover:text-gray-900">
-                  Partner
-                </Link>
-                <Link href="#" className="text-gray-600 hover:text-gray-900">
-                  Pricing
-                </Link>
-              </div>
-
-              <Button className="text-vprimary hover:bg-vprimary">
-                <Link href={"./login"}>Login</Link>
-              </Button> */}
             </nav>
           </header>
 
           <main className="container lg:flex w-full lg:flex-row  mx-auto px-4 py-20 min-h-[60vh] relative">
             <div className="relative max-w-4xl   mx-auto text-start">
-              {/* Decorative elements */}
-              {/* <div className="absolute left-0 top-1/2 w-48 h-px bg-gray-200 -translate-x-full">
-                <div className="absolute -right-1 -top-1 w-2 h-2 rounded-full border border-gray-200" />
-                <div className="absolute -right-3 -bottom-1 w-2 h-2 rounded-full border border-gray-200" />
-              </div>
-              <div className="absolute right-0 top-1/2 w-48 h-px bg-gray-200 translate-x-full">
-                <div className="absolute -left-1 -top-1 w-2 h-2 rounded-full border border-gray-200" />
-                <div className="absolute -left-3 -bottom-1 w-2 h-2 rounded-full border border-gray-200" />
-              </div> */}
-
-              {/* <Badge
-                variant="secondary"
-                className="mb-8 text-vprimary bg-purple-50 hover:bg-purple-50"
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="max-w-2xl text-center lg:text-left"
               >
-                Introduce Cloud Platforms
-              </Badge> */}
+                <h1 className="text-5xl mt-32 md:text-6xl font-bold tracking-normal mb-4">
+                  No
+                  <span className="text-grad">Due </span>
+                  <br />
+                  Management System
+                </h1>
 
-              <h1 className="text-5xl mt-32 md:text-6xl font-bold tracking-normal mb-4">
-                No
-                {/* No <br /> */}
-                <span className="text-grad">Due </span>
-                <br />
-                Management System
-              </h1>
+                <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
+                  It is a platform where you can manage your dues and payments
+                  easily.
+                  <br />
+                  From anywhere and with any device.
+                </p>
 
-              <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
-                It is a platform where you can manage your dues and payments
-                easily.
-                <br />
-                From anywhere and with any device.
-              </p>
-
-              <div className="flex flex-col lg:flex-row gap-4  self-start  relative">
-                <Button
-                  onClick={() => {
-                    setGetStarted(true);
-                  }}
-                  size="lg"
-                  className="text-white bg-gradient-to-r from-vstrong to-vprimary rounded-xl "
-                >
-                  Get Started
-                </Button>
-                <Button size="lg" variant="outline">
-                  Learn More
-                </Button>
-              </div>
-              {/* <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none">
-                <div className="absolute inset-0 translate-y-1/2 rounded-full text-vprimary/30 blur-3xl" />
-              </div> */}
+                <div className="flex flex-col lg:flex-row gap-4  self-start  relative">
+                  <Button
+                    onClick={() => {
+                      setGetStarted(true);
+                    }}
+                    size="lg"
+                    className="text-white bg-gradient-to-r from-vstrong to-vprimary rounded-xl "
+                  >
+                    Get Started
+                  </Button>
+                  <Button size="lg" variant="outline">
+                    Learn More
+                  </Button>
+                </div>
+              </motion.div>
             </div>
             <div>
-              <Image src={landingImage} alt="" width={800} height={900} />
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <Image src={landingImage} alt="" width={800} height={900} />
+              </motion.div>
             </div>
           </main>
 
@@ -135,24 +106,31 @@ const Home = () => {
 
           <div className="flex justify-center items-center min-h-[80vh] w-full">
             <div className="flex flex-col gap-3 w-1/2">
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4">
-                Easy <br />
-                <span className="text-grad">Search</span> Functionality
-              </h1>
-              <p className="text-xl text-gray-500">
-                Find what you need instantly with our powerful search system.
-                <br />. Search the data effectively.
-                <br /> . Get the data fastly.
-                <br /> . Implented to easy access.
-              </p>
-              <div className="flex items-center gap-2 w-[25rem] bg-gray-300 border-gray-300 border rounded-full p-2">
-                <Search className="text-vprimary" />
-                <input
-                  type="text"
-                  className="rounded-full p-2 search-input w-[25rem] outline-none "
-                  placeholder="Enter details......."
-                />
-              </div>
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="max-w-2xl text-center lg:text-left"
+              >
+                <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+                  Easy <br />
+                  <span className="text-grad">Search</span> Functionality
+                </h1>
+                <p className="text-xl text-gray-500">
+                  Find what you need instantly with our powerful search system.
+                  <br />. Search the data effectively.
+                  <br /> . Get the data fastly.
+                  <br /> . Implented to easy access.
+                </p>
+                <div className="flex items-center gap-2 w-[25rem] bg-gray-300 border-gray-300 border rounded-full p-2">
+                  <Search className="text-vprimary" />
+                  <input
+                    type="text"
+                    className="rounded-full p-2 search-input w-[25rem] outline-none "
+                    placeholder="Enter details......."
+                  />
+                </div>
+              </motion.div>
             </div>
             <div>
               <Image

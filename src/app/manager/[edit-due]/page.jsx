@@ -38,7 +38,7 @@ export default function EditDue() {
     if (result.ok) {
       toast.success("Payment Updated Successfully");
       setTimeout(() => {
-        router.push("/admin/view-dues");
+        router.push("/manager/view-dues");
       }, 2000);
     }
   };

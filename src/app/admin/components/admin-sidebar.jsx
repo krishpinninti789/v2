@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import logo from "../../../../public/images/android-chrome-512x512.png";
 
@@ -22,7 +23,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-// Updated navigation data
+// Navigation Data
 const navItems = [
   {
     title: "Student",
@@ -55,39 +56,76 @@ const navItems = [
 ];
 
 export function AdminSidebar({ ...props }) {
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
+
+  const handleMenuClick = (menuTitle) => {
+    setActiveMenu(activeMenu === menuTitle ? null : menuTitle);
+  };
+
+  const handleSubmenuClick = (submenuTitle) => {
+    setActiveSubmenu(submenuTitle);
+  };
+
   return (
     <Sidebar {...props}>
+      {/* Sidebar Header */}
       <SidebarHeader>
-        <div className="flex">
+        <div className="flex items-center p-4 gap-2">
           <Image src={logo} alt="image" width={50} height={40} />
-
-          <h1 className="text-2xl font-bold px-4 py-2 text-grad">NDMS</h1>
+          <h1 className="text-2xl font-bold text-grad">NDMS</h1>
         </div>
       </SidebarHeader>
-      <SidebarContent className="gap-0">
+
+      {/* Sidebar Content */}
+      <SidebarContent className="gap-2 p-2">
         {navItems.map((item) => (
           <Collapsible
             key={item.title}
-            // defaultOpen
+            open={activeMenu === item.title}
             className="group/collapsible"
           >
             <SidebarGroup>
+              {/* Sidebar Menu Label */}
               <SidebarGroupLabel
                 asChild
-                className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                className={`group/label p-2 rounded-lg cursor-pointer flex items-center
+                ${
+                  activeMenu === item.title
+                    ? "bg-blue-500 text-white"
+                    : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                }`}
+                onClick={() => handleMenuClick(item.title)}
               >
-                <CollapsibleTrigger>
-                  {item.title}{" "}
-                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                <CollapsibleTrigger className="w-full flex items-center">
+                  {item.title}
+                  <ChevronRight
+                    className={`ml-auto transition-transform ${
+                      activeMenu === item.title ? "rotate-90" : ""
+                    }`}
+                  />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
+
+              {/* Sidebar Submenu */}
               <CollapsibleContent>
-                <SidebarGroupContent>
-                  <SidebarMenu>
+                <SidebarGroupContent className="pl-4">
+                  <SidebarMenu className="flex flex-col gap-2">
                     {item.items.map((subItem) => (
-                      <SidebarMenuItem key={subItem.title}>
+                      <SidebarMenuItem key={subItem.title} className="">
                         <SidebarMenuButton asChild>
-                          <Link href={subItem.url}>{subItem.title}</Link>
+                          <Link
+                            href={subItem.url}
+                            className={`block p-2 mt-2 rounded-lg text-sm font-medium 
+                            ${
+                              activeSubmenu === subItem.title
+                                ? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
+                                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            }`}
+                            onClick={() => handleSubmenuClick(subItem.title)}
+                          >
+                            {subItem.title}
+                          </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}

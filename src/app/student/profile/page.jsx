@@ -4,6 +4,7 @@ import ProfileLogo from "../../../../public/images/student.jpg";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { CldImage } from "next-cloudinary";
 
 const StudentProfilePage = () => {
   const { data: session, status } = useSession();
@@ -37,8 +38,19 @@ const StudentProfilePage = () => {
           <h1 className="font-bold text-xl ">My Profile</h1>
           {/* Photo div */}
           <div className="border rounded-xl border-gray-200 flex space-6 gap-5 p-3 border-1">
-            <div className="rounded-full w-[50px]">
-              <Image src={ProfileLogo} alt="logo" width={500} height={500} />
+            <div className="rounded-full ">
+              <CldImage
+                src={`students/${roll}`} // Use this sample image or upload your own via the Media Explorer
+                width="100"
+                alt="prof" // Transform the image: auto-crop to square aspect_ratio
+                height="100"
+                className="rounded-xl"
+                // crop={{
+                //   type: "auto",
+                //   source: true,
+                // }}
+              />
+              {/* <Image src={ProfileLogo} alt="logo" width={500} height={500} /> */}
             </div>
             <div>
               <h1>{data.roll}</h1>

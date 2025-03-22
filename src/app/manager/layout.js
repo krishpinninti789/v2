@@ -1,6 +1,6 @@
 "use client";
 import Spinner from "@/components/Spinner";
-import { StudentSidebar } from "./components/StudentSidebar";
+import { ManagerSidebar } from "./components/ManagerSidebar";
 import { Button } from "@/components/ui/button";
 import {
   SidebarInset,
@@ -34,12 +34,12 @@ const extractInitials = (email) => {
 export default function StudentDashboardLayout({ children }) {
   const { data: session } = useSession();
   const userEmail = session?.user?.email || "";
-  const roll = userEmail.split("@")[0];
+  //   const roll = userEmail.split("@")[0];
   const initials = extractInitials(userEmail);
 
   return (
     <SidebarProvider>
-      <StudentSidebar />
+      <ManagerSidebar />
       <SidebarInset>
         <header className="flex sticky top-0 bg-background h-16 shrink-0 justify-between items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
@@ -51,7 +51,7 @@ export default function StudentDashboardLayout({ children }) {
 
           {/* User Profile Dropdown */}
           <div className="flex items-center gap-3">
-            <h1>Hey Welcome,{roll}</h1>
+            <h1>Hey, Welcome</h1>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -65,13 +65,6 @@ export default function StudentDashboardLayout({ children }) {
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-40  ">
-                <DropdownMenuItem
-                  onClick={() => {
-                    window.location.assign("/student/profile");
-                  }}
-                >
-                  Info
-                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => {
                     window.location.assign("/signout");
