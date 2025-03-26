@@ -5,11 +5,13 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { CldImage } from "next-cloudinary";
+import { getCldImageUrl } from "next-cloudinary";
 
 const StudentProfilePage = () => {
   const { data: session, status } = useSession();
   const [data, setData] = useState();
   const [roll, setRoll] = useState();
+  const [url, setUrl] = useState();
   // console.log(session?.user);
   // console.log(data);
 
@@ -18,6 +20,12 @@ const StudentProfilePage = () => {
       setRoll(session.user.email.split("@")[0]);
     }
   }, [session]);
+  const urlPath = getCldImageUrl({
+    width: 960,
+    height: 600,
+    src: `students/${roll}`,
+  });
+  setUrl(urlPath);
 
   useEffect(() => {
     const getStudent = async () => {
@@ -37,18 +45,16 @@ const StudentProfilePage = () => {
         <div className="flex flex-col gap-4">
           <h1 className="font-bold text-xl ">My Profile</h1>
           {/* Photo div */}
-          <div className="border rounded-xl border-gray-200 flex space-6 gap-5 p-3 border-1">
-            <div className="rounded-full ">
+          <div className=" flex flex-col items-center space-6 gap-5 p-3 border-1">
+            <div className="">
               <CldImage
-                src={`students/${roll}`} // Use this sample image or upload your own via the Media Explorer
-                width="100"
+                src={url}
+                // Use this sample image or upload your own via the Media Explorer
+                width="200"
                 alt="prof" // Transform the image: auto-crop to square aspect_ratio
-                height="100"
-                className="rounded-xl"
-                // crop={{
-                //   type: "auto",
-                //   source: true,
-                // }}
+                height="200"
+                className="rounded-full text-center border shadow-xl  w-48 h-48"
+                onError={() => setUrl("students/profile-fallback")}
               />
               {/* <Image src={ProfileLogo} alt="logo" width={500} height={500} /> */}
             </div>

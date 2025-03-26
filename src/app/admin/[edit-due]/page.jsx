@@ -25,9 +25,15 @@ export default function EditDue() {
   }, [roll]);
 
   const due = dueinfo?.dues.find((due) => due._id === due_id);
+  // console.log(due);
 
   const handlePayment = async () => {
     setDialogOpen(false);
+
+    if (newPayment <= 0 || newPayment > due.amount_pending) {
+      toast.error("Invalid Payment Amount");
+      return;
+    }
 
     const result = await fetch("/api/update-dues", {
       method: "POST",
@@ -35,11 +41,26 @@ export default function EditDue() {
       body: JSON.stringify({ roll, due_id, newPayment }),
     });
 
+    const pay_data = await result.json();
+
+    const { amount, amount_pending, due_date } = { ...due };
+
+    const new_amount_pending = amount_pending - pay_data.data.amountPaid;
+
+    const invoice_data = {
+      ...pay_data.data,
+      amount,
+      new_amount_pending,
+      due_date,
+    };
+    // console.log(invoice_data);
+
     if (result.ok) {
       toast.success("Payment Updated Successfully");
       setTimeout(() => {
-        router.push("/admin/view-dues");
-      }, 2000);
+        localStorage.setItem("inv_data", JSON.stringify({ invoice_data }));
+        router.push("/admin/invoice");
+      }, 500);
     }
   };
 

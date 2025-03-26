@@ -42,7 +42,7 @@ const StudentViewPaymentPage = () => {
 
   return (
     <div className="p-4 rounded-xl">
-      <h2 className="text-xl font-bold mb-4">Payment Details</h2>
+      <h2 className="text-xl font-bold mb-4">Payment History</h2>
       {data && data.length !== 0 ? (
         <table className="table-auto w-full border-collapse border border-gray-400 shadow-xl ">
           <thead className="bg-blue-600 text-white">

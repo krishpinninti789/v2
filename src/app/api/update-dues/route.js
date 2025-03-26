@@ -63,6 +63,7 @@ export async function POST(req) {
     return NextResponse.json({
       message: "Due Updated successfully",
       success: true,
+      data: paymentData,
     });
   } catch (err) {
     console.error("Error updating due:", err);

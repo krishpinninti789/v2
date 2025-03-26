@@ -2,18 +2,12 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import formatDate from "@/lib/calc/formatDate";
 
 const DueDetails = ({ data }) => {
   const router = useRouter();
 
   // Function to format the due date (DD-MM-YYYY)
-  const formatDate = (dateString) => {
-    const dateObj = new Date(dateString);
-    const day = String(dateObj.getDate()).padStart(2, "0");
-    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const year = dateObj.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
 
   return (
     <div className="p-4">

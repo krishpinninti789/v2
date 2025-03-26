@@ -1,12 +1,22 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { CldImage } from "next-cloudinary";
+import Image from "next/image";
+import { useState } from "react";
+import prof from "../../../../public/images/profile1.jpg";
+import { getCldImageUrl } from "next-cloudinary";
 
 const DueDetails = (dues) => {
   const studentDues = dues.dues;
   const router = useRouter();
+
+  const url = getCldImageUrl({
+    width: 960,
+    height: 600,
+    src: `students/${studentDues[0]?.roll}`,
+  });
 
   return (
     <div>
@@ -14,21 +24,20 @@ const DueDetails = (dues) => {
         <div>
           {studentDues.map((item, index) => (
             <div key={index} className="mb-6">
-              <CldImage
-                src={`students/${item.roll}`} // Use this sample image or upload your own via the Media Explorer
-                width="100"
-                alt="prof" // Transform the image: auto-crop to square aspect_ratio
-                height="100"
-                className="rounded-xl"
-                crop={{
-                  type: "auto",
-                  source: true,
-                }}
-              />
-              <h3 className="text-lg font-semibold">Roll: {item.roll}</h3>
-              <h1 className="text-xl font-bold mb-4">Year: {item.year}</h1>
+              <div className="flex items-center flex-col">
+                <Image
+                  src={url}
+                  alt="profile"
+                  width="100"
+                  height="100"
+                  className="rounded-full border border-gray-200 text-center w-44 h-44"
+                />
 
-              <table className="w-full border-collapse border border-gray-300">
+                <h3 className="text-lg font-semibold">Roll: {item.roll}</h3>
+                <h1 className="text-xl font-bold mb-4">Year: {item.year}</h1>
+              </div>
+
+              <table className="w-full border-collapse border border-gray-300 shadow-xl">
                 <thead className="bg-blue-600 text-white">
                   <tr>
                     <th className="px-4 py-2 border">Type</th>

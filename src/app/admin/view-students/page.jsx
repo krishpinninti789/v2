@@ -1,16 +1,21 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import StudentDetails from "../components/StudentDetails";
 import { useEffect } from "react";
+import Spinner from "@/components/Spinner";
 
 const ViewStudents = () => {
   const [roll, setRoll] = useState(null);
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // console.log(user);
 
   const getStudentInfo = async (roll) => {
     // console.log(roll);
+    setLoading(true);
 
     const response = await fetch(`/api/view/view-students?roll=${roll}`, {
       method: "GET",
@@ -18,9 +23,14 @@ const ViewStudents = () => {
 
     const res = await response.json();
     // console.log(res);
+    if (res.success == false) {
+      setLoading(false);
+      setUser([]);
+    }
     setTimeout(() => {
       if (res?.data) {
         setUser([res.data]);
+        setLoading(false);
       }
     }, 2000);
   };
@@ -47,7 +57,7 @@ const ViewStudents = () => {
           search
         </button>
       </div>
-      <StudentDetails user={user} />
+      {loading ? <Spinner /> : <StudentDetails user={user} />}
     </div>
   );
 };
