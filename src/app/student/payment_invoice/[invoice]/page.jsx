@@ -1,68 +1,34 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
-import jsPDF from "jspdf";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { useRef } from "react";
+import Spinner from "@/components/Spinner";
 import formatDate from "@/lib/calc/formatDate";
 import formatTime from "@/lib/calc/formatTime";
-import Spinner from "@/components/Spinner";
 
-const InvoicePage = () => {
-  const [data, setData] = useState(null);
-  const [stud, setStud] = useState(null);
+const PaymentInvoicePage = () => {
+  const [invoice_data, setInvoiceData] = useState(null);
+  const searchParams = useSearchParams();
+  const payid = searchParams.get("payid");
   const [loading, setLoading] = useState(true);
   const invoiceRef = useRef(null);
+  //   console.log(payid);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const storedData = localStorage.getItem("inv_data");
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        setData(parsedData);
-
-        try {
-          const res = await fetch(
-            `/api/view/view-students?roll=${parsedData?.invoice_data?.roll}`
-          );
-          const result = await res.json();
-          setStud(result.data);
-        } catch (error) {
-          // console.error("Error fetching student data:", error);
-        }
-      }
+    const fetchInvoiceData = async () => {
+      const result = await fetch(`/api/get-invoice?payid=${payid}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      const res = await result.json();
+      // console.log(res);
+      setInvoiceData(res?.data);
       setLoading(false);
     };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (!data || !stud) return;
-
-    const postInvoice = async () => {
-      try {
-        const invoice_data = {
-          ...data.invoice_data,
-          year: stud.year,
-          branch: stud.branch,
-          mobile_no: stud.mobile_no,
-          email: stud.email,
-        };
-
-        const response = await fetch("/api/invoice", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(invoice_data),
-        });
-
-        const res = await response.json();
-        // console.log(res.message);
-      } catch (error) {
-        // console.error("Error posting invoice:", error);
-      }
-    };
-
-    postInvoice();
-  }, [data, stud]);
+    fetchInvoiceData();
+  }, [payid]);
 
   const handleDownloadPDF = async () => {
     if (!invoiceRef.current) return;
@@ -75,7 +41,7 @@ const InvoicePage = () => {
     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save(`${data?.invoice_data?.roll}_invoice.pdf`);
+    pdf.save(`${invoice_data?.roll}_invoice.pdf`);
   };
 
   if (loading) return <Spinner />;
@@ -92,25 +58,25 @@ const InvoicePage = () => {
               Payment Invoice
             </h1>
             <p className="text-gray-600">
-              Payment ID: {data?.invoice_data?.paymentId}
+              Payment ID: {invoice_data?.paymentId}
             </p>
             <p className="text-gray-600">
-              Date: {formatDate(data?.invoice_data?.createdAt)}
+              Date: {formatDate(invoice_data?.createdAt)}
             </p>
             <p className="text-gray-600">
-              Time: {formatTime(data?.invoice_data?.createdAt)}
+              Time: {formatTime(invoice_data?.createdAt)}
             </p>
           </div>
         </div>
         <hr className="my-4" />
 
         <h2 className="text-lg font-semibold">Student Details</h2>
-        <p>Roll Number: {data?.invoice_data?.roll?.toUpperCase()}</p>
-        <p>Due Name: {data?.invoice_data?.due_name}</p>
-        <p>Year: {stud?.year}</p>
-        <p>Branch: {stud?.branch}</p>
-        <p>Mobile No: {stud?.mobile_no}</p>
-        <p>Email: {stud?.email}</p>
+        <p>Roll Number: {invoice_data?.roll?.toUpperCase()}</p>
+        <p>Due Name: {invoice_data?.due_name}</p>
+        <p>Year: {invoice_data?.year}</p>
+        <p>Branch: {invoice_data?.branch}</p>
+        <p>Mobile No: {invoice_data?.mobile_no}</p>
+        <p>Email: {invoice_data?.email}</p>
 
         <hr className="my-4" />
         <h1 className="text-lg font-semibold mb-4">Payment Details</h1>
@@ -127,16 +93,16 @@ const InvoicePage = () => {
           <tbody>
             <tr className="border">
               <td className="border p-2 text-right">
-                {data?.invoice_data?.amount?.toFixed(2)}
+                {invoice_data?.amount?.toFixed(2)}
               </td>
               <td className="border p-2 text-right">
-                {data?.invoice_data?.amountPaid?.toFixed(2)}
+                {invoice_data?.amountPaid?.toFixed(2)}
               </td>
               <td className="border p-2 text-right">
-                {data?.invoice_data?.new_amount_pending?.toFixed(2)}
+                {invoice_data?.new_amount_pending?.toFixed(2)}
               </td>
               <td className="border p-2 text-right">
-                {formatDate(data?.invoice_data?.due_date)}
+                {formatDate(invoice_data?.due_date)}
               </td>
             </tr>
           </tbody>
@@ -144,7 +110,7 @@ const InvoicePage = () => {
 
         <hr className="my-4" />
         <p className="text-right text-lg font-bold">
-          Payment Mode: {data?.invoice_data?.payment_mode}
+          Payment Mode: {invoice_data?.payment_mode}
         </p>
       </div>
 
@@ -157,7 +123,7 @@ const InvoicePage = () => {
         </button>
         <button
           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded shadow-xl hover:bg-blue-600"
-          onClick={() => (window.location.href = "/admin/view-dues")}
+          onClick={() => (window.location.href = "/student/view-dues")}
         >
           Go home
         </button>
@@ -166,4 +132,4 @@ const InvoicePage = () => {
   );
 };
 
-export default InvoicePage;
+export default PaymentInvoicePage;

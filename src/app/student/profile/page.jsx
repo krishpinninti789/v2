@@ -15,48 +15,49 @@ const StudentProfilePage = () => {
   // console.log(session?.user);
   // console.log(data);
 
-  useEffect(() => {
-    if (session?.user) {
-      setRoll(session.user.email.split("@")[0]);
-    }
-  }, [session]);
-  const urlPath = getCldImageUrl({
-    width: 960,
-    height: 600,
-    src: `students/${roll}`,
-  });
-  setUrl(urlPath);
+  // useEffect(() => {
+  //   if (session?.user) {
+  //     setRoll(session.user.email.split("@")[0]);
+  //   }
+  // }, [session]);
+  // const urlPath = getCldImageUrl(
+  //   {
+  //     width: 960,
+  //     height: 600,
+  //     src: `students/${roll}`,
+  //   },
+  //   [session?.user]
+  // );
+  // setUrl(urlPath);
 
-  useEffect(() => {
-    const getStudent = async () => {
-      const response = await fetch(`/api/view/view-students?roll=${roll}`, {
-        method: "GET",
-      });
-      const res = await response.json();
-      // console.log(res);
-      if (res?.data) setData(res.data);
-    };
-    if (roll !== undefined) getStudent();
-  }, [roll]);
+  // useEffect(() => {
+  //   const getStudent = async () => {
+  //     const response = await fetch(`/api/view/view-students?roll=${roll}`, {
+  //       method: "GET",
+  //     });
+  //     const res = await response.json();
+  //     // console.log(res);
+  //     if (res?.data) setData(res.data);
+  //   };
+  //   if (roll !== undefined) getStudent();
+  // }, [roll]);
 
   return (
     <>
-      {data && (
+      {data?.user && (
         <div className="flex flex-col gap-4">
           <h1 className="font-bold text-xl ">My Profile</h1>
           {/* Photo div */}
           <div className=" flex flex-col items-center space-6 gap-5 p-3 border-1">
             <div className="">
-              <CldImage
+              {/* <CldImage
                 src={url}
-                // Use this sample image or upload your own via the Media Explorer
                 width="200"
-                alt="prof" // Transform the image: auto-crop to square aspect_ratio
+                alt="prof"
                 height="200"
                 className="rounded-full text-center border shadow-xl  w-48 h-48"
                 onError={() => setUrl("students/profile-fallback")}
-              />
-              {/* <Image src={ProfileLogo} alt="logo" width={500} height={500} /> */}
+              /> */}
             </div>
             <div>
               <h1>{data.roll}</h1>
@@ -102,29 +103,6 @@ const StudentProfilePage = () => {
               </div>
             </div>
           </div>
-
-          {/* Address div */}
-          {/* <div className="flex flex-col border border-1 border-gray-200 rounded-xl space-6 p-5 gap-y-5">
-        <h1 className="font-bold text-xl">Address</h1>
-        <div className="grid grid-cols-2 gap-3 ">
-          <div className="flex flex-col space-2">
-            <h1 className="text-gray-400 font-thin">Country</h1>
-            <h1>UK</h1>
-          </div>
-          <div className="flex flex-col space-2">
-            <h1 className="text-gray-400 font-thin">City/State</h1>
-            <h1>Leeds,East London</h1>
-          </div>
-          <div className="flex flex-col space-2">
-            <h1 className="text-gray-400 font-thin">Postal Code</h1>
-            <h1>ERT 2354</h1>
-          </div>
-          <div className="flex flex-col space-2">
-            <h1 className="text-gray-400 font-thin">TAX ID</h1>
-            <h1>AS464678</h1>
-          </div>
-        </div>
-      </div> */}
         </div>
       )}
     </>

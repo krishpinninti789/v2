@@ -51,7 +51,7 @@ const authOptions = {
             manages: user.manages,
           };
         } catch (error) {
-          console.error("Authentication error:", error.message);
+          // console.error("Authentication error:", error.message);
           throw new Error("Authentication failed");
         }
       },

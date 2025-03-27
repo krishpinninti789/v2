@@ -44,7 +44,7 @@ const ManagerViewPaymentPage = () => {
         setDataManages(filteredPayments);
       }
     } catch (error) {
-      console.error("Error fetching payments:", error);
+      // console.error("Error fetching payments:", error);
     } finally {
       setLoading(false);
     }

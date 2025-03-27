@@ -3,13 +3,11 @@ import { NextResponse } from "next/server";
 import Invoice from "@/app/models/invoices";
 
 export async function POST(req) {
+  await connectToDB();
   try {
-    connectToDB();
-
-    const data = req.json();
-    console.log(data);
-    const invoice = new Invoice(data);
-    const res = await invoice.save();
+    const data = await req.json();
+    // console.log(data);
+    const res = await Invoice.create(data);
     if (res) {
       return NextResponse.json({
         message: "Invoice generated successfully",
@@ -22,9 +20,9 @@ export async function POST(req) {
       });
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return NextResponse.json({
-      message: "Failed to generate invoice",
+      message: "Failed to generate invoice in database",
       success: false,
     });
   }

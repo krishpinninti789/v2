@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Script from "next/script";
 import { toast, Toaster } from "sonner";
 import { useRouter } from "next/navigation";
@@ -7,6 +7,33 @@ import { useRouter } from "next/navigation";
 export default function PaymentInitPage({ due_id, studentInfo, amount }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
+  const [dueinfo, setDueInfo] = useState(null);
+  const [invoice_data, setInvoiceData] = useState(null);
+
+  useEffect(() => {
+    const getDueInfo = async () => {
+      try {
+        const res = await fetch(`/api/view/view-dues?roll=${studentInfo.roll}`);
+        const data = await res.json();
+        setDueInfo(data.data);
+      } catch (error) {
+        // console.error("Error fetching due info:", error);
+        toast.error("Failed to fetch dues");
+      }
+    };
+    if (studentInfo?.roll) {
+      getDueInfo();
+    }
+  }, [studentInfo]);
+
+  const due = dueinfo?.dues?.find((due) => due._id === due_id);
+
+  useEffect(() => {
+    if (invoice_data) {
+      localStorage.setItem("inv_data", JSON.stringify({ invoice_data }));
+      router.push("/student/invoice");
+    }
+  }, [invoice_data, router]);
 
   const handlePayment = async () => {
     if (!amount || isNaN(amount) || amount <= 0) {
@@ -26,48 +53,50 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
       });
 
       const data = await response.json();
-      // console.log(data);
-      if (!data.orderId) {
+      if (!data.orderId)
         throw new Error("Order ID is missing from API response");
-      }
 
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Ensure this is set in .env.local
-        amount: amount * 100, // Convert to paisa
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: amount * 100,
         currency: "INR",
         name: "NDMS",
         description: "Test Transaction",
         order_id: data.orderId,
         handler: async function (response) {
-          console.log("Payment successful:", response);
+          // console.log("Payment successful:", response);
 
-          const paymentId = response.razorpay_payment_id;
-          // const orderId = response.razorpay_order_id;
-          // const signature = response.razorpay_signature;
-
-          if (!paymentId) {
+          if (!response.razorpay_payment_id) {
             toast.error("Payment ID missing");
             return;
           }
 
-          toast.success(`Payment successful! Payment ID: ${paymentId}`);
+          toast.success(
+            `Payment successful! Payment ID: ${response.razorpay_payment_id}`
+          );
 
-          if (paymentId) {
-            setTimeout(() => {
-              router.push("/student/view-dues");
-            }, 2000);
-          }
-
-          // Send payment success details to the backend
-          await fetch("/api/payment-success", {
+          const res = await fetch("/api/payment-success", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               roll: studentInfo.roll,
               due_id: due_id,
               newPayment: amount,
-              payment_Id: paymentId,
+              payment_Id: response.razorpay_payment_id,
             }),
+          });
+
+          const pay_data = await res.json();
+          if (!pay_data.data) {
+            toast.error("Error processing payment details.");
+            return;
+          }
+
+          setInvoiceData({
+            ...pay_data.data,
+            total_amount: due?.amount || 0,
+            new_amount_pending: due?.amount_pending - pay_data.data.amountPaid,
+            due_date: due?.due_date,
           });
         },
         prefill: {
@@ -81,7 +110,7 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
       const rz1 = new window.Razorpay(options);
       rz1.open();
     } catch (error) {
-      console.error("Payment error:", error);
+      // console.error("Payment error:", error);
       toast.error("Payment failed. Try again.");
     } finally {
       setIsProcessing(false);
@@ -89,12 +118,11 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
   };
 
   return (
-    <div className="flex justify-center items-center  flex-col ">
+    <div className="flex justify-center items-center flex-col">
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
         strategy="lazyOnload"
       />
-
       <div className="p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold mb-4">Opening Payment Gateway</h1>
         <p className="mb-4">Amount to pay: {amount} INR</p>
@@ -110,7 +138,6 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
   );
 }
 
-// Add Toaster outside your component
 export function ToasterProvider() {
   return <Toaster position="top-center" richColors />;
 }

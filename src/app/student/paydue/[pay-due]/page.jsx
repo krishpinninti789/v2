@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast, Toaster } from "sonner";
-import PaymentInitPage from "../components/PaymentInit";
-
+import PaymentInitPage from "../../components/PaymentInit";
 const PaymentPage = () => {
   const router = useRouter();
   const params = useSearchParams();

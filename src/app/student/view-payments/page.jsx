@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import formatDateTime from "@/lib/calc/formatDateTime";
+import { Button } from "@/components/ui/button";
 
 const StudentViewPaymentPage = () => {
   const [roll, setRoll] = useState();
@@ -25,20 +27,6 @@ const StudentViewPaymentPage = () => {
   }, [roll]);
 
   // Function to format date and time
-  const formatDateTime = (dateString) => {
-    const dateObj = new Date(dateString);
-    const day = String(dateObj.getDate()).padStart(2, "0");
-    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const year = dateObj.getFullYear();
-
-    // Format time in 12-hour format
-    let hours = dateObj.getHours();
-    const minutes = String(dateObj.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12; // Convert 0 to 12-hour format
-
-    return `${day}-${month}-${year} ${hours}:${minutes} ${ampm}`;
-  };
 
   return (
     <div className="p-4 rounded-xl">
@@ -53,6 +41,7 @@ const StudentViewPaymentPage = () => {
               <th className="border px-4 py-2">Payment Mode</th>
               <th className="border px-4 py-2">Amount</th>
               <th className="border px-4 py-2">Date & Time</th>
+              <th className="border px-4 py-2">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -75,6 +64,16 @@ const StudentViewPaymentPage = () => {
                 <td className="border px-4 py-2">{payment.amountPaid}</td>
                 <td className="border px-4 py-2">
                   {formatDateTime(payment.createdAt)}
+                </td>
+                <td className="border px-4 py-2">
+                  <Button
+                    className="button-grad"
+                    onClick={() => {
+                      window.location.href = `/student/payment_invoice/invoice?payid=${payment.paymentId}`;
+                    }}
+                  >
+                    Invoice
+                  </Button>
                 </td>
               </tr>
             ))}

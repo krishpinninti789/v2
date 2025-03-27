@@ -57,7 +57,7 @@ const DueDetails = ({ data }) => {
                       disabled={due.status === "paid"}
                       onClick={() =>
                         router.push(
-                          `/student/pay-due?roll=${data.roll}&id=${due._id}`
+                          `/student/paydue/pay-due?roll=${data.roll}&id=${due._id}`
                         )
                       }
                     >

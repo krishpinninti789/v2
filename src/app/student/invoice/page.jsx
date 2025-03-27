@@ -15,6 +15,8 @@ const InvoicePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const storedData = localStorage.getItem("inv_data");
+      // console.log(storedData);
+
       if (storedData) {
         const parsedData = JSON.parse(storedData);
         setData(parsedData);
@@ -55,7 +57,7 @@ const InvoicePage = () => {
         });
 
         const res = await response.json();
-        // console.log(res.message);
+        console.log(res.message);
       } catch (error) {
         // console.error("Error posting invoice:", error);
       }
@@ -127,7 +129,7 @@ const InvoicePage = () => {
           <tbody>
             <tr className="border">
               <td className="border p-2 text-right">
-                {data?.invoice_data?.amount?.toFixed(2)}
+                {data?.invoice_data?.total_amount?.toFixed(2)}
               </td>
               <td className="border p-2 text-right">
                 {data?.invoice_data?.amountPaid?.toFixed(2)}
@@ -157,7 +159,7 @@ const InvoicePage = () => {
         </button>
         <button
           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded shadow-xl hover:bg-blue-600"
-          onClick={() => (window.location.href = "/admin/view-dues")}
+          onClick={() => (window.location.href = "/student/view-dues")}
         >
           Go home
         </button>
