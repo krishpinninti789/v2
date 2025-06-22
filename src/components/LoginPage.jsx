@@ -156,16 +156,25 @@ const LoginPage = () => {
               Signing in
             </Button>
           ) : (
-            <Button
-              className="w-full  button-grad"
-              onClick={() => {
-                setLoading(true);
-              }}
-            >
-              Sign in
-            </Button>
+            <>
+              <Button
+                className="w-full  button-grad"
+                onClick={() => {
+                  setLoading(true);
+                }}
+              >
+                Sign in
+              </Button>
+            </>
           )}
         </form>
+        <Button
+          variant="outline"
+          className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6"
+          onClick={() => (window.location.href = "/")}
+        >
+          Go Back
+        </Button>
 
         <div className="mt-8 text-center text-sm text-gray-400">© NDMS</div>
       </div>
