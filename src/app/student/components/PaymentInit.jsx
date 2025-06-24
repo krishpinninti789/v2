@@ -22,6 +22,7 @@ import {
   Zap,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import clsx from "clsx";
 
 export default function PaymentInitPage({ due_id, studentInfo, amount }) {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -164,7 +165,7 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <Card className="border-0 shadow-xl">
+        <Card className="border-0 overflow-scroll  shadow-xl">
           <CardHeader className="text-center pb-4">
             <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <CreditCard className="w-8 h-8 text-white" />
@@ -217,7 +218,7 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
               </div>
             </div>
 
-            <Separator />
+            <Separator orientation="vertical" />
 
             {/* Security Features */}
             <div className="space-y-3">
