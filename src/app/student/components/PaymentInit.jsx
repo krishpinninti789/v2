@@ -22,9 +22,13 @@ import {
   Zap,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import clsx from "clsx";
 
-export default function PaymentInitPage({ due_id, studentInfo, amount }) {
+export default function PaymentInitPage({
+  due_id,
+  studentInfo,
+  amount,
+  onDialogClose, // Add this prop to receive the close function from parent
+}) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const router = useRouter();
@@ -42,6 +46,7 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
         toast.error("Failed to fetch dues");
       }
     };
+
     if (studentInfo?.roll) {
       getDueInfo();
     }
@@ -49,29 +54,25 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
 
   const due = dueinfo?.dues?.find((due) => due._id === due_id);
 
-  useEffect(() => {
-    if (invoice_data) {
-      localStorage.setItem("inv_data", JSON.stringify({ invoice_data }));
-      router.push("/student/invoice");
-    }
-  }, [invoice_data, router]);
-
   const handlePayment = async () => {
     if (!amount || isNaN(amount) || amount <= 0) {
       toast.error("Invalid payment amount");
       return;
     }
 
-    if (!isScriptLoaded) {
-      toast.error("Payment gateway is loading. Please wait.");
+    if (!isScriptLoaded || typeof window === "undefined" || !window.Razorpay) {
+      toast.error("Payment gateway is loading or unavailable. Please wait.");
+      return;
+    }
+
+    if (!due) {
+      toast.error("Due details not found.");
       return;
     }
 
     setIsProcessing(true);
 
     try {
-      console.log("Initializing payment...");
-
       const response = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -79,8 +80,7 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
       });
 
       const data = await response.json();
-      if (!data.orderId)
-        throw new Error("Order ID is missing from API response");
+      if (!data.orderId) throw new Error("Order ID is missing");
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -90,40 +90,53 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
         description: "Due Payment Transaction",
         order_id: data.orderId,
         handler: async (response) => {
-          console.log("Payment successful:", response);
+          try {
+            if (!response.razorpay_payment_id) {
+              toast.error("Payment ID missing");
+              setIsProcessing(false);
+              return;
+            }
 
-          if (!response.razorpay_payment_id) {
-            toast.error("Payment ID missing");
-            return;
+            toast.success(
+              `Payment successful! Payment ID: ${response.razorpay_payment_id}`
+            );
+
+            const res = await fetch("/api/payment-success", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                roll: studentInfo.roll,
+                due_id,
+                newPayment: amount,
+                payment_Id: response.razorpay_payment_id,
+              }),
+            });
+
+            const pay_data = await res.json();
+
+            if (!pay_data.data) {
+              toast.error("Error processing payment details.");
+              return;
+            }
+
+            const invoicePayload = {
+              ...pay_data.data,
+              total_amount: due.amount,
+              new_amount_pending: due.amount_pending - pay_data.data.amountPaid,
+              due_date: due.due_date,
+            };
+
+            localStorage.setItem("inv_data", JSON.stringify(invoicePayload));
+
+            setTimeout(() => {
+              router.push("/student/invoice");
+            }, 1000);
+          } catch (err) {
+            console.error("Handler error:", err);
+            toast.error("Failed to process payment data");
+          } finally {
+            setIsProcessing(false);
           }
-
-          toast.success(
-            `Payment successful! Payment ID: ${response.razorpay_payment_id}`
-          );
-
-          const res = await fetch("/api/payment-success", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              roll: studentInfo.roll,
-              due_id: due_id,
-              newPayment: amount,
-              payment_Id: response.razorpay_payment_id,
-            }),
-          });
-
-          const pay_data = await res.json();
-          if (!pay_data.data) {
-            toast.error("Error processing payment details.");
-            return;
-          }
-
-          setInvoiceData({
-            ...pay_data.data,
-            total_amount: due?.amount || 0,
-            new_amount_pending: due?.amount_pending - pay_data.data.amountPaid,
-            due_date: due?.due_date,
-          });
         },
         prefill: {
           name: studentInfo?.name || "Student",
@@ -135,12 +148,48 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
           ondismiss: () => {
             setIsProcessing(false);
             toast.info("Payment cancelled");
+            // Optionally reopen parent dialog if payment was cancelled
+            // onDialogClose?.(false); // false means don't close permanently
           },
         },
       };
 
-      const rz1 = new window.Razorpay(options);
-      rz1.open();
+      // ✅ Close parent dialog before opening Razorpay
+      if (onDialogClose) {
+        onDialogClose(true); // true means close the dialog
+      }
+
+      // Alternative method 1: Try to close any open dialogs programmatically
+      // This targets common dialog implementations
+      const closeButtons = document.querySelectorAll(
+        '[data-dialog-close], [aria-label="Close"], button[aria-label="Close dialog"]'
+      );
+      closeButtons.forEach((button) => {
+        if (button.closest('[role="dialog"]')) {
+          button.click();
+        }
+      });
+
+      // Alternative method 2: Dispatch escape key event to close dialogs
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: "Escape",
+          keyCode: 27,
+          which: 27,
+          bubbles: true,
+        })
+      );
+
+      // ✅ Razorpay needs user gesture — slight timeout helps
+      setTimeout(() => {
+        const rz1 = new window.Razorpay(options);
+        rz1.on("payment.failed", function (response) {
+          toast.error("Payment failed. Please try again.");
+          console.error("Payment failed:", response);
+          setIsProcessing(false);
+        });
+        rz1.open();
+      }, 200); // Increased timeout to allow dialog to close
     } catch (error) {
       console.error("Payment error:", error);
       toast.error("Payment failed. Please try again.");
@@ -165,7 +214,7 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <Card className="border-0 overflow-scroll  shadow-xl">
+        <Card className="border-0 shadow-xl">
           <CardHeader className="text-center pb-4">
             <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <CreditCard className="w-8 h-8 text-white" />
@@ -177,7 +226,6 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
           </CardHeader>
 
           <CardContent className="space-y-6">
-            {/* Payment Amount */}
             <div className="text-center p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
               <p className="text-sm text-gray-600 mb-2">Amount to Pay</p>
               <p className="text-4xl font-bold text-gray-900">
@@ -186,41 +234,8 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
               <p className="text-sm text-gray-500 mt-1">INR</p>
             </div>
 
-            {/* Student Information */}
-            <div className="space-y-3">
-              <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-                <User className="w-4 h-4" />
-                Payment Details
-              </h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Student Roll</span>
-                  <span className="font-medium">
-                    {studentInfo.roll.toUpperCase()}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600 flex items-center gap-1">
-                    <Mail className="w-3 h-3" />
-                    Email
-                  </span>
-                  <span className="font-medium text-xs">
-                    {studentInfo.email}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600 flex items-center gap-1">
-                    <Phone className="w-3 h-3" />
-                    Mobile
-                  </span>
-                  <span className="font-medium">{studentInfo.mobile_no}</span>
-                </div>
-              </div>
-            </div>
-
             <Separator orientation="vertical" />
 
-            {/* Security Features */}
             <div className="space-y-3">
               <h3 className="font-semibold text-gray-900 flex items-center gap-2">
                 <Shield className="w-4 h-4" />
@@ -244,7 +259,6 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
 
             <Separator />
 
-            {/* Payment Methods */}
             <div className="space-y-3">
               <h3 className="font-semibold text-gray-900">
                 Accepted Payment Methods
@@ -265,7 +279,6 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
               </div>
             </div>
 
-            {/* Payment Button */}
             <div className="space-y-4">
               <Button
                 onClick={handlePayment}
@@ -298,7 +311,6 @@ export default function PaymentInitPage({ due_id, studentInfo, amount }) {
               )}
             </div>
 
-            {/* Footer */}
             <div className="text-center text-xs text-gray-500 pt-4 border-t">
               <p className="flex items-center justify-center gap-1">
                 <Shield className="w-3 h-3" />

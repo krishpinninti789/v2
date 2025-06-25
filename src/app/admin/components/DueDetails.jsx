@@ -233,7 +233,7 @@ const DueDetails = ({ data }) => {
                         className={`${
                           due.status === "paid"
                             ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                            : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                            : "button-grad text-white"
                         } px-6 py-2 font-medium`}
                         disabled={due.status === "paid"}
                         onClick={() =>

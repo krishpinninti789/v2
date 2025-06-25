@@ -310,14 +310,14 @@ const PaymentInvoicePage = () => {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200">
-                        <tr>
+                        {/* <tr>
                           <td className="px-6 py-4 text-sm text-gray-900">
                             Total Due Amount
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-900 text-right font-mono">
                             ₹{invoice_data.amount?.toFixed(2)}
                           </td>
-                        </tr>
+                        </tr> */}
                         <tr className="bg-green-50">
                           <td className="px-6 py-4 text-sm font-semibold text-green-900">
                             Amount Paid

@@ -39,7 +39,12 @@ export function StudentSidebar({ ...props }) {
       <SidebarHeader>
         <div className="flex items-center">
           <Image src={logo} alt="Logo" width={50} height={40} />
-          <h1 className="text-2xl font-bold px-4 py-2 text-grad">Menu</h1>
+          <div className=" md:block">
+            <h1 className="text-lg font-bold text-gray-900">NDMS</h1>
+            <p className="text-xs text-gray-500 -mt-1">
+              No Due Management System
+            </p>
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent className="gap-3 mt-4">

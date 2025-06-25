@@ -13,6 +13,6 @@ const StudentSchema = new mongoose.Schema({
 });
 
 const Students =
-  mongoose.model.Students || mongoose.model("Students", StudentSchema);
+  mongoose.models.Students || mongoose.model("Students", StudentSchema);
 
 export default Students;

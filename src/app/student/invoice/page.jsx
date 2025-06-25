@@ -52,6 +52,7 @@ const InvoicePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const storedData = localStorage.getItem("inv_data");
+      // console.log(storedData);
 
       if (storedData) {
         const parsedData = JSON.parse(storedData);
@@ -59,7 +60,7 @@ const InvoicePage = () => {
 
         try {
           const res = await fetch(
-            `/api/view/view-students?roll=${parsedData?.invoice_data?.roll}`
+            `/api/view/view-students?roll=${parsedData?.roll}`
           );
           const result = await res.json();
           setStud(result.data);
@@ -73,13 +74,15 @@ const InvoicePage = () => {
     fetchData();
   }, []);
 
+  // console.log(stud);
+
   useEffect(() => {
     if (!data || !stud) return;
 
     const postInvoice = async () => {
       try {
         const invoice_data = {
-          ...data.invoice_data,
+          ...data,
           year: stud.year,
           branch: stud.branch,
           mobile_no: stud.mobile_no,
@@ -98,9 +101,9 @@ const InvoicePage = () => {
         console.error("Error posting invoice:", error);
       }
     };
-
     postInvoice();
   }, [data, stud]);
+  console.log(data);
 
   const handleDownloadPDF = async () => {
     if (!invoiceRef.current || !data) return;
@@ -151,7 +154,7 @@ const InvoicePage = () => {
     );
   }
 
-  if (!data || !stud) {
+  if (!stud) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="max-w-md w-full mx-4">
@@ -190,7 +193,7 @@ const InvoicePage = () => {
                 Payment Invoice
               </h1>
               <p className="text-gray-600">
-                Invoice #{data.invoice_data.paymentId.slice(-8).toUpperCase()}
+                Invoice #{data.paymentId.slice(-8).toUpperCase()}
               </p>
             </div>
           </div>
@@ -228,11 +231,11 @@ const InvoicePage = () => {
                     <div className="space-y-1 text-blue-100">
                       <p className="flex items-center gap-2 justify-end">
                         <Calendar className="w-4 h-4" />
-                        {formatDate(data.invoice_data.createdAt)}
+                        {formatDate(data.createdAt)}
                       </p>
                       <p className="flex items-center gap-2 justify-end">
                         <Clock className="w-4 h-4" />
-                        {formatTime(data.invoice_data.createdAt)}
+                        {formatTime(data.createdAt)}
                       </p>
                     </div>
                   </div>
@@ -246,7 +249,7 @@ const InvoicePage = () => {
                     <div>
                       <p className="text-sm text-gray-600">Payment ID</p>
                       <p className="font-mono text-lg font-semibold text-gray-900">
-                        {data.invoice_data.paymentId}
+                        {data.paymentId}
                       </p>
                     </div>
                     <Badge className="bg-green-100 text-green-700 hover:bg-green-100 px-4 py-2">
@@ -269,7 +272,7 @@ const InvoicePage = () => {
                         <div>
                           <p className="text-sm text-gray-600">Roll Number</p>
                           <p className="font-semibold text-gray-900">
-                            {data.invoice_data.roll.toUpperCase()}
+                            {data.roll.toUpperCase()}
                           </p>
                         </div>
                       </div>
@@ -316,7 +319,7 @@ const InvoicePage = () => {
                         <div>
                           <p className="text-sm text-gray-600">Due Type</p>
                           <p className="font-semibold text-gray-900">
-                            {data.invoice_data.due_name}
+                            {data.due_name}
                           </p>
                         </div>
                       </div>
@@ -350,7 +353,7 @@ const InvoicePage = () => {
                             Total Due Amount
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-900 text-right font-mono">
-                            ₹{data.invoice_data.total_amount.toFixed(2)}
+                            ₹{data.total_amount.toFixed(2)}
                           </td>
                         </tr>
                         <tr className="bg-green-50">
@@ -358,7 +361,7 @@ const InvoicePage = () => {
                             Amount Paid
                           </td>
                           <td className="px-6 py-4 text-sm font-semibold text-green-900 text-right font-mono">
-                            ₹{data.invoice_data.amountPaid.toFixed(2)}
+                            ₹{data.amountPaid.toFixed(2)}
                           </td>
                         </tr>
                         <tr>
@@ -366,7 +369,7 @@ const InvoicePage = () => {
                             Remaining Balance
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-900 text-right font-mono">
-                            ₹{data.invoice_data.new_amount_pending.toFixed(2)}
+                            ₹{data.new_amount_pending.toFixed(2)}
                           </td>
                         </tr>
                         <tr>
@@ -374,7 +377,7 @@ const InvoicePage = () => {
                             Due Date
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-900 text-right">
-                            {formatDate(data.invoice_data.due_date)}
+                            {formatDate(data.due_date)}
                           </td>
                         </tr>
                       </tbody>
@@ -391,7 +394,7 @@ const InvoicePage = () => {
                     <div className="flex items-center gap-2 mt-1">
                       <CreditCard className="w-4 h-4 text-gray-500" />
                       <span className="font-semibold text-gray-900 capitalize">
-                        {data.invoice_data.payment_mode}
+                        {data.payment_mode}
                       </span>
                     </div>
                   </div>

@@ -40,7 +40,7 @@ const ViewDuesPage = () => {
         setLoading(false);
       }, 1500);
     } catch (error) {
-      console.error("Error fetching dues:", error);
+      // console.error("Error fetching dues:", error);
       setStudentData(null);
       setLoading(false);
     }
@@ -62,7 +62,7 @@ const ViewDuesPage = () => {
       <div className="bg-white border-b border-gray-200 px-6 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 button-grad rounded-lg flex items-center justify-center">
               <FileText className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -109,7 +109,7 @@ const ViewDuesPage = () => {
                 <Button
                   onClick={handleSearch}
                   disabled={!roll.trim() || loading}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 h-12 font-medium"
+                  className="button-grad  text-white px-8 h-12 font-medium"
                 >
                   {loading ? (
                     <>
@@ -230,7 +230,7 @@ const ViewDuesPage = () => {
           {!searched && (
             <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-50 to-purple-50">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 button-grad rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="w-8  text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">

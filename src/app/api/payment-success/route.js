@@ -9,7 +9,7 @@ export async function POST(req) {
 
   try {
     const { roll, due_id, newPayment, payment_Id } = await req.json();
-    console.log(roll, due_id, newPayment);
+    // console.log(roll, due_id, newPayment);
 
     const studentDues = await Dues.findOneAndUpdate(
       { roll: roll, "dues._id": due_id },

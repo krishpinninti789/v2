@@ -32,7 +32,6 @@ const StudentViewDuePage = () => {
   // console.log(roll);
   return (
     <div>
-      Hello
       {/* <button onClick={handleClick}>Click</button> */}
       {data && <DueDetails data={data} />}
     </div>
