@@ -14,6 +14,8 @@ import Image from "next/image";
 import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 import { MdOutlinePayments } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
+import { FaFileAlt } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 
 // Navigation data
 
@@ -29,6 +31,11 @@ const navItems = [
     icon: <MdOutlinePayments />,
   },
   { title: "Profile", url: "/student/profile", icon: <CgProfile /> },
+  {
+    title:"NoDueForm", url:"/student/nodueform",icon:<FaFileAlt/>},
+    {
+      title:"Notification", url:"/student/notification",icon:<FaBell/>}
+  
 ];
 
 export function StudentSidebar({ ...props }) {

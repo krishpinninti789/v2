@@ -145,7 +145,7 @@ const LoginPage = () => {
                 I agree to the Terms & Privacy
               </label>
             </div>
-            <Link href="/reset-password" className="text-sm text-grad">
+            <Link href="/forget-password" className="text-sm text-grad">
               Forgot password?
             </Link>
           </div>
