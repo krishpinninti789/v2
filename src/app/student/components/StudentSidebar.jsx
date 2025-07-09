@@ -34,7 +34,7 @@ const navItems = [
   {
     title:"NoDueForm", url:"/student/nodueform",icon:<FaFileAlt/>},
     {
-      title:"Notification", url:"/student/notification",icon:<FaBell/>}
+      title:"Notifications", url:"/student/notifications",icon:<FaBell/>}
   
 ];
 

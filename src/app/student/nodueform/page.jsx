@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { AlertCircle, CheckCircle2, CreditCard, Download, Printer } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import Spinner from "@/components/Spinner"
+import Link from "next/link"
 
 const NoDueFormPage = () => {
   const [dues, setDues] = useState(null)
@@ -42,6 +44,9 @@ const NoDueFormPage = () => {
 
     fetchDues()
   }, [roll])
+  const isAllPaid = dues?.every((due)=>due.status==="paid")
+  const outstandingAmount = dues?.reduce((acc, due) => acc + due.amount_pending, 0);
+
 
 
 
@@ -83,16 +88,7 @@ const NoDueFormPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardContent className="flex items-center justify-center p-8">
-            <div className="flex flex-col items-center space-y-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-              <p className="text-sm text-muted-foreground">Loading your due status...</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <Spinner/>
     )
   }
 
@@ -112,9 +108,7 @@ const NoDueFormPage = () => {
   }
 
   
-  const isAllPaid = dues?.every((due)=>due.status==="paid")
-  const outstandingAmount = dues.reduce((acc, due) => acc + due.amount_pending, 0);
-
+ 
   
 
   return (
@@ -165,7 +159,7 @@ const NoDueFormPage = () => {
               <div className="flex justify-center">
                 <Button size="lg" className="bg-orange-600 hover:bg-orange-700">
                   <CreditCard className="mr-2 h-4 w-4" />
-                  Pay Outstanding Dues
+                  <Link href='/student/view-dues'>Pay Outstanding Dues</Link>
                 </Button>
               </div>
             </CardContent>

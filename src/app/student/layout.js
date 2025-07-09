@@ -34,6 +34,7 @@ import { motion } from "framer-motion";
 import { getCldImageUrl } from "next-cloudinary";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // Function to extract and format initials
 const extractInitials = (email) => {
@@ -106,9 +107,10 @@ export default function StudentDashboardLayout({ children }) {
                 variant="ghost"
                 size="sm"
                 className="relative hover:bg-gray-100 rounded-lg p-2"
-              >
+              ><Link href='/student/notifications'>
                 <Bell className="w-5 h-5 text-gray-600" />
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs"></span>
+                </Link>
               </Button>
 
               <div className="hidden md:block text-right">
