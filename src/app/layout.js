@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Spinner from "@/components/Spinner";
 import Session from "@/components/Session";
 import { Poppins } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -37,7 +38,10 @@ export default async function RootLayout({ children }) {
         className={`${poppins.variable} antialiased `}
       >
         <Suspense fallback={<Spinner />}>
-          <Session>{children}</Session>
+          <Session>
+            {children}
+            <SpeedInsights />
+          </Session>
         </Suspense>
       </body>
     </html>
