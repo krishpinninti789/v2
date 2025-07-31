@@ -1,36 +1,173 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+# 🏫 No Due Management System
+
+The No Due Management System is a secure and user-friendly web app designed for colleges and universities to manage student fee dues, track payments, and generate digital invoices. With role-based dashboards for both students and admins, the system streamlines due collection and status monitoring, including secure online payments via Razorpay.
+
+---
+
+## 🚀 Features
+
+### 🎓 Student Dashboard
+
+- View total due amount and individual due entries
+- Pay securely through Razorpay
+- View payment status and download receipts
+- Secure login via **Auth.js**
+
+### 👨‍💼 Admin Dashboard
+
+- View all students and their due/payment history
+- Add, edit, or delete dues for students
+- Track pending, partial, and completed payments
+- Generate downloadable PDF invoices
+- Payment analytics dashboard
+
+---
+
+## 🛠 Tech Stack
+
+| Layer        | Technology               |
+|--------------|---------------------------|
+| **Frontend** | Next.js 15, Tailwind CSS, shadcn/ui |
+| **Backend**  | Server Actions (Edge), MongoDB (or PostgreSQL) |
+| **Payments** | Razorpay Integration     |
+| **Auth**     | Auth.js (OAuth/JWT)      |
+| **PDF**      | pdf-lib / html-to-pdf    |
+
+---
+
+## 📂 Project Structure
+
+/app ├── auth/                 # Auth.js routes and middleware ├── dashboard/admin/      # Admin-specific pages ├── dashboard/student/    # Student-specific pages ├── dues/                 # Due creation, status, and history └── api/                  # API routes for payments, dues, auth /components ├── ui/                   # Shared shadcn UI components ├── table/                # Due tables and history └── charts/               # Payment analytics /lib ├── auth.ts               # Auth config ├── razorpay.ts           # Razorpay server-side utility └── db.ts                 # DB connection logic /types └── index.ts              # Shared types for users, dues, payments
+
+---
+
+## 🧪 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
+git clone https://github.com/your-username/no-due-management.git
+cd no-due-management
+
+2. Install Dependencies
+
+npm install
+
+3. Configure Environment Variables
+
+Create a .env.local file with:
+
+AUTH_SECRET=your_auth_secret
+AUTH_TRUST_HOST=true
+
+RAZORPAY_KEY_ID=your_razorpay_key_id
+RAZORPAY_KEY_SECRET=your_razorpay_secret
+
+DATABASE_URL=your_mongodb_or_postgres_url
+
+4. Run the App
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to http://localhost:3000
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+💳 Payment Workflow
 
-To learn more about Next.js, take a look at the following resources:
+1. Student logs in using Auth.js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Views dues and clicks “Pay Now”
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Razorpay popup handles secure payment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+4. Upon success:
+
+Payment entry is logged
+
+Due is marked as cleared
+
+PDF invoice is generated and downloadable
+
+
+
+
+
+---
+
+📈 Admin Features
+
+Add/update/delete dues
+
+Filter students by due status
+
+Generate invoices on demand
+
+View payment timeline and stats
+
+Monitor total collection and pending amounts
+
+
+
+---
+
+🔒 Security
+
+Auth.js handles role-based access
+
+Only authorized users can access respective dashboards
+
+Razorpay handles PCI-compliant secure payments
+
+Server-side validations on all sensitive actions
+
+
+
+---
+
+📦 Future Enhancements
+
+[ ] SMS/email payment reminders
+
+[ ] Mobile responsive PWA
+
+[ ] Student comment/appeal portal
+
+
+
+---
+
+📜 License
+
+MIT License. See LICENSE for more information.
+
+
+---
+
+🙌 Acknowledgements
+
+Razorpay
+
+shadcn/ui
+
+Auth.js
+
+pdf-lib
+
+Next.js
+
+
+
+---
+
+> Built to simplify and secure college due collection for students and institutions alike.
+
+
+
+
