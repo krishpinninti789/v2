@@ -23,7 +23,9 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [toogleEye, setToogleEye] = useState(true);
+  const [check, setCheck] = useState(false);
   const router = useRouter();
+  const [termsError, setTermsError] = useState("");
 
   const { data: session, status } = useSession();
   // console.log("session", session);
@@ -35,11 +37,15 @@ const LoginPage = () => {
 
   const roll = user_email?.split("@")[0];
   // console.log("roll", roll);
+  console.log(check);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(""); // Clear previous errors
-
+    setError("");
+    if (check == false) {
+      setTermsError("please accept the terms and conditions");
+      return;
+    } // Clear previous errors
     const result = await signIn("credentials", {
       redirect: false,
       email,
@@ -105,7 +111,6 @@ const LoginPage = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <div className="flex justify-end items-center  focus:ring-blue-500 border-input ring-blue-500 focus-visible:ring-2 focus-visible:outline-none  focus:ring-2  space-x-4  border border-1 rounded-xl">
@@ -137,7 +142,12 @@ const LoginPage = () => {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Checkbox id="remember" />
+              <Checkbox
+                id="remember"
+                onClick={() => {
+                  setCheck(!check);
+                }}
+              />
               <label
                 htmlFor="remember"
                 className="text-sm text-gray-500 cursor-pointer"
@@ -149,6 +159,7 @@ const LoginPage = () => {
               Forgot password?
             </Link>
           </div>
+          <div className="text-red-500">{termsError}</div>
 
           {loading && user ? (
             <Button disabled className="w-full button-grad  ">

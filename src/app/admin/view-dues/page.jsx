@@ -26,6 +26,9 @@ const ViewDuesPage = () => {
     try {
       const response = await fetch(`/api/view/view-dues?roll=${rollNumber}`, {
         method: "GET",
+        headers: {
+          type: "application/json",
+        },
       });
 
       const res = await response.json();
