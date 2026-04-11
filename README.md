@@ -28,19 +28,19 @@ The No Due Management System is a secure and user-friendly web app designed for 
 
 ## 🛠 Tech Stack
 
-| Layer        | Technology               |
-|--------------|---------------------------|
-| **Frontend** | Next.js 15, Tailwind CSS, shadcn/ui |
+| Layer        | Technology                                     |
+| ------------ | ---------------------------------------------- |
+| **Frontend** | Next.js 15, Tailwind CSS, shadcn/ui            |
 | **Backend**  | Server Actions (Edge), MongoDB (or PostgreSQL) |
-| **Payments** | Razorpay Integration     |
-| **Auth**     | Auth.js (OAuth/JWT)      |
-| **PDF**      | pdf-lib / html-to-pdf    |
+| **Payments** | Razorpay Integration                           |
+| **Auth**     | Auth.js (OAuth/JWT)                            |
+| **PDF**      | pdf-lib / html-to-pdf                          |
 
 ---
 
 ## 📂 Project Structure
 
-/app ├── auth/                 # Auth.js routes and middleware ├── dashboard/admin/      # Admin-specific pages ├── dashboard/student/    # Student-specific pages ├── dues/                 # Due creation, status, and history └── api/                  # API routes for payments, dues, auth /components ├── ui/                   # Shared shadcn UI components ├── table/                # Due tables and history └── charts/               # Payment analytics /lib ├── auth.ts               # Auth config ├── razorpay.ts           # Razorpay server-side utility └── db.ts                 # DB connection logic /types └── index.ts              # Shared types for users, dues, payments
+/app ├── auth/ # Auth.js routes and middleware ├── dashboard/admin/ # Admin-specific pages ├── dashboard/student/ # Student-specific pages ├── dues/ # Due creation, status, and history └── api/ # API routes for payments, dues, auth /components ├── ui/ # Shared shadcn UI components ├── table/ # Due tables and history └── charts/ # Payment analytics /lib ├── auth.ts # Auth config ├── razorpay.ts # Razorpay server-side utility └── db.ts # DB connection logic /types └── index.ts # Shared types for users, dues, payments
 
 ---
 
@@ -169,6 +169,12 @@ Next.js
 
 > Built to simplify and secure college due collection for students and institutions alike.
 
+ # Test credentials for use
+
+ username = "22bq1a05h3@vvit.net"
+ password = 'vvit123cse'
 
 
 
+
+```
