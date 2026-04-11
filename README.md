@@ -170,9 +170,11 @@ Next.js
 > Built to simplify and secure college due collection for students and institutions alike.
 
  # Test credentials for use
-
+Student credentials
  username = "22bq1a05h3@vvit.net"
  password = 'vvit123cse'
+
+
 
 
 
