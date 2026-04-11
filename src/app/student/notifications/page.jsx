@@ -1,108 +1,147 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Bell, Check, Mail, MessageSquare, AlertTriangle, X } from "lucide-react"
-
-
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Bell,
+  Check,
+  Mail,
+  MessageSquare,
+  AlertTriangle,
+  X,
+} from "lucide-react";
 
 const initialNotifications = [
   {
     id: "1",
-    type: "message",
-    title: "New message from Sarah",
-    description: "Hey! Are we still on for lunch tomorrow?",
+    type: "fee",
+    title: "Fee Payment Due",
+    description: "Your tuition fee of ₹5,000 is due on 15 Apr 2026.",
     timestamp: "2 min ago",
     read: false,
   },
   {
     id: "2",
-    type: "mention",
-    title: "You were mentioned in a comment",
-    description: "John mentioned you in the project discussion",
-    timestamp: "15 min ago",
+    type: "fee",
+    title: "Payment Successful",
+    description: "Your payment of ₹5,000 has been successfully received.",
+    timestamp: "10 min ago",
     read: false,
   },
   {
     id: "3",
     type: "alert",
-    title: "System maintenance scheduled",
-    description: "Scheduled maintenance will occur tonight at 2 AM EST",
+    title: "Fee Overdue",
+    description: "Your fee payment was due on 10 Apr 2026. Late fee may apply.",
+    timestamp: "30 min ago",
+    read: false,
+  },
+  {
+    id: "4",
+    type: "success",
+    title: "Assignment Submitted",
+    description: "Your assignment has been submitted successfully.",
     timestamp: "1 hour ago",
     read: true,
   },
   {
-    id: "4",
-    type: "system",
-    title: "Profile updated successfully",
-    description: "Your profile information has been updated",
-    timestamp: "3 hours ago",
+    id: "5",
+    type: "success",
+    title: "Quiz Completed",
+    description: "You have completed your quiz. Check your results now.",
+    timestamp: "2 hours ago",
     read: true,
   },
   {
-    id: "5",
-    type: "message",
-    title: "New message from Team",
-    description: "The weekly standup has been moved to 10 AM",
+    id: "6",
+    type: "system",
+    title: "Receipt Generated",
+    description: "Your fee receipt is available for download.",
+    timestamp: "3 hours ago",
+    read: false,
+  },
+  {
+    id: "7",
+    type: "alert",
+    title: "Access Restricted",
+    description: "Please clear pending dues to access all features.",
     timestamp: "5 hours ago",
     read: false,
   },
-]
+  {
+    id: "8",
+    type: "system",
+    title: "Profile Updated",
+    description: "Your profile details have been updated successfully.",
+    timestamp: "1 day ago",
+    read: true,
+  },
+];
 
 const getNotificationIcon = (type) => {
   switch (type) {
     case "message":
-      return <Mail className="h-4 w-4" />
+      return <Mail className="h-4 w-4" />;
     case "mention":
-      return <MessageSquare className="h-4 w-4" />
+      return <MessageSquare className="h-4 w-4" />;
     case "alert":
-      return <AlertTriangle className="h-4 w-4" />
+      return <AlertTriangle className="h-4 w-4" />;
     case "system":
-      return <Bell className="h-4 w-4" />
+      return <Bell className="h-4 w-4" />;
     default:
-      return <Bell className="h-4 w-4" />
+      return <Bell className="h-4 w-4" />;
   }
-}
+};
 
 const getNotificationColor = (type) => {
   switch (type) {
     case "message":
-      return "bg-blue-500"
+      return "bg-blue-500";
     case "mention":
-      return "bg-green-500"
+      return "bg-green-500";
     case "alert":
-      return "bg-orange-500"
+      return "bg-orange-500";
     case "system":
-      return "bg-gray-500"
+      return "bg-gray-500";
     default:
-      return "bg-blue-500"
+      return "bg-blue-500";
   }
-}
+};
 
 const Page = () => {
-  const [notifications, setNotifications] = useState(initialNotifications)
+  const [notifications, setNotifications] = useState(initialNotifications);
 
-  const unreadCount = notifications.filter((n) => !n.read).length
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const markAsRead = (id) => {
     setNotifications((prev) =>
-      prev.map((notification) => (notification.id === id ? { ...notification, read: true } : notification)),
-    )
-  }
+      prev.map((notification) =>
+        notification.id === id ? { ...notification, read: true } : notification,
+      ),
+    );
+  };
 
   const markAllAsRead = () => {
-    setNotifications((prev) => prev.map((notification) => ({ ...notification, read: true })))
-  }
+    setNotifications((prev) =>
+      prev.map((notification) => ({ ...notification, read: true })),
+    );
+  };
 
   const clearAllNotifications = () => {
-    setNotifications([])
-  }
+    setNotifications([]);
+  };
 
   const removeNotification = (id) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id))
-  }
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -127,7 +166,11 @@ const Page = () => {
                   </Button>
                 )}
                 {notifications.length > 0 && (
-                  <Button variant="outline" size="sm" onClick={clearAllNotifications}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={clearAllNotifications}
+                  >
                     Clear all
                   </Button>
                 )}
@@ -145,7 +188,9 @@ const Page = () => {
               <div className="text-center py-12">
                 <Bell className="h-12 w-12 mx-auto text-gray-400 mb-4" />
                 <p className="text-gray-500">No notifications yet</p>
-                <p className="text-sm text-gray-400 mt-1">{"We'll notify you when something important happens"}</p>
+                <p className="text-sm text-gray-400 mt-1">
+                  {"We'll notify you when something important happens"}
+                </p>
               </div>
             ) : (
               <div className="divide-y">
@@ -169,16 +214,24 @@ const Page = () => {
                             >
                               {notification.title}
                             </p>
-                            <p className="text-sm text-gray-600 mt-1">{notification.description}</p>
-                            <p className="text-xs text-gray-500 mt-2">{notification.timestamp}</p>
+                            <p className="text-sm text-gray-600 mt-1">
+                              {notification.description}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-2">
+                              {notification.timestamp}
+                            </p>
                           </div>
 
                           <div className="flex items-center gap-1 ml-2">
-                            {!notification.read && <div className="h-2 w-2 bg-blue-500 rounded-full" />}
+                            {!notification.read && (
+                              <div className="h-2 w-2 bg-blue-500 rounded-full" />
+                            )}
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => removeNotification(notification.id)}
+                              onClick={() =>
+                                removeNotification(notification.id)
+                              }
                               className="h-8 w-8 p-0 hover:bg-gray-200"
                             >
                               <X className="h-4 w-4" />
@@ -206,7 +259,7 @@ const Page = () => {
         </Card>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
