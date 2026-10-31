@@ -1,10 +1,12 @@
 "use client";
 import React from "react";
-import { Search } from "lucide-react";
+import { Search, Users } from "lucide-react";
 import { useState } from "react";
 import { useEffect } from "react";
 import UserDetails from "../components/UserDetails";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 const ViewUsers = () => {
   const [email, setEmail] = useState(null);
@@ -40,31 +42,39 @@ const ViewUsers = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-3">
-      <h1 className="text-2xl text-vprimary">view users page</h1>
+    <div className="mx-auto max-w-5xl space-y-6">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6a5fc1]">Access management</p>
+        <h1 className="mt-1 flex items-center gap-2 text-2xl font-semibold tracking-tight text-slate-950"><Users className="h-6 w-6 text-[#6a5fc1]" />Manage users</h1>
+        <p className="mt-1 text-sm text-slate-500">Search credentials and review institution access.</p>
+      </div>
 
-      <div className="flex gap-3 justify-between items-center w-1/2 p-2 border-gray-300 border rounded-xl">
-        <div className="flex items-center gap-2">
-          <Search className="text-vprimary" />
-          <input
+      <Card className="surface-card">
+        <CardContent className="flex flex-col gap-3 p-4 sm:flex-row">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Input
             type="text"
             onChange={(e) => setEmail(e.target.value)}
-            className="rounded-xl p-2 search-input w-[25rem] outline-none "
+            className="h-11 pl-10"
             placeholder="Enter email address..."
-          />
-        </div>
+            />
+          </div>
 
-        <button
+        <Button
           onClick={() => getUserInfo(email)}
-          className="rounded-xl p-2 text-white button-grad"
+          className="h-11 rounded-xl button-grad text-white"
         >
-          search
-        </button>
-      </div>
+          Search
+        </Button>
+        </CardContent>
+      </Card>
       {user && <UserDetails user={user} />}
 
       <div>
-        <h1 className="text-2xl text-vprimary">All Users</h1>
+        <Card className="surface-card overflow-hidden">
+        <CardHeader><CardTitle className="text-base">All users</CardTitle></CardHeader>
+        <CardContent className="p-0">
         {users.length != 0 && (
           <table
             border="1"
@@ -76,7 +86,7 @@ const ViewUsers = () => {
               borderCollapse: "collapse",
             }}
           >
-            <thead className="bg-gray-50">
+            <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
               <tr>
                 <th>Email</th>
                 <th>Manages</th>
@@ -86,22 +96,22 @@ const ViewUsers = () => {
             </thead>
             <tbody>
               {users[0].map((item, i) => (
-                <tr key={i} className="border-t border-gray-200">
-                  <td>{item.email}</td>
-                  <td>{item.manages}</td>
-                  <td>
+                <tr key={i} className="border-t border-slate-200">
+                  <td className="px-4 py-4 text-sm text-slate-700">{item.email}</td>
+                  <td className="px-4 py-4 text-sm text-slate-600">{item.manages}</td>
+                  <td className="px-4 py-4">
                     <div
-                      className={`rounded-lg text-xl  items-center w-fit flex gap-3 px-4   ${
+                      className={`flex w-fit items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium ${
                         item.role === "student"
                           ? "bg-blue-100 text-vprimary rounded-xl border border-blue-300"
                           : "bg-orange-100 text-orange-500 rounded-xl border border-orange-300"
                       }`}
                     >
-                      <span className="text-4xl w-full ">•</span> {item.role}
+                      {item.role}
                     </div>
                   </td>
-                  <td>
-                    <Button className="button-grad text-white ">
+                  <td className="px-4 py-4">
+                    <Button size="sm" className="button-grad text-white">
                       View Details
                     </Button>
                   </td>
@@ -110,6 +120,8 @@ const ViewUsers = () => {
             </tbody>
           </table>
         )}
+        </CardContent>
+        </Card>
       </div>
     </div>
   );

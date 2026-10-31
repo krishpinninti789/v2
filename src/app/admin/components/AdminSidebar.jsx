@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
-import logo from "../../../../public/images/android-chrome-512x512.png";
 
 import {
   Collapsible,
@@ -102,15 +101,18 @@ export function AdminSidebar({ ...props }) {
   return (
     <Sidebar {...props}>
       {/* Sidebar Header */}
-      <SidebarHeader>
+      <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center p-4 gap-2">
-          <Image src={logo} alt="image" width={50} height={40} />
-          <h1 className="text-2xl font-bold text-grad">Menu</h1>
+          <Image src="/images/clearanceflow-icon.svg" alt="ClearanceFlow logo" width={40} height={40} />
+          <div>
+            <h1 className="text-xl font-semibold text-white">ClearanceFlow</h1>
+            <p className="text-xs text-sidebar-foreground/60">Admin portal</p>
+          </div>
         </div>
       </SidebarHeader>
 
       {/* Sidebar Content */}
-      <SidebarContent className="gap-2  p-4">
+      <SidebarContent className="gap-2 p-3">
         {navItems.map((item) => (
           <Collapsible
             key={item.title}
@@ -124,8 +126,8 @@ export function AdminSidebar({ ...props }) {
                 className={`group/label text-md rounded-lg cursor-pointer py-5 px-3 flex items-center
                 ${
                   activeMenu === item.title
-                    ? "bg-blue-500 text-white hover:bg-vprimary hover:text-white"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    ? "bg-[#c2ef4e] text-[#1f1633] hover:bg-[#c2ef4e]"
+                    : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-[#1f1633]"
                 }`}
                 onClick={() => handleMenuClick(item.title)}
               >
@@ -154,7 +156,7 @@ export function AdminSidebar({ ...props }) {
                             className={`block p-2 mt-2 py-5 px-3 rounded-lg text-md font-medium 
                             ${
                               activeSubmenu === subItem.title
-                                ? "bg-blue-500  hover:bg-vprimary active:bg-vprimary active:text-white hover:text-white ease-in-out text-white"
+                                ? "bg-[#6a5fc1] text-white hover:bg-[#79628c]"
                                 : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                             }`}
                             onClick={() => handleSubmenuClick(subItem.title)}

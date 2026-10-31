@@ -60,19 +60,19 @@ const ViewDuesPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="mx-auto max-w-6xl">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="mb-6 border-b border-slate-200 pb-5">
+        <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 button-grad rounded-lg flex items-center justify-center">
-              <FileText className="w-5 h-5 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#150f23] text-[#c2ef4e]">
+              <FileText className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                View Student Dues
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-950">
+                View student dues
               </h1>
-              <p className="text-gray-600">
+              <p className="text-sm text-slate-500">
                 Search and manage student due payments
               </p>
             </div>
@@ -81,7 +81,7 @@ const ViewDuesPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto p-6">
+      <div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -89,11 +89,11 @@ const ViewDuesPage = () => {
           className="space-y-8"
         >
           {/* Search Section */}
-          <Card className="border-0 shadow-lg">
+          <Card className="surface-card">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Search className="w-5 h-5 text-blue-600" />
-                Search Student Dues
+                <Search className="h-4 w-4 text-[#6a5fc1]" />
+                Search student dues
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -106,13 +106,13 @@ const ViewDuesPage = () => {
                     onChange={(e) => setRoll(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Enter student roll number..."
-                    className="pl-10 h-12 border-gray-300 focus:border-blue-500 text-lg"
+                    className="h-11 pl-10"
                   />
                 </div>
                 <Button
                   onClick={handleSearch}
                   disabled={!roll.trim() || loading}
-                  className="button-grad  text-white px-8 h-12 font-medium"
+                  className="h-11 rounded-xl button-grad px-8 font-medium text-white"
                 >
                   {loading ? (
                     <>

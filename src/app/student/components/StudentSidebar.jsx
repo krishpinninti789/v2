@@ -1,7 +1,6 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
-import logo from "../../../../public/images/android-chrome-512x512.png";
 
 import {
   Sidebar,
@@ -43,18 +42,18 @@ export function StudentSidebar({ ...props }) {
 
   return (
     <Sidebar variant="floating" {...props}>
-      <SidebarHeader>
-        <div className="flex items-center">
-          <Image src={logo} alt="Logo" width={50} height={40} />
+      <SidebarHeader className="border-b border-sidebar-border">
+        <div className="flex items-center gap-2 px-2 py-3">
+          <Image src="/images/clearanceflow-icon.svg" alt="ClearanceFlow logo" width={40} height={40} />
           <div className=" md:block">
-            <h1 className="text-lg font-bold text-gray-900">NDMS</h1>
-            <p className="text-xs text-gray-500 -mt-1">
-              No Due Management System
+            <h1 className="text-lg font-semibold text-white">ClearanceFlow</h1>
+            <p className="text-xs text-sidebar-foreground/60 -mt-1">
+              Student clearance workspace
             </p>
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="gap-3 mt-4">
+      <SidebarContent className="gap-2 px-2 mt-4">
         {navItems.map((item) => {
           const isActive = pathname === item.url;
 
@@ -62,10 +61,10 @@ export function StudentSidebar({ ...props }) {
             <Link
               key={item.title}
               href={item.url}
-              className={`block px-3 py-2  rounded-xl ml-3  mr-3 transition-colors ${
+              className={`block px-3 py-3 rounded-xl transition-colors ${
                 isActive
-                  ? "bg-blue-500 text-white" // Active state (clicked)
-                  : "text-gray-700 hover:bg-gray-200"
+                  ? "bg-[#c2ef4e] font-semibold text-[#1f1633]"
+                  : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-[#1f1633]"
               }`}
             >
               <div className="flex gap-2 items-center">

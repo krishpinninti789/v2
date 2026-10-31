@@ -39,7 +39,7 @@ const StudentViewPaymentPage = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterMode, setFilterMode] = useState("");
+  const [filterMode, setFilterMode] = useState("all");
 
   useEffect(() => {
     if (session?.user) {
@@ -88,7 +88,7 @@ const StudentViewPaymentPage = () => {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="mx-auto max-w-5xl space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
             <Card key={i} className="border-0 shadow-md">
@@ -116,11 +116,14 @@ const StudentViewPaymentPage = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-            <History className="w-8 h-8 text-blue-600" />
-            Payment History
+          <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#6a5fc1]">
+            Student payments
+          </p>
+          <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight text-slate-950">
+            <History className="h-6 w-6 text-[#6a5fc1]" />
+            Payment history
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="mt-1 text-sm text-slate-500">
             Track all your payment transactions
           </p>
         </div>
@@ -134,15 +137,15 @@ const StudentViewPaymentPage = () => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="border-0 shadow-md bg-gradient-to-r from-blue-50 to-blue-100">
+        <Card className="surface-card bg-[#150f23] text-white">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-white" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c2ef4e] text-[#150f23]">
+              <TrendingUp className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-sm text-blue-600 font-medium">Total Paid</p>
-                <p className="text-2xl font-bold text-blue-900">
+                <p className="text-xs font-medium text-slate-300">Total paid</p>
+                <p className="text-2xl font-semibold">
                   ₹{totalAmount.toLocaleString()}
                 </p>
               </div>
@@ -150,17 +153,17 @@ const StudentViewPaymentPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md bg-gradient-to-r from-green-50 to-green-100">
+        <Card className="surface-card">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
-                <Receipt className="w-6 h-6 text-white" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                <Receipt className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-sm text-green-600 font-medium">
-                  Total Payments
+                <p className="text-xs font-medium text-slate-500">
+                  Total payments
                 </p>
-                <p className="text-2xl font-bold text-green-900">
+                <p className="text-2xl font-semibold text-slate-950">
                   {totalPayments}
                 </p>
               </div>
@@ -168,17 +171,17 @@ const StudentViewPaymentPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md bg-gradient-to-r from-purple-50 to-purple-100">
+        <Card className="surface-card">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center">
-                <CreditCard className="w-6 h-6 text-white" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-[#6a5fc1]">
+                <CreditCard className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-sm text-purple-600 font-medium">
-                  Online Payments
+                <p className="text-xs font-medium text-slate-500">
+                  Online payments
                 </p>
-                <p className="text-2xl font-bold text-purple-900">
+                <p className="text-2xl font-semibold text-slate-950">
                   {onlinePayments}
                 </p>
               </div>
@@ -186,17 +189,17 @@ const StudentViewPaymentPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md bg-gradient-to-r from-orange-50 to-orange-100">
+        <Card className="surface-card">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center">
-                <Banknote className="w-6 h-6 text-white" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+                <Banknote className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-sm text-orange-600 font-medium">
-                  Cash Payments
+                <p className="text-xs font-medium text-slate-500">
+                  Cash payments
                 </p>
-                <p className="text-2xl font-bold text-orange-900">
+                <p className="text-2xl font-semibold text-slate-950">
                   {cashPayments}
                 </p>
               </div>
@@ -206,7 +209,7 @@ const StudentViewPaymentPage = () => {
       </div>
 
       {/* Search and Filter */}
-      <Card className="border-0 shadow-md">
+      <Card className="surface-card">
         <CardContent className="p-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
@@ -252,11 +255,11 @@ const StudentViewPaymentPage = () => {
       </Card>
 
       {/* Payment History */}
-      <Card className="border-0 shadow-lg">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Receipt className="w-5 h-5" />
-            Payment Records
+      <Card className="surface-card overflow-hidden">
+        <CardHeader className="border-b border-slate-200">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Receipt className="h-4 w-4 text-[#6a5fc1]" />
+            Payment records
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
@@ -269,20 +272,20 @@ const StudentViewPaymentPage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
                 >
-                  <div className="p-6 hover:bg-gray-50 transition-colors">
+                  <div className="p-5 transition-colors hover:bg-slate-50 sm:p-6">
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-4 lg:space-y-0">
                       {/* Payment Info */}
                       <div className="flex-1 space-y-3">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-lg font-semibold text-gray-900">
+                          <h3 className="text-base font-semibold text-slate-950">
                             {payment.due_name}
                           </h3>
                           <Badge
                             variant="secondary"
                             className={`${
                               payment.payment_mode === "cash"
-                                ? "bg-orange-100 text-orange-700 hover:bg-orange-100"
-                                : "bg-green-100 text-green-700 hover:bg-green-100"
+                                ? "bg-amber-50 text-amber-700 hover:bg-amber-50"
+                                : "bg-emerald-50 text-emerald-700 hover:bg-emerald-50"
                             }`}
                           >
                             {payment.payment_mode === "cash" ? (
@@ -329,7 +332,7 @@ const StudentViewPaymentPage = () => {
                       {/* Action Button */}
                       <div className="flex-shrink-0">
                         <Button
-                          className="button-grad text-white px-6 py-2 font-medium"
+                          className="button-grad rounded-xl px-5 py-2 font-medium text-white"
                           onClick={() => {
                             window.location.href = `/student/payment_invoice/invoice?payid=${payment.paymentId}`;
                           }}

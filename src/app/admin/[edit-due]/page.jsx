@@ -140,8 +140,8 @@ export default function EditDuePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-4xl mx-auto space-y-6">
+      <div className="mx-auto max-w-5xl space-y-6">
+        <div className="flex items-center justify-between">
           <Skeleton className="h-8 w-64" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
@@ -171,7 +171,7 @@ export default function EditDuePage() {
 
   if (!due || !studentInfo) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex min-h-[55vh] items-center justify-center">
         <Card className="max-w-md w-full mx-4">
           <CardContent className="p-8 text-center">
             <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -192,32 +192,32 @@ export default function EditDuePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="mx-auto max-w-5xl">
       <Toaster position="top-center" richColors />
 
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-4xl mx-auto flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => router.back()}>
+      <div className="mb-6 flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6a5fc1]">
+            Admin workspace
+          </p>
+          <div className="mt-1 flex items-center gap-3">
+            <Button variant="outline" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
-          </Button>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <FileText className="w-5 h-5 text-white" />
-            </div>
+            </Button>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Edit Due Payment
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-950">
+                Update due payment
               </h1>
-              <p className="text-gray-600">Update payment for {due.duetype}</p>
+              <p className="text-sm text-slate-500">Record a payment for {due.duetype}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto p-6">
+      <div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -227,11 +227,11 @@ export default function EditDuePage() {
           {/* Left Column - Student & Due Information */}
           <div className="space-y-6">
             {/* Student Information */}
-            <Card className="border-0 shadow-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <User className="w-5 h-5 text-blue-600" />
-                  Student Information
+            <Card className="surface-card">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <User className="h-4 w-4 text-[#6a5fc1]" />
+                  Student information
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -241,7 +241,7 @@ export default function EditDuePage() {
                       src={profileImageUrl || "/placeholder.svg"}
                       alt={studentInfo.name}
                     />
-                    <AvatarFallback className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                    <AvatarFallback className="bg-[#150f23] text-lg font-bold text-[#c2ef4e]">
                       {studentInfo.name
                         ?.split(" ")
                         .map((n) => n[0])
@@ -301,16 +301,16 @@ export default function EditDuePage() {
             </Card>
 
             {/* Due Details */}
-            <Card className="border-0 shadow-lg">
-              <CardHeader>
+            <Card className="surface-card">
+              <CardHeader className="pb-3">
                 <CardTitle className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Receipt className="w-5 h-5 text-blue-600" />
-                    Due Details
+                    <Receipt className="h-4 w-4 text-[#6a5fc1]" />
+                    Due details
                   </div>
                   <Badge
                     variant="secondary"
-                    className="bg-red-100 text-red-700 hover:bg-red-100"
+                    className="bg-rose-50 text-rose-700 hover:bg-rose-50"
                   >
                     <Clock className="w-3 h-3 mr-1" />
                     Pending
@@ -333,20 +333,20 @@ export default function EditDuePage() {
                   </div>
 
                   <div className="grid grid-cols-1 gap-4">
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-gray-600">Total Amount</p>
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-xs text-slate-500">Total amount</p>
                       <p className="text-2xl font-bold text-gray-900">
                         ₹{due.amount.toLocaleString()}
                       </p>
                     </div>
-                    <div className="p-4 bg-green-50 rounded-lg">
-                      <p className="text-sm text-green-600">Amount Paid</p>
+                    <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4">
+                      <p className="text-xs text-emerald-600">Amount paid</p>
                       <p className="text-2xl font-bold text-green-700">
                         ₹{due.amount_paid.toLocaleString()}
                       </p>
                     </div>
-                    <div className="p-4 bg-red-50 rounded-lg">
-                      <p className="text-sm text-red-600">Amount Pending</p>
+                    <div className="rounded-xl border border-rose-100 bg-rose-50 p-4">
+                      <p className="text-xs text-rose-600">Amount pending</p>
                       <p className="text-2xl font-bold text-red-700">
                         ₹{due.amount_pending.toLocaleString()}
                       </p>
@@ -360,11 +360,11 @@ export default function EditDuePage() {
           {/* Right Column - Payment Form */}
           <div className="space-y-6">
             {/* Payment Form */}
-            <Card className="border-0 shadow-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calculator className="w-5 h-5 text-blue-600" />
-                  Payment Details
+            <Card className="surface-card lg:sticky lg:top-24">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <Calculator className="h-4 w-4 text-[#6a5fc1]" />
+                  Payment details
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -387,7 +387,7 @@ export default function EditDuePage() {
                       placeholder="0.00"
                       min="1"
                       max={due.amount_pending}
-                      className="pl-8 h-12 text-lg border-gray-300 focus:border-blue-500"
+                      className="h-12 border-slate-300 pl-8 text-lg focus:border-[#6a5fc1]"
                     />
                   </div>
                   <p className="text-sm text-gray-500">
@@ -479,7 +479,7 @@ export default function EditDuePage() {
                     Number(newPayment) > due.amount_pending ||
                     processing
                   }
-                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-lg"
+                  className="h-12 w-full rounded-xl button-grad text-base font-semibold text-white"
                 >
                   {processing ? (
                     <>
@@ -521,57 +521,72 @@ export default function EditDuePage() {
 
       {/* Payment Confirmation Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <CreditCard className="w-5 h-5" />
-              Confirm Payment
+        <DialogContent className="max-w-lg overflow-hidden rounded-2xl border-slate-200 bg-slate-50 p-0 shadow-2xl">
+          <DialogHeader className="border-b border-slate-200 bg-white px-6 py-5">
+            <DialogTitle className="flex items-center gap-3 text-base text-slate-950">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#150f23] text-[#c2ef4e]">
+                <CreditCard className="h-4 w-4" />
+              </span>
+              Confirm payment update
             </DialogTitle>
+            <p className="pl-12 text-sm text-slate-500">
+              Review the payment details before updating this student record.
+            </p>
           </DialogHeader>
-          <div className="space-y-4">
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <div className="text-center">
-                <p className="text-sm text-blue-600 mb-1">Payment Amount</p>
-                <p className="text-3xl font-bold text-blue-900">
+          <div className="space-y-5 px-6 py-5">
+            <div className="flex items-center justify-between rounded-xl bg-[#150f23] px-5 py-4 text-white">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#c2ef4e]">
+                  Payment amount
+                </p>
+                <p className="mt-1 text-3xl font-semibold tracking-tight">
                   ₹{Number(newPayment).toLocaleString()}
                 </p>
               </div>
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-200">
+                INR
+              </span>
             </div>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Due Type:</span>
-                <span className="font-semibold">{due.duetype}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Student:</span>
-                <span className="font-semibold">
-                  {studentInfo.roll.toUpperCase()}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Remaining After Payment:</span>
-                <span className="font-semibold text-red-600">
-                  ₹
-                  {Math.max(
-                    0,
-                    due.amount_pending - Number(newPayment)
-                  ).toLocaleString()}
-                </span>
+
+            <div className="rounded-xl border border-slate-200 bg-white p-4">
+              <p className="mb-3 text-sm font-semibold text-slate-900">
+                Payment summary
+              </p>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between gap-4">
+                  <span className="text-slate-500">Due type</span>
+                  <span className="text-right font-medium text-slate-900">{due.duetype}</span>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <span className="text-slate-500">Student</span>
+                  <span className="font-medium text-slate-900">{studentInfo.roll.toUpperCase()}</span>
+                </div>
+                <div className="flex justify-between gap-4 border-t border-slate-100 pt-3">
+                  <span className="text-slate-500">Remaining after payment</span>
+                  <span className="font-semibold text-rose-600">
+                    ₹
+                    {Math.max(
+                      0,
+                      due.amount_pending - Number(newPayment)
+                    ).toLocaleString()}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-          <DialogFooter className="gap-2">
+          <DialogFooter className="border-t border-slate-200 bg-white px-6 py-4">
             <Button
               variant="outline"
               onClick={() => setDialogOpen(false)}
               disabled={processing}
+              className="rounded-xl"
             >
               Cancel
             </Button>
             <Button
               onClick={handlePayment}
               disabled={processing}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              className="rounded-xl button-grad text-white hover:bg-[#422082]"
             >
               {processing ? (
                 <>

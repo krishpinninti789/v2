@@ -8,9 +8,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        vprimary: "#007DFE",
-        vsecondary: "#7CB1FF",
-        vstrong: "#1e40af",
+        vprimary: "#6a5fc1",
+        vsecondary: "#9dc1f5",
+        vstrong: "#422082",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

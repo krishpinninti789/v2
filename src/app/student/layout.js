@@ -32,7 +32,6 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { getCldImageUrl } from "next-cloudinary";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -80,23 +79,15 @@ export default function StudentDashboardLayout({ children }) {
             <div className="flex items-center gap-4">
               <SidebarTrigger className="-ml-1 hover:bg-gray-100 rounded-lg p-2 transition-colors" />
               <motion.div
-                className="flex items-center gap-3"
+                className="flex items-center"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-                  <Image
-                    src={"/images/android-chrome-512x512.png"} // fixed path
-                    alt="logo"
-                    width={30}
-                    height={30}
-                  />
-                </div>
                 <div className=" md:block">
-                  <h1 className="text-lg font-bold text-gray-900">NDMS</h1>
+                  <h1 className="text-lg font-semibold tracking-tight text-gray-900">ClearanceFlow</h1>
                   <p className="text-xs text-gray-500 -mt-1">
-                    No Due Management System
+                    Student clearance workspace
                   </p>
                 </div>
               </motion.div>
@@ -114,8 +105,8 @@ export default function StudentDashboardLayout({ children }) {
               </Button>
 
               <div className="hidden md:block text-right">
-                <p className="text-sm text-gray-600">Welcome back,</p>
-                <p className="text-sm font-semibold text-gray-900">
+                <p className="text-xs text-gray-600">Welcome back,</p>
+                <p className="text-xs font-semibold text-gray-900">
                   {roll?.toUpperCase()}
                 </p>
               </div>
@@ -186,7 +177,7 @@ export default function StudentDashboardLayout({ children }) {
         </header>
 
         <main className="flex-1 overflow-auto">
-          <div className="p-6">
+          <div className="p-5 sm:p-6">
             <Suspense
               fallback={
                 <div className="space-y-6">
@@ -208,7 +199,7 @@ export default function StudentDashboardLayout({ children }) {
           </div>
         </main>
 
-        <div className="border-t border-gray-200 bg-gray-50 px-6 py-2">
+        <div className="border-t border-gray-200 bg-gray-50 px-5 py-2">
           <div className="flex items-center justify-between text-xs text-gray-500">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1">

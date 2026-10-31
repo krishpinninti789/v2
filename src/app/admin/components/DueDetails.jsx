@@ -57,7 +57,7 @@ const DueDetails = ({ data }) => {
   return (
     <div className="space-y-6">
       {/* Student Info Header */}
-      <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-50 to-purple-50">
+      <Card className="surface-card bg-[#150f23] text-white">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             <div className="flex-shrink-0">
@@ -66,7 +66,7 @@ const DueDetails = ({ data }) => {
                   src={url || "/placeholder.svg"}
                   alt={`${data.roll} profile`}
                 />
-                <AvatarFallback className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                <AvatarFallback className="bg-[#c2ef4e] text-2xl font-bold text-[#150f23]">
                   {data.roll.slice(-2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -74,7 +74,7 @@ const DueDetails = ({ data }) => {
             <div className="flex-1 text-center md:text-left">
               <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                  <h2 className="mb-2 text-2xl font-semibold text-white">
                     Roll: {data.roll.toUpperCase()}
                   </h2>
                   <div className="flex flex-col md:flex-row gap-4 text-gray-600">
@@ -91,8 +91,8 @@ const DueDetails = ({ data }) => {
                   </div>
                 </div>
                 <div className="text-center md:text-right mt-4 md:mt-0">
-                  <div className="text-sm text-gray-500">Total Dues</div>
-                  <div className="text-3xl font-bold text-gray-900">
+                  <div className="text-sm text-slate-300">Total dues</div>
+                  <div className="text-3xl font-semibold">
                     ₹{totalAmount.toLocaleString()}
                   </div>
                 </div>
@@ -104,7 +104,7 @@ const DueDetails = ({ data }) => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="border-0 shadow-md">
+        <Card className="surface-card">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
@@ -120,7 +120,7 @@ const DueDetails = ({ data }) => {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md">
+        <Card className="surface-card">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
@@ -136,7 +136,7 @@ const DueDetails = ({ data }) => {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md">
+        <Card className="surface-card">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -152,11 +152,11 @@ const DueDetails = ({ data }) => {
       </div>
 
       {/* Dues List */}
-      <Card className="border-0 shadow-lg">
+      <Card className="surface-card overflow-hidden">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <DollarSign className="w-5 h-5" />
-            Due Details
+          <CardTitle className="flex items-center gap-2 text-base">
+            <DollarSign className="h-4 w-4 text-[#6a5fc1]" />
+            Due details
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
@@ -168,7 +168,7 @@ const DueDetails = ({ data }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <div className="p-6 hover:bg-gray-50 transition-colors">
+                <div className="p-5 transition-colors hover:bg-slate-50 sm:p-6">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-4 lg:space-y-0">
                     {/* Due Info */}
                     <div className="flex-1 space-y-3">

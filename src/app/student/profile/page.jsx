@@ -138,10 +138,6 @@ const StudentProfilePage = () => {
                 </p>
               </div>
             </div>
-            <Button className="button-grad text-white">
-              <Edit className="w-4 h-4 mr-2" />
-              Edit Profile
-            </Button>
           </div>
         </div>
       </div>
@@ -183,7 +179,7 @@ const StudentProfilePage = () => {
                 <div className="flex-1 text-center md:text-left mt-4 md:mt-8">
                   <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                     <div>
-                      <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                      <h2 className="text-3xl my-3 font-bold text-gray-900 mb-2">
                         {data.name}
                       </h2>
                       <div className="flex flex-col md:flex-row gap-2 md:gap-4 text-gray-600 mb-3">

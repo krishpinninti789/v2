@@ -102,34 +102,37 @@ const AddUsersPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen flex-col">
+    <div className="mx-auto flex min-h-[65vh] max-w-3xl flex-col justify-center">
       <Toaster position="top-center" richColors />
-      <h1 className="text-2xl text-vprimary">Add User Details</h1>
-      <div className="max-w-xl mx-auto p-6">
+      <div className="mb-6">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6a5fc1]">Admin workspace</p>
+        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-950">Import credentials</h1>
+        <p className="mt-1 text-sm text-slate-500">Upload user access details securely from an Excel sheet.</p>
+      </div>
+      <div className="surface-card p-6 sm:p-8">
         <div
           {...getRootProps()}
           className={`relative border-2  border-dashed rounded-2xl p-12 transition-colors
           ${
             isDragActive
               ? "border-primary bg-primary/5"
-              : "border-muted-foreground/25 "
-          }
-          hover:border-primary hover:bg-primary/5 hover:border-vprimary`}
+              : "border-slate-200"
+          } hover:border-[#6a5fc1] hover:bg-violet-50/40`}
         >
           <input {...getInputProps()} />
 
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex justify-center">
-              <FileSpreadsheet className="w-16 h-16 text-vprimary" />
+              <FileSpreadsheet className="h-14 w-14 text-[#6a5fc1]" />
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-xl font-semibold">
-                Drag & drop your Excel file
+              <h3 className="text-lg font-semibold text-slate-950">
+                Drop your Excel file here
               </h3>
               <p className="text-sm text-muted-foreground">
                 or{" "}
-                <span className="text-primary underline cursor-pointer">
+                <span className="cursor-pointer font-medium text-[#6a5fc1] underline">
                   browse files
                 </span>{" "}
                 on your computer
@@ -151,7 +154,7 @@ const AddUsersPage = () => {
         <Button
           onClick={handleFileUpload}
           disabled={!file}
-          className="w-full mt-4 py-6 text-lg button-grad hover:bg-vprimary/90 "
+          className="mt-4 h-12 w-full rounded-xl button-grad text-base text-white"
         >
           <Upload className="w-4 h-4 mr-2" />
           Upload

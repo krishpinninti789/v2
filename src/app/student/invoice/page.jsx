@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -21,7 +21,7 @@ import {
   Mail,
   Phone,
   GraduationCap,
-  Cloud,
+  XCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -47,10 +47,25 @@ const InvoicePage = () => {
   const [stud, setStud] = useState(null);
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
+  const [feedback, setFeedback] = useState(null);
   const invoiceRef = useRef(null);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const fetchData = async () => {
+      const storedFeedback = sessionStorage.getItem("payment_feedback");
+      const status = searchParams.get("status");
+
+      if (storedFeedback) {
+        setFeedback(JSON.parse(storedFeedback));
+        sessionStorage.removeItem("payment_feedback");
+      } else if (status === "failed") {
+        setFeedback({
+          status: "failed",
+          message: "Payment was not completed. You can safely try again.",
+        });
+      }
+
       const storedData = localStorage.getItem("inv_data");
       // console.log(storedData);
 
@@ -72,7 +87,7 @@ const InvoicePage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [searchParams]);
 
   // console.log(stud);
 
@@ -122,9 +137,7 @@ const InvoicePage = () => {
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save(
-        `${data.invoice_data.roll}_invoice_${data.invoice_data.paymentId}.pdf`
-      );
+      pdf.save(`${data.roll}_invoice_${data.paymentId}.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
     } finally {
@@ -154,7 +167,44 @@ const InvoicePage = () => {
     );
   }
 
-  if (!stud) {
+  if (feedback?.status === "failed") {
+    return (
+      <div className="flex min-h-[55vh] items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-md rounded-2xl border border-rose-200 bg-white p-8 text-center shadow-sm"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 220, delay: 0.15 }}
+            className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-rose-50 text-rose-500"
+          >
+            <XCircle className="h-9 w-9" />
+          </motion.div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-rose-500">
+            Payment unsuccessful
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">
+            No payment was recorded
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-slate-500">
+            {feedback.message}
+          </p>
+          <Button
+            onClick={() => (window.location.href = "/student/view-dues")}
+            className="mt-6 w-full rounded-xl button-grad text-white"
+          >
+            <Home className="mr-2 h-4 w-4" />
+            Return to my dues
+          </Button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (!stud || !data) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="max-w-md w-full mx-4">
@@ -180,55 +230,67 @@ const InvoicePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="mx-auto max-w-5xl">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <Receipt className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Payment Invoice
-              </h1>
-              <p className="text-gray-600">
-                Invoice #{data.paymentId.slice(-8).toUpperCase()}
-              </p>
-            </div>
+      <div className="mb-6 flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#150f23] text-[#c2ef4e]">
+            <Receipt className="h-5 w-5" />
           </div>
-          <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-            <CheckCircle className="w-3 h-3 mr-1" />
-            Paid
-          </Badge>
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-950">
+              Payment invoice
+            </h1>
+            <p className="text-sm text-slate-500">
+              Invoice #{data.paymentId.slice(-8).toUpperCase()}
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto p-6">
+      <div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           {/* Invoice Content */}
-          <Card className="shadow-xl border-0 overflow-hidden">
+          {feedback?.status === "success" && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-5 flex justify-center"
+              aria-label="Payment successful"
+            >
+              <motion.div
+                initial={{ scale: 0, rotate: -30 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 220, delay: 0.2 }}
+                className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/20"
+              >
+                <CheckCircle className="h-8 w-8" />
+              </motion.div>
+            </motion.div>
+          )}
+
+          <Card className="overflow-hidden border border-slate-200 shadow-sm">
             <div ref={invoiceRef} className="bg-white">
               {/* Invoice Header */}
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8">
+              <div className="bg-[#150f23] p-8 text-white">
                 <div className="flex justify-between items-start">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
-                      <Cloud className="w-8 h-8 text-white" />
+                      <Receipt className="h-8 w-8 text-[#c2ef4e]" />
                     </div>
                     <div>
-                      <h2 className="text-3xl font-bold">NDMS</h2>
-                      <p className="text-blue-100">No Due Management System</p>
+                      <h2 className="text-3xl font-bold">ClearanceFlow</h2>
+                      <p className="text-slate-300">Student clearance workspace</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <h3 className="text-2xl font-bold mb-2">INVOICE</h3>
-                    <div className="space-y-1 text-blue-100">
+                    <div className="space-y-1 text-slate-300">
                       <p className="flex items-center gap-2 justify-end">
                         <Calendar className="w-4 h-4" />
                         {formatDate(data.createdAt)}
@@ -242,20 +304,16 @@ const InvoicePage = () => {
                 </div>
               </div>
 
-              <CardContent className="p-8">
-                {/* Payment ID and Status */}
-                <div className="mb-8 p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center justify-between">
+              <CardContent className="p-6 sm:p-8">
+                {/* Payment ID */}
+                <div className="mb-8 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <div>
                     <div>
                       <p className="text-sm text-gray-600">Payment ID</p>
                       <p className="font-mono text-lg font-semibold text-gray-900">
                         {data.paymentId}
                       </p>
                     </div>
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100 px-4 py-2">
-                      <CheckCircle className="w-4 h-4 mr-2" />
-                      Payment Successful
-                    </Badge>
                   </div>
                 </div>
 
@@ -335,9 +393,9 @@ const InvoicePage = () => {
                     <CreditCard className="w-5 h-5 text-blue-600" />
                     Payment Breakdown
                   </h3>
-                  <div className="overflow-hidden rounded-lg border border-gray-200">
+                  <div className="overflow-hidden rounded-xl border border-slate-200">
                     <table className="w-full">
-                      <thead className="bg-gray-50">
+                      <thead className="bg-slate-50">
                         <tr>
                           <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                             Description
@@ -388,7 +446,7 @@ const InvoicePage = () => {
                 <Separator className="my-8" />
 
                 {/* Payment Method */}
-                <div className="flex justify-between items-center">
+                <div className="flex items-center">
                   <div>
                     <p className="text-sm text-gray-600">Payment Method</p>
                     <div className="flex items-center gap-2 mt-1">
@@ -397,13 +455,6 @@ const InvoicePage = () => {
                         {data.payment_mode}
                       </span>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-600">Transaction Status</p>
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100 mt-1">
-                      <CheckCircle className="w-3 h-3 mr-1" />
-                      Completed
-                    </Badge>
                   </div>
                 </div>
 

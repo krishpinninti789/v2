@@ -220,8 +220,8 @@ const InvoicePage = () => {
                       <Cloud className="w-8 h-8 text-white" />
                     </div>
                     <div>
-                      <h2 className="text-3xl font-bold">NDMS</h2>
-                      <p className="text-blue-100">No Due Management System</p>
+                      <h2 className="text-3xl font-bold">ClearanceFlow</h2>
+                      <p className="text-blue-100">Student clearance workspace</p>
                       <p className="text-blue-100 text-sm mt-1">
                         Educational Institution
                       </p>
@@ -420,7 +420,7 @@ const InvoicePage = () => {
                   <div className="mt-4 flex items-center justify-center gap-4 text-xs">
                     <span>Generated on: {new Date().toLocaleString()}</span>
                     <span>•</span>
-                    <span>NDMS v2.0</span>
+                    <span>ClearanceFlow</span>
                   </div>
                 </div>
               </CardContent>

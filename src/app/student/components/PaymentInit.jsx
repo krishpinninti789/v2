@@ -5,18 +5,13 @@ import Script from "next/script";
 import { toast, Toaster } from "sonner";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import {
   CreditCard,
   Shield,
   CheckCircle,
   Clock,
   DollarSign,
-  User,
-  Mail,
-  Phone,
   Loader2,
   Lock,
   Zap,
@@ -54,6 +49,16 @@ export default function PaymentInitPage({
 
   const due = dueinfo?.dues?.find((due) => due._id === due_id);
 
+  const showPaymentFailure = (message) => {
+    sessionStorage.setItem(
+      "payment_feedback",
+      JSON.stringify({ status: "failed", message })
+    );
+    toast.error(message);
+    setIsProcessing(false);
+    router.push("/student/invoice?status=failed");
+  };
+
   const handlePayment = async () => {
     if (!amount || isNaN(amount) || amount <= 0) {
       toast.error("Invalid payment amount");
@@ -86,14 +91,13 @@ export default function PaymentInitPage({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: amount * 100,
         currency: "INR",
-        name: "NDMS",
+        name: "ClearanceFlow",
         description: "Due Payment Transaction",
         order_id: data.orderId,
         handler: async (response) => {
           try {
             if (!response.razorpay_payment_id) {
-              toast.error("Payment ID missing");
-              setIsProcessing(false);
+              showPaymentFailure("Payment could not be verified. Please try again.");
               return;
             }
 
@@ -115,7 +119,7 @@ export default function PaymentInitPage({
             const pay_data = await res.json();
 
             if (!pay_data.data) {
-              toast.error("Error processing payment details.");
+              showPaymentFailure("Payment received, but we could not prepare your invoice.");
               return;
             }
 
@@ -127,13 +131,20 @@ export default function PaymentInitPage({
             };
 
             localStorage.setItem("inv_data", JSON.stringify(invoicePayload));
+            sessionStorage.setItem(
+              "payment_feedback",
+              JSON.stringify({
+                status: "success",
+                message: "Your payment was completed successfully.",
+              })
+            );
 
             setTimeout(() => {
               router.push("/student/invoice");
             }, 1000);
           } catch (err) {
             console.error("Handler error:", err);
-            toast.error("Failed to process payment data");
+            showPaymentFailure("We could not confirm your payment. Please try again.");
           } finally {
             setIsProcessing(false);
           }
@@ -147,7 +158,14 @@ export default function PaymentInitPage({
         modal: {
           ondismiss: () => {
             setIsProcessing(false);
-            toast.info("Payment cancelled");
+            sessionStorage.setItem(
+              "payment_feedback",
+              JSON.stringify({
+                status: "failed",
+                message: "Payment was cancelled before completion.",
+              })
+            );
+            router.push("/student/invoice?status=failed");
             // Optionally reopen parent dialog if payment was cancelled
             // onDialogClose?.(false); // false means don't close permanently
           },
@@ -184,21 +202,19 @@ export default function PaymentInitPage({
       setTimeout(() => {
         const rz1 = new window.Razorpay(options);
         rz1.on("payment.failed", function (response) {
-          toast.error("Payment failed. Please try again.");
           console.error("Payment failed:", response);
-          setIsProcessing(false);
+          showPaymentFailure("Payment failed. Please try again.");
         });
         rz1.open();
       }, 200); // Increased timeout to allow dialog to close
     } catch (error) {
       console.error("Payment error:", error);
-      toast.error("Payment failed. Please try again.");
-      setIsProcessing(false);
+      showPaymentFailure("Payment failed. Please try again.");
     }
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full">
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
         strategy="lazyOnload"
@@ -214,111 +230,99 @@ export default function PaymentInitPage({
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <Card className="border-0 shadow-xl">
-          <CardHeader className="text-center pb-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CreditCard className="w-8 h-8 text-white" />
-            </div>
-            <CardTitle className="text-2xl font-bold text-gray-900">
-              Secure Payment
-            </CardTitle>
-            <p className="text-gray-600">Complete your payment securely</p>
-          </CardHeader>
-
-          <CardContent className="space-y-6">
-            <div className="text-center p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
-              <p className="text-sm text-gray-600 mb-2">Amount to Pay</p>
-              <p className="text-4xl font-bold text-gray-900">
+        <div className="space-y-5 px-6 py-5">
+          <div className="flex items-center justify-between rounded-xl bg-[#150f23] px-5 py-4 text-white">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#c2ef4e]">
+                Amount to pay
+              </p>
+              <p className="mt-1 text-3xl font-semibold tracking-tight">
                 ₹{amount.toLocaleString()}
               </p>
-              <p className="text-sm text-gray-500 mt-1">INR</p>
             </div>
+            <div className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-200">
+              INR
+            </div>
+          </div>
 
-            <Separator orientation="vertical" />
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-xl border border-slate-200 bg-white p-3">
+              <Shield className="mb-2 h-4 w-4 text-[#6a5fc1]" />
+              <p className="text-xs font-medium text-slate-900">Encrypted</p>
+              <p className="mt-1 text-xs text-slate-500">SSL protected</p>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-3">
+              <CheckCircle className="mb-2 h-4 w-4 text-emerald-500" />
+              <p className="text-xs font-medium text-slate-900">Trusted</p>
+              <p className="mt-1 text-xs text-slate-500">PCI compliant</p>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-3">
+              <Zap className="mb-2 h-4 w-4 text-[#6a5fc1]" />
+              <p className="text-xs font-medium text-slate-900">Flexible</p>
+              <p className="mt-1 text-xs text-slate-500">Cards, UPI & bank</p>
+            </div>
+          </div>
 
-            <div className="space-y-3">
-              <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-                <Shield className="w-4 h-4" />
-                Security Features
+          <div className="rounded-xl border border-slate-200 bg-white p-4">
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-sm font-semibold text-slate-900">
+                Payment methods
               </h3>
-              <div className="grid grid-cols-1 gap-2">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  256-bit SSL encryption
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  PCI DSS compliant
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  Secure payment gateway
-                </div>
-              </div>
+              <span className="text-xs text-slate-500">Razorpay</span>
             </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <h3 className="font-semibold text-gray-900">
-                Accepted Payment Methods
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                <Badge variant="outline" className="flex items-center gap-1">
-                  <CreditCard className="w-3 h-3" />
-                  Cards
-                </Badge>
-                <Badge variant="outline" className="flex items-center gap-1">
-                  <Zap className="w-3 h-3" />
-                  UPI
-                </Badge>
-                <Badge variant="outline" className="flex items-center gap-1">
-                  <DollarSign className="w-3 h-3" />
-                  Net Banking
-                </Badge>
-              </div>
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline" className="gap-1.5 border-slate-200 text-slate-600">
+                <CreditCard className="h-3 w-3" />
+                Cards
+              </Badge>
+              <Badge variant="outline" className="gap-1.5 border-slate-200 text-slate-600">
+                <Zap className="h-3 w-3" />
+                UPI
+              </Badge>
+              <Badge variant="outline" className="gap-1.5 border-slate-200 text-slate-600">
+                <DollarSign className="h-3 w-3" />
+                Net banking
+              </Badge>
             </div>
+          </div>
 
-            <div className="space-y-4">
-              <Button
-                onClick={handlePayment}
-                disabled={isProcessing || !isScriptLoaded}
-                className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-lg"
-              >
-                {isProcessing ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    Processing Payment...
-                  </>
-                ) : !isScriptLoaded ? (
-                  <>
-                    <Clock className="w-5 h-5 mr-2" />
-                    Loading Gateway...
-                  </>
-                ) : (
-                  <>
-                    <Lock className="w-5 h-5 mr-2" />
-                    Pay Securely
-                  </>
-                )}
-              </Button>
-
-              {!isScriptLoaded && (
-                <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Loading payment gateway...
-                </div>
+          <div className="space-y-3">
+            <Button
+              onClick={handlePayment}
+              disabled={isProcessing || !isScriptLoaded}
+              className="h-12 w-full rounded-xl bg-[#150f23] text-base font-semibold text-white hover:bg-[#422082]"
+            >
+              {isProcessing ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Processing payment...
+                </>
+              ) : !isScriptLoaded ? (
+                <>
+                  <Clock className="mr-2 h-5 w-5" />
+                  Loading gateway...
+                </>
+              ) : (
+                <>
+                  <Lock className="mr-2 h-5 w-5" />
+                  Pay securely
+                </>
               )}
-            </div>
+            </Button>
 
-            <div className="text-center text-xs text-gray-500 pt-4 border-t">
-              <p className="flex items-center justify-center gap-1">
-                <Shield className="w-3 h-3" />
-                Your payment information is secure and encrypted
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+            {!isScriptLoaded && (
+              <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                Preparing secure checkout...
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center justify-center gap-2 border-t border-slate-200 pt-4 text-xs text-slate-500">
+            <Shield className="h-3.5 w-3.5 text-[#6a5fc1]" />
+            Your payment details are encrypted and never stored here.
+          </div>
+        </div>
       </motion.div>
     </div>
   );

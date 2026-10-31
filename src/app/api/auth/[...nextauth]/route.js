@@ -14,6 +14,7 @@ const authOptions = {
   },
   pages: {
     signIn: "/",
+    // Authentication failures render through the App Router page at /auth/error.
     error: "/auth/error",
   },
   providers: [

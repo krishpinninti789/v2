@@ -89,9 +89,12 @@ const PaymentPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-2xl mx-auto space-y-6">
+      <div className="mx-auto max-w-5xl space-y-6">
+        <div className="flex items-center justify-between">
           <Skeleton className="h-8 w-64" />
+          <Skeleton className="h-9 w-20" />
+        </div>
+        <div className="grid gap-5 lg:grid-cols-2">
           <Card>
             <CardContent className="p-8">
               <div className="space-y-4">
@@ -103,6 +106,11 @@ const PaymentPage = () => {
               </div>
             </CardContent>
           </Card>
+          <Card>
+            <CardContent className="p-8">
+              <Skeleton className="h-48 w-full" />
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
@@ -110,8 +118,8 @@ const PaymentPage = () => {
 
   if (!due || !studentInfo) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="max-w-md w-full mx-4">
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <Card className="w-full max-w-md">
           <CardContent className="p-8 text-center">
             <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 mb-2">
@@ -131,143 +139,142 @@ const PaymentPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="mx-auto max-w-5xl">
       <Toaster position="top-center" richColors />
 
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-2xl mx-auto flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => router.back()}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <CreditCard className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Make Payment</h1>
-              <p className="text-gray-600">
-                Complete your due payment securely
-              </p>
-            </div>
-          </div>
+      <div className="mb-6 flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#6a5fc1]">
+            Student payments
+          </p>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-950">
+            Pay your outstanding due
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Review the details below and choose how much you want to pay.
+          </p>
         </div>
+        <Button variant="outline" size="sm" onClick={() => router.back()} className="self-start sm:self-auto">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to dues
+        </Button>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-2xl mx-auto p-6">
+      <div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="space-y-6"
+          className="grid items-start gap-5 lg:grid-cols-[1.1fr_0.9fr]"
         >
-          {/* Student Information */}
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="w-5 h-5 text-blue-600" />
-                Student Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-4">
+          <div className="space-y-5">
+            {/* Student Information */}
+            <Card className="surface-card">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <User className="h-4 w-4 text-[#6a5fc1]" />
+                  Student information
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 sm:grid-cols-2">
                 <div className="flex items-center gap-3">
-                  <GraduationCap className="w-4 h-4 text-gray-500" />
+                  <GraduationCap className="h-4 w-4 text-slate-400" />
                   <div>
-                    <p className="text-sm text-gray-600">Roll Number</p>
-                    <p className="font-semibold text-gray-900">
+                    <p className="text-xs text-slate-500">Roll number</p>
+                    <p className="font-semibold text-slate-900">
                       {studentInfo.roll.toUpperCase()}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Calendar className="w-4 h-4 text-gray-500" />
+                  <Calendar className="h-4 w-4 text-slate-400" />
                   <div>
-                    <p className="text-sm text-gray-600">Academic Year</p>
-                    <p className="font-semibold text-gray-900">
+                    <p className="text-xs text-slate-500">Academic year</p>
+                    <p className="font-semibold text-slate-900">
                       {studentInfo.year}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Building className="w-4 h-4 text-gray-500" />
+                  <Building className="h-4 w-4 text-slate-400" />
                   <div>
-                    <p className="text-sm text-gray-600">Branch</p>
-                    <p className="font-semibold text-gray-900">
+                    <p className="text-xs text-slate-500">Branch</p>
+                    <p className="font-semibold text-slate-900">
                       {studentInfo.branch}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-gray-500" />
+                  <Mail className="h-4 w-4 text-slate-400" />
                   <div>
-                    <p className="text-sm text-gray-600">Email</p>
-                    <p className="font-semibold text-gray-900">
+                    <p className="text-xs text-slate-500">Email</p>
+                    <p className="break-all font-semibold text-slate-900">
                       {studentInfo.email}
                     </p>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                </div>
+              </CardContent>
+            </Card>
 
-          {/* Due Details */}
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
+            {/* Due Details */}
+            <Card className="surface-card">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center justify-between text-base">
                 <div className="flex items-center gap-2">
-                  <Receipt className="w-5 h-5 text-blue-600" />
-                  Due Details
+                  <Receipt className="h-4 w-4 text-[#6a5fc1]" />
+                  Due details
                 </div>
                 <Badge
                   variant="secondary"
                   className="bg-red-100 text-red-700 hover:bg-red-100"
                 >
-                  <AlertCircle className="w-3 h-3 mr-1" />
+                  <AlertCircle className="mr-1 h-3 w-3" />
                   Pending
                 </Badge>
               </CardTitle>
-            </CardHeader>
-            <CardContent>
+              </CardHeader>
+              <CardContent>
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="mb-2 text-lg font-semibold text-slate-900">
                     {due.duetype}
                   </h3>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <p className="text-sm text-gray-600">Total Amount</p>
-                    <p className="text-xl font-bold text-gray-900">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <p className="text-xs text-slate-500">Total amount</p>
+                    <p className="text-xl font-bold text-slate-900">
                       ₹{due.amount.toLocaleString()}
                     </p>
                   </div>
-                  <div className="p-4 bg-green-50 rounded-lg">
-                    <p className="text-sm text-green-600">Amount Paid</p>
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4">
+                    <p className="text-xs text-emerald-600">Amount paid</p>
                     <p className="text-xl font-bold text-green-700">
                       ₹{due.amount_paid.toLocaleString()}
                     </p>
                   </div>
-                  <div className="p-4 bg-red-50 rounded-lg">
-                    <p className="text-sm text-red-600">Amount Pending</p>
+                  <div className="rounded-xl border border-rose-100 bg-rose-50 p-4">
+                    <p className="text-xs text-rose-600">Amount pending</p>
                     <p className="text-xl font-bold text-red-700">
                       ₹{due.amount_pending.toLocaleString()}
                     </p>
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Payment Form */}
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-blue-600" />
-                Payment Amount
+          <Card className="surface-card lg:sticky lg:top-24">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-base">
+                <DollarSign className="h-4 w-4 text-[#6a5fc1]" />
+                Payment amount
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -344,12 +351,17 @@ const PaymentPage = () => {
 
       {/* Payment Modal */}
       <Dialog open={pay} onOpenChange={setPay}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <CreditCard className="w-5 h-5" />
-              Complete Payment
+        <DialogContent className="max-w-lg overflow-hidden rounded-2xl border-slate-200 bg-slate-50 p-0 shadow-2xl">
+          <DialogHeader className="border-b border-slate-200 bg-white px-6 py-5">
+            <DialogTitle className="flex items-center gap-3 text-base text-slate-950">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#150f23] text-[#c2ef4e]">
+                <CreditCard className="h-4 w-4" />
+              </span>
+              Confirm your payment
             </DialogTitle>
+            <p className="pl-12 text-sm text-slate-500">
+              You will be redirected to our secure payment gateway.
+            </p>
           </DialogHeader>
           <PaymentInitPage
             due_id={due_id}

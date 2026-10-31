@@ -4,7 +4,6 @@ import { getToken } from "next-auth/jwt";
 const secret = process.env.JWT_SECRET;
 
 // Define protected and authentication routes
-const protectedRoutes = ["/admin/*", "/student/*"];
 const authRoutes = ["/"];
 
 export async function middleware(req) {
@@ -14,7 +13,13 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
   if (token && authRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/student/view-dues", req.url));
+    const destination =
+      token.role === "super_admin"
+        ? "/admin/view-dues"
+        : token.role === "student"
+          ? "/student/view-dues"
+          : "/manager/view-dues";
+    return NextResponse.redirect(new URL(destination, req.url));
   }
 
   if (

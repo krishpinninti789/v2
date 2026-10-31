@@ -6,7 +6,6 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -17,12 +16,10 @@ import {
   Calendar,
   Clock,
   CreditCard,
-  CheckCircle,
   Building,
   Mail,
   Phone,
   GraduationCap,
-  Cloud,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -142,55 +139,49 @@ const PaymentInvoicePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="mx-auto max-w-5xl">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <Receipt className="w-5 h-5 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#150f23] text-[#c2ef4e]">
+              <Receipt className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Payment Invoice
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-950">
+                Payment invoice
               </h1>
-              <p className="text-gray-600">
+              <p className="text-sm text-slate-500">
                 Invoice #{invoice_data.paymentId.slice(-8).toUpperCase()}
               </p>
-            </div>
-          </div>
-          <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-            <CheckCircle className="w-3 h-3 mr-1" />
-            Paid
-          </Badge>
         </div>
+      </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto p-6">
+      <div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           {/* Invoice Content */}
-          <Card className="shadow-xl border-0 overflow-hidden">
+          <Card className="overflow-hidden border border-slate-200 shadow-sm">
             <div ref={invoiceRef} className="bg-white">
               {/* Invoice Header */}
-              <div className="button-grad text-white p-8">
+              <div className="bg-[#150f23] p-8 text-white">
                 <div className="flex justify-between items-start">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
-                      <Cloud className="w-8 h-8 text-white" />
+                      <Receipt className="h-8 w-8 text-[#c2ef4e]" />
                     </div>
                     <div>
-                      <h2 className="text-3xl font-bold">NDMS</h2>
-                      <p className="text-blue-100">No Due Management System</p>
+                      <h2 className="text-3xl font-bold">ClearanceFlow</h2>
+                      <p className="text-slate-300">Student clearance workspace</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <h3 className="text-2xl font-bold mb-2">INVOICE</h3>
-                    <div className="space-y-1 text-blue-100">
+                    <div className="space-y-1 text-slate-300">
                       <p className="flex items-center gap-2 justify-end">
                         <Calendar className="w-4 h-4" />
                         {formatDate(invoice_data.createdAt)}
@@ -204,20 +195,16 @@ const PaymentInvoicePage = () => {
                 </div>
               </div>
 
-              <CardContent className="p-8">
-                {/* Payment ID and Status */}
-                <div className="mb-8 p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center justify-between">
+              <CardContent className="p-6 sm:p-8">
+                {/* Payment ID */}
+                <div className="mb-8 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <div>
                     <div>
                       <p className="text-sm text-gray-600">Payment ID</p>
                       <p className="font-mono text-lg font-semibold text-gray-900">
                         {invoice_data.paymentId}
                       </p>
                     </div>
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100 px-4 py-2">
-                      <CheckCircle className="w-4 h-4 mr-2" />
-                      Payment Successful
-                    </Badge>
                   </div>
                 </div>
 
@@ -297,9 +284,9 @@ const PaymentInvoicePage = () => {
                     <CreditCard className="w-5 h-5 text-blue-600" />
                     Payment Breakdown
                   </h3>
-                  <div className="overflow-hidden rounded-lg border border-gray-200">
+                  <div className="overflow-hidden rounded-xl border border-slate-200">
                     <table className="w-full">
-                      <thead className="bg-gray-50">
+                      <thead className="bg-slate-50">
                         <tr>
                           <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                             Description
@@ -318,7 +305,7 @@ const PaymentInvoicePage = () => {
                             ₹{invoice_data.amount?.toFixed(2)}
                           </td>
                         </tr> */}
-                        <tr className="bg-green-50">
+                        <tr className="bg-emerald-50">
                           <td className="px-6 py-4 text-sm font-semibold text-green-900">
                             Amount Paid
                           </td>
@@ -359,13 +346,6 @@ const PaymentInvoicePage = () => {
                         {invoice_data.payment_mode}
                       </span>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-600">Transaction Status</p>
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100 mt-1">
-                      <CheckCircle className="w-3 h-3 mr-1" />
-                      Completed
-                    </Badge>
                   </div>
                 </div>
 

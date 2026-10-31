@@ -1,6 +1,9 @@
 "use client";
 import React, { Suspense } from "react";
-import { Search } from "lucide-react";
+import { Search, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import StudentDetails from "../components/StudentDetails";
 import { useEffect } from "react";
@@ -36,27 +39,33 @@ const ViewStudents = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      <h1 className="text-2xl text-vprimary">view students page</h1>
+    <div className="mx-auto max-w-5xl space-y-6">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6a5fc1]">Student directory</p>
+        <h1 className="mt-1 flex items-center gap-2 text-2xl font-semibold tracking-tight text-slate-950"><Users className="h-6 w-6 text-[#6a5fc1]" />Find a student</h1>
+        <p className="mt-1 text-sm text-slate-500">Search by roll number to review profile information.</p>
+      </div>
 
-      <div className="flex gap-3 justify-between items-center w-1/2 p-2 border-gray-300 border rounded-xl">
-        <div className="flex items-center gap-2">
-          <Search className="text-vprimary" />
-          <input
+      <Card className="surface-card">
+        <CardContent className="flex flex-col gap-3 p-4 sm:flex-row">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Input
             type="text"
             onChange={(e) => setRoll(e.target.value)}
-            className="rounded-xl p-2 search-input w-[25rem] outline-none "
+            className="h-11 pl-10"
             placeholder="Enter roll number"
-          />
-        </div>
+            />
+          </div>
 
-        <button
+        <Button
           onClick={() => getStudentInfo(roll)}
-          className="rounded-xl p-2 text-white button-grad"
+          className="h-11 rounded-xl button-grad text-white"
         >
-          search
-        </button>
-      </div>
+          Search
+        </Button>
+        </CardContent>
+      </Card>
       {loading ? <Spinner /> : <StudentDetails user={user} />}
     </div>
   );

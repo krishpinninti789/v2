@@ -110,7 +110,7 @@ const ResetPassword = () => {
         </form>
         {error && <div className="mt-4 text-red-600">{error}</div>}
         {success && <div className="mt-4 text-green-600">{success}</div>}
-        <div className="mt-8 text-center text-sm text-gray-400">© NDMS</div>
+        <div className="mt-8 text-center text-sm text-gray-400">© ClearanceFlow</div>
       </div>
     </div>
   );
