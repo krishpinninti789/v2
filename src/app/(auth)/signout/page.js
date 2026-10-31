@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "next-auth/jwt";
 import Image from "next/image";
-import singoutImage from "../../../public/images/signoutImage.jpg";
 
 export default function SignOut() {
   const router = useRouter();
@@ -29,7 +28,7 @@ export default function SignOut() {
         Signing Out
       </h1>
       <div className="w-[30rem]  h-[30rem] rounded-xl ">
-        <Image alt="not found" src={singoutImage} className="rounded-xl" />
+        <Image alt="not found" src={"/images/signoutImage.jpg"} className="rounded-xl" />
       </div>
     </div>
   );
